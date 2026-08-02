@@ -54,10 +54,24 @@
     "single_official_notebook": "project.ipynb",
     "single_training_entry_point": "src/train.py",
     "controlled_auxiliary_loss_ablation": {
-      "seeds": [43, 44, 45],
+      "seeds": [
+        43,
+        44,
+        45
+      ],
       "split": "validation only",
       "test_split_used": false,
       "artifacts": "results/ablation/"
+    },
+    "license_metadata_aligned_with_active_dataset": true,
+    "validation_category_rule_diagnostic": {
+      "artifacts": [
+        "results/validation/category_rule_diagnostic.csv",
+        "results/validation/category_rule_diagnostic.json"
+      ],
+      "split": "validation only",
+      "new_training_performed": false,
+      "test_split_used": false
     }
   }
 }

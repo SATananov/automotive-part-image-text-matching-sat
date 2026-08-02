@@ -54,6 +54,62 @@ def verify_validation() -> dict[str, object]:
     return {"correct": 377, "rows": 480, "accuracy": accuracy, "macro_f1": macro_f1}
 
 
+def verify_validation_diagnostic() -> dict[str, object]:
+    predictions = pd.read_csv(
+        PROJECT_ROOT / "results/validation/category_rule_diagnostic.csv"
+    )
+    metrics = json.loads(
+        (PROJECT_ROOT / "results/validation/category_rule_diagnostic.json").read_text()
+    )
+    learned_accuracy = float(
+        accuracy_score(predictions.true_label, predictions.learned_relation_prediction)
+    )
+    learned_macro_f1 = float(
+        f1_score(
+            predictions.true_label,
+            predictions.learned_relation_prediction,
+            average="macro",
+            zero_division=0,
+        )
+    )
+    rule_accuracy = float(
+        accuracy_score(predictions.true_label, predictions.category_rule_prediction)
+    )
+    rule_macro_f1 = float(
+        f1_score(
+            predictions.true_label,
+            predictions.category_rule_prediction,
+            average="macro",
+            zero_division=0,
+        )
+    )
+    assert len(predictions) == 480
+    assert predictions.image_id.nunique() == 80
+    assert int(predictions.learned_relation_correct.sum()) == 377
+    assert int(predictions.category_rule_correct.sum()) == 350
+    assert np.isclose(learned_accuracy, metrics["learned_relation_head"]["accuracy"])
+    assert np.isclose(learned_macro_f1, metrics["learned_relation_head"]["macro_f1"])
+    assert np.isclose(rule_accuracy, metrics["predicted_category_rule"]["accuracy"])
+    assert np.isclose(rule_macro_f1, metrics["predicted_category_rule"]["macro_f1"])
+    assert metrics["oracle_category_rule"]["accuracy"] == 1.0
+    assert metrics["test_split_used"] is False
+    assert metrics["new_training_performed"] is False
+    return {
+        "learned_relation_accuracy": learned_accuracy,
+        "learned_relation_macro_f1": learned_macro_f1,
+        "predicted_category_rule_accuracy": rule_accuracy,
+        "predicted_category_rule_macro_f1": rule_macro_f1,
+        "image_category_accuracy": metrics["auxiliary_category_predictions"][
+            "image_category_accuracy"
+        ],
+        "text_category_accuracy": metrics["auxiliary_category_predictions"][
+            "text_category_accuracy"
+        ],
+        "test_split_used": False,
+        "new_training_performed": False,
+    }
+
+
 def verify_final_test() -> dict[str, object]:
     predictions = pd.read_csv(PROJECT_ROOT / "results/final_test/test_predictions.csv")
     metrics = json.loads((PROJECT_ROOT / "results/final_test/test_metrics.json").read_text())
@@ -223,6 +279,7 @@ def run_verification(*, full_hashes: bool) -> dict[str, object]:
         "data": validate_frozen_test_evidence(verify_hashes=full_hashes),
         "models": verify_models(),
         "validation": verify_validation(),
+        "validation_diagnostic": verify_validation_diagnostic(),
         "ablation": verify_ablation(),
         "final_test": verify_final_test(),
         "notebook": verify_notebook(),

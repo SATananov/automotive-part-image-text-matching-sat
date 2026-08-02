@@ -36,3 +36,22 @@ def test_frozen_final_metrics_recompute_without_inference() -> None:
     assert np.isclose(f1_score(predictions.true_label, predictions.predicted_label, average="macro"), 0.7382299830250852)
     assert metrics["authorization_consumed"] is True
     assert metrics["further_tuning_permitted"] is False
+
+
+
+def test_validation_category_rule_diagnostic() -> None:
+    diagnostic = pd.read_csv(PROJECT_ROOT / "results/validation/category_rule_diagnostic.csv")
+    metrics = json.loads(
+        (PROJECT_ROOT / "results/validation/category_rule_diagnostic.json").read_text()
+    )
+    assert len(diagnostic) == 480
+    assert diagnostic["image_id"].nunique() == 80
+    assert int(diagnostic["learned_relation_correct"].sum()) == 377
+    assert int(diagnostic["category_rule_correct"].sum()) == 350
+    assert np.isclose(metrics["predicted_category_rule"]["accuracy"], 0.7291666666666666)
+    assert np.isclose(metrics["predicted_category_rule"]["macro_f1"], 0.7324044215433009)
+    assert np.isclose(metrics["auxiliary_category_predictions"]["image_category_accuracy"], 0.6625)
+    assert np.isclose(metrics["auxiliary_category_predictions"]["text_category_accuracy"], 1.0)
+    assert metrics["oracle_category_rule"]["accuracy"] == 1.0
+    assert metrics["test_split_used"] is False
+    assert metrics["new_training_performed"] is False

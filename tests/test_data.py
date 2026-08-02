@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+import pandas as pd
 import pytest
 
-from src.data import load_image_manifest, load_relations, validate_development_dataset, validate_frozen_test_evidence
+from src.data import PROJECT_ROOT, load_image_manifest, load_relations, validate_development_dataset, validate_frozen_test_evidence
 
 
 def test_dataset_v3_counts_and_uniqueness() -> None:
@@ -30,3 +31,24 @@ def test_full_split_boundaries() -> None:
     assert result["status"] == "PASS_FROZEN_TEST_EVIDENCE"
     assert result["split_relation_rows"] == {"train": 2880, "validation": 480, "test": 480}
     assert all(value == 0 for value in result["overlap"].values())
+
+
+
+def test_active_license_record_matches_dataset_v3_source() -> None:
+    licenses = pd.read_csv(PROJECT_ROOT / "data/licenses.csv")
+    manifest = load_image_manifest()
+    assert len(licenses) == 1
+    assert licenses.loc[0, "source_url"] == "https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes"
+    assert licenses.loc[0, "recorded_license"] == "Apache-2.0"
+    assert int(licenses.loc[0, "selected_images"]) == len(manifest) == 640
+    assert set(manifest["source_dataset"]) == {"gpiosenka/car-parts-40-classes"}
+    assert not licenses.astype(str).apply(lambda column: column.str.contains("Wikimedia", case=False)).any().any()
+
+
+def test_single_input_sides_are_relation_balanced() -> None:
+    for split in ("train", "validation"):
+        relations = load_relations(split)
+        per_image = relations.groupby(["image_id", "label"]).size().unstack(fill_value=0)
+        per_text = relations.groupby(["description", "label"]).size().unstack(fill_value=0)
+        assert per_image.nunique(axis=1).eq(1).all()
+        assert per_text.nunique(axis=1).eq(1).all()

@@ -13,7 +13,7 @@ def test_one_executed_official_notebook() -> None:
     assert [path.name for path in notebooks] == ["project.ipynb"]
     notebook = nbformat.read(notebooks[0], as_version=4)
     code = [cell for cell in notebook.cells if cell.cell_type == "code"]
-    assert len(code) == 12
+    assert len(code) == 14
     assert all(cell.execution_count is not None for cell in code)
     assert not [out for cell in code for out in cell.outputs if out.output_type == "error"]
 

@@ -2,11 +2,11 @@
 
 ## Image source
 
-The images come from the public Kaggle dataset [50 Types of Car Parts - Image Classification](https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes), created by G. Piosenka. The recorded licence is Apache-2.0.
+The images come from the public Kaggle dataset [50 Types of Car Parts - Image Classification](https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes), created by G. Piosenka. The dataset page records the licence as Apache-2.0.
 
 For this project, I selected 640 images from eight categories. I did not use the original train/test split. I created a new grouped split for this image-text task.
 
-The source name, category, path, and SHA-256 hash of every selected image are stored in `data/manifests/images.csv`. Licence information is stored in `data/licenses.csv`.
+The source name, category, path, and SHA-256 hash of every selected image are stored in `data/manifests/images.csv`. Because all Dataset V3 images come from this one source, `data/licenses.csv` contains one dataset-level licence record covering the 640 selected images.
 
 ## Earlier project work used here
 
@@ -31,7 +31,9 @@ In this repository I:
 - kept one README, one methodology, and one official notebook;
 - kept only the Dataset V3 files needed for the final project;
 - removed Dataset V2 and duplicate entry points;
+- aligned the active licence table with the Dataset V3 source actually used;
 - added portable verification and automated tests;
+- added a validation-only category-rule diagnostic without reading the final test;
 - ran the additional validation-only experiment without the two helper category tasks, using seeds 43, 44, and 45.
 
-The additional experiment was completed after the original model comparison. It does not change the selected model or the saved final-test result.
+The validation diagnostic performs no training and uses only the frozen selected checkpoint and the validation split. The additional experiment was completed after the original model comparison. Neither item changes the selected model or the saved final-test result.

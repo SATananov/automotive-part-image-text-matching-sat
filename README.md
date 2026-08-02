@@ -10,7 +10,7 @@ The model predicts one of three labels:
 
 ## Research question
 
-**Does a model that uses both an image and text perform better than models that use only one of them?**
+**Can a compact multimodal model learn this three-way image-text relation, and what do simple single-input checks show about the need to compare both inputs?**
 
 This is useful for checking product catalogues, uploaded listings, and warehouse descriptions where an image can be paired with the wrong text.
 
@@ -28,17 +28,19 @@ The project uses 640 images from eight automotive-part categories:
 
 I created my own grouped split instead of using the original dataset split. I checked that the same image does not appear in more than one split by comparing image IDs, paths, groups, and SHA-256 file hashes. The final-test files are stored in a separate folder.
 
+The text descriptions are short templates written for this controlled task. There are 64 exact text variants across the three splits, and each description explicitly names a part category. The project therefore tests controlled relation classification, not open-ended language understanding.
+
 More information about the source and licence is available in [docs/provenance.md](docs/provenance.md).
 
 ### Are these data enough?
 
 The tables contain 3,840 image-text rows, but the independent visual examples are the 640 images. I do not treat all rows as separate images because six rows share each image.
 
-The data are enough for a student proof of concept and for comparing the tested models under the same split. They are not enough to claim that the system is ready for a real warehouse or online shop. A practical version would need more independently collected images, more part categories, different brands and vehicle models, difficult user photos, and a separate external test set.
+The data are enough for a student proof of concept and for comparing the tested models under the same split. They are not enough to claim that the system is ready for a real warehouse or online shop. A practical version would need more independently collected images, more part categories, different brands and vehicle models, difficult user photos, freer text, and a separate external test set.
 
 ## Models I compared
 
-I started with simple baselines and then added small neural networks:
+I started with simple checks and then added small neural networks:
 
 1. majority-class baseline;
 2. TF-IDF + Logistic Regression for text;
@@ -49,6 +51,10 @@ I started with simple baselines and then added small neural networks:
 7. multimodal CNN + text MLP.
 
 The multimodal model combines features from the image and the text. During training, it also learns two small helper tasks: predicting the category visible in the image and the category named in the text.
+
+### How to interpret the single-input results
+
+Every image is paired with exactly two rows from each relation class. The text side is balanced in the same way. Therefore, an image-only or text-only model does not receive enough information to determine the relation label: the label depends on comparing the two inputs. Results near one third are expected and are used as sanity checks, not as proof that a particular unimodal architecture is weak.
 
 ## Validation results
 
@@ -63,6 +69,22 @@ The multimodal model combines features from the image and the text. During train
 | **Multimodal CNN + text MLP** | **0.7854** | **0.7873** |
 
 The multimodal model was the clear winner on validation, so I selected it before looking at the final test result.
+
+## Validation-only category-rule diagnostic
+
+The relation labels are defined from the two part categories: equal categories mean `MATCH`, different categories in the same family mean `PARTIAL_MATCH`, and different families mean `MISMATCH`.
+
+I used the selected model's two helper category outputs to check how much of the validation result can be reproduced by this rule:
+
+| Validation diagnostic | Accuracy | Macro F1 |
+|---|---:|---:|
+| Learned relation head | 0.7854 | 0.7873 |
+| Rule applied to predicted image/text categories | 0.7292 | 0.7324 |
+| Rule applied to true categories | 1.0000 | 1.0000 |
+
+The image-category helper reaches 0.6625 accuracy and the text-category helper reaches 1.0000. The predicted-category rule is a decomposition of the selected model, not an independent baseline. The true-category result is only a dataset-construction check; it is not a usable model because true categories are unavailable for a new image.
+
+The learned relation head is about 0.0563 accuracy and 0.0549 macro F1 better than applying the rule to the model's predicted categories. This suggests that the combined representation adds useful information beyond a hard category decision, while the task is still strongly structured by the category families.
 
 ## Final result
 
@@ -79,15 +101,15 @@ The weakest final-test categories are `headlight` with 29/60 correct predictions
 
 Some mistakes are understandable. For example, a brake disc and a brake pad belong to the same braking system, while an alternator and a starter are both electrical engine-support parts. These examples make `PARTIAL_MATCH` harder than a clear exact match or a completely unrelated pair.
 
-The notebook shows the confusion matrix, category results, and several concrete wrong predictions with their images and descriptions.
+The notebook shows the training curves, model comparison, validation diagnostic, confusion matrix, category results, and several concrete wrong predictions with their images and descriptions.
 
 ## Small additional experiment
 
 As an extra check, I trained the same multimodal model without the two helper category tasks. I ran it three times with seeds 43, 44, and 45, using only train and validation data.
 
-All three runs reached 160/480 correct predictions, accuracy 0.3333, and macro F1 0.1667. Each run predicted only one class. In this project, the helper tasks made the training much more successful.
+All three runs reached 160/480 correct predictions, accuracy 0.3333, and macro F1 0.1667. Each run predicted only one class. In this project, the helper tasks made optimization much more successful.
 
-This experiment is additional evidence, not a requirement of the exam, and it does not change the selected model or the final-test result.
+This experiment is additional evidence, not a requirement of the exam. It does not prove that helper losses are always necessary, and it does not change the selected model or the final-test result.
 
 ## Project files
 
@@ -99,7 +121,7 @@ automotive-part-image-text-matching-sat/
 ├── data/                  # Dataset V3 and the separated final test
 ├── src/                   # data loading, models, training, and evaluation
 ├── models/                # selected model checkpoint
-├── results/               # saved validation, extra experiment, and test results
+├── results/               # saved validation, diagnostic, experiment, and test results
 ├── evidence/              # hashes and source information
 └── tests/                 # automated checks
 ```
@@ -122,10 +144,16 @@ python -m src.verify --full-hashes
 python -m pytest -q
 ```
 
-Recalculate the saved validation result:
+Recalculate the saved validation result and diagnostic:
 
 ```powershell
 python -m src.evaluate
+```
+
+Regenerate only the saved validation diagnostic when intentionally updating it:
+
+```powershell
+python -m src.evaluate --write-diagnostic
 ```
 
 Run a new development comparison in a different output folder:
@@ -145,8 +173,10 @@ python -m src.train_ablation --seed 44 --output results/retrained_no_helpers_see
 - The 3,840 rows come from 640 independent images, so rows that share an image are not fully independent.
 - The images come from one public dataset.
 - The dataset contains only eight selected categories, with 80 images in the final test.
-- The network is small and trained from scratch.
-- Several text rows use the same image, so the image groups must be considered when interpreting the results.
+- The text is template-generated, explicitly names the category, and does not test free-form language understanding.
+- The relation label is determined by category equality and three manually defined part families.
+- The single-input checks are expected to be near chance because the label needs both inputs.
+- The network is small, uses 48 × 48 images, and is trained from scratch rather than from a pretrained vision backbone.
 - The result of the additional experiment applies only to this model and this dataset.
 - This is an educational project, not a production warehouse system.
 

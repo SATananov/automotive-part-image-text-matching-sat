@@ -1,36 +1,37 @@
-# Dataset and result provenance
+# Data source and project history
 
-## Public image source
+## Image source
 
-Dataset V3 is a manually curated subset of the public Kaggle dataset `gpiosenka/car-parts-40-classes`. The recorded upstream license is Apache-2.0. The original source split labels were ignored; this project created its own deterministic grouped train, validation, and final-test split.
+The images come from the public Kaggle dataset [50 Types of Car Parts - Image Classification](https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes), created by G. Piosenka. The recorded licence is Apache-2.0.
 
-The exact per-file source metadata and SHA-256 hashes are stored in `data/manifests/images.csv`. The preserved license registry is `data/licenses.csv`.
+For this project, I selected 640 images from eight categories. I did not use the original train/test split. I created a new grouped split for this image-text task.
 
-## Original result lineage
+The source name, category, path, and SHA-256 hash of every selected image are stored in `data/manifests/images.csv`. Licence information is stored in `data/licenses.csv`.
 
-The Dataset V3 images, relation tables, selected checkpoint, validation result, and one-time locked final-test result originate from:
+## Earlier project work used here
+
+The Dataset V3 images, relation tables, selected model, validation results, and saved final-test results were first produced in:
 
 - repository: `SATananov/automotive-part-image-text-matching`;
-- authoritative branch: `dataset-v3`;
-- original evidence checkpoint: `76f62ef91faa1e544c9074a91e80d86ed71a99fa`;
-- later reporting/verification state: `d9ead2a8ef6637a3e86713b98433fc1ca1389158`.
+- branch: `dataset-v3`;
+- result checkpoint: `76f62ef91faa1e544c9074a91e80d86ed71a99fa`;
+- later report/check state: `d9ead2a8ef6637a3e86713b98433fc1ca1389158`.
 
-The compact active source layout was informed by:
+The simpler code layout was also informed by:
 
 - repository: `SATananov/automotive-part-multimodal-classification`;
-- clean architecture source commit: `a9717986b2b73d089f29ce3a619bbe9e08494ef6`.
+- commit: `a9717986b2b73d089f29ce3a619bbe9e08494ef6`.
 
-The second repository re-packaged the same Dataset V3 result lineage; it is not treated as an independent replication.
+Both earlier repositories use the same Dataset V3 experiment. I do not present them as two independent experiments.
 
-## Unified-project work
+## Work completed in this repository
 
-The following are explicitly later work in this repository:
+In this repository I:
 
-- consolidation into one active source tree;
-- one official README, methodology, and notebook;
-- removal of Dataset V2 and duplicate entry points;
-- portable hash-based verification;
-- the relation-only auxiliary-loss ablation with seeds 43, 44, and 45;
-- its checkpoints, histories, predictions, comparison CSV, and summary JSON.
+- kept one README, one methodology, and one official notebook;
+- kept only the Dataset V3 files needed for the final project;
+- removed Dataset V2 and duplicate entry points;
+- added portable verification and automated tests;
+- ran the additional validation-only experiment without the two helper category tasks, using seeds 43, 44, and 45.
 
-No claim is made that the ablation was completed before the original final-test evaluation. It is a validation-only explanatory follow-up and does not change the frozen selected checkpoint or final-test score.
+The additional experiment was completed after the original model comparison. It does not change the selected model or the saved final-test result.

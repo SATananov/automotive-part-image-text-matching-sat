@@ -1,105 +1,121 @@
 # Methodology
 
-## 1. Study design
+## 1. Goal
 
-The task is three-class relation classification between an automotive-part image and a text description: `MATCH`, `MISMATCH`, or `PARTIAL_MATCH`.
+The project asks one main question:
 
-The original Dataset V3 experiment compared seven models on a grouped development split. The multimodal model was selected using validation only, frozen, and evaluated once on a physically separated final test after explicit authorization. The unified project preserves those original results and adds one controlled validation-only auxiliary-loss ablation.
+**Does combining an automotive-part image with a text description work better than using only the image or only the text?**
 
-## 2. Hypotheses
+The output has three classes: `MATCH`, `PARTIAL_MATCH`, and `MISMATCH`.
 
-- **H1:** the complete multimodal training design will outperform the tested unimodal and simple combined baselines.
-- **H2:** `PARTIAL_MATCH` will be the most difficult relation class.
-- **H3:** performance will vary by automotive-part category.
-- **H4, controlled follow-up:** removing the two auxiliary category objectives will reduce relation-classification performance under the same setup.
+## 2. Data source and preparation
 
-H4 is retrospective. It was formulated after examining the selected model's training objective and was evaluated only on validation.
+The images come from the public Kaggle dataset **50 Types of Car Parts - Image Classification**. I selected 640 images from eight categories and created new text descriptions for the image-text relation task.
 
-## 3. Dataset construction
+For every image, I created six rows:
 
-Dataset V3 contains 640 unique images from eight balanced categories. A deterministic grouped split assigns 480 images to train, 80 to validation, and 80 to final test.
+- two descriptions from the same category (`MATCH`);
+- two descriptions from a related category (`PARTIAL_MATCH`);
+- two descriptions from an unrelated category (`MISMATCH`).
 
-For each image, six relation rows are generated:
+This gives 2,880 training rows, 480 validation rows, and 480 final-test rows.
 
-- two `MATCH` descriptions from the same category;
-- two `PARTIAL_MATCH` descriptions from a different category in the same functional family;
-- two `MISMATCH` descriptions from a category in a different functional family.
+## 3. Train, validation, and test split
 
-This produces 2,880 train rows, 480 validation rows, and 480 final-test rows. Every split is balanced with 160 rows per label for validation and test.
+The split is made by complete image groups:
 
-Split isolation is verified using image ID, image-group ID, path, SHA-256 image hash, and exact description text. No overlap is permitted across train, validation, and test.
+- 480 train images;
+- 80 validation images;
+- 80 final-test images.
 
-## 4. Representations and models
+I checked for overlap using image IDs, group IDs, file paths, SHA-256 hashes, and exact description text. The same image cannot appear in two splits. This is important because otherwise the model could remember an image instead of learning the relation task.
 
-Images are resized to 48 × 48 RGB. Text uses TF-IDF unigrams and bigrams fitted on train descriptions only.
+The final-test data is stored separately under `data/locked_test/`.
 
-The compared models are:
+## 4. Models
+
+I compare seven approaches, starting with simple baselines:
 
 - majority baseline;
-- text Logistic Regression;
-- image-pixel Logistic Regression;
-- image + text Logistic Regression;
-- neural text MLP;
+- TF-IDF + Logistic Regression;
+- image pixels + Logistic Regression;
+- image and text + Logistic Regression;
+- text MLP;
 - image CNN;
 - multimodal CNN + text MLP.
 
-The selected multimodal network contains:
+Images are resized to 48 × 48 RGB. Text is converted to TF-IDF unigram and bigram features fitted only on the training descriptions.
 
-- a three-layer convolutional image encoder followed by a 48-dimensional projection;
-- a two-layer text encoder producing 32 features;
-- a relation head over the concatenated 80-dimensional representation;
-- an image-category auxiliary head;
-- a text-category auxiliary head.
+The selected multimodal model has:
 
-The complete training objective is:
+- a small CNN for the image;
+- a small MLP for the text;
+- a final layer that combines both representations and predicts the relation;
+- two helper outputs that predict the image category and text category during training.
+
+Its training loss is:
 
 ```text
-relation cross-entropy
-+ 0.40 × image-category cross-entropy
-+ 0.40 × text-category cross-entropy
+relation loss
++ 0.40 × image-category loss
++ 0.40 × text-category loss
 ```
 
-The selected model has 58,579 trainable parameters. Removing only the category heads leaves 57,923 trainable parameters.
+## 5. Training
 
-## 5. Training protocol
+The neural models use:
 
-Neural models use Adam with learning rate `0.001` and weight decay `0.0001`, batch size `32`, a maximum of `80` epochs, and early stopping with patience `10`. Image batches receive random horizontal flipping and mild brightness scaling. The selected multimodal initialization seed is `44`.
+- Adam optimizer;
+- learning rate `0.001`;
+- weight decay `0.0001`;
+- batch size `32`;
+- maximum `80` epochs;
+- early stopping with patience `10`.
 
-Training and early stopping read train and validation data only. The active training code rejects locked-test paths and has no final-test evaluation path.
+The image training data uses a horizontal flip and a small brightness change. Model selection and early stopping use validation only.
 
-## 6. Model selection and statistics
+## 6. Evaluation
 
-Selection is based on validation macro F1, with validation accuracy as supporting evidence. Accuracy and macro F1 are reported. Because six rows share an image, uncertainty and paired comparisons are grouped by complete image groups rather than treating all 480 relation rows as independent.
+I report accuracy and macro F1. Macro F1 is useful because it gives equal importance to all three relation classes.
 
-The original study includes grouped bootstrap confidence intervals and grouped paired randomization comparisons.
+The main comparison is made on validation. The best model is selected from these validation results. I also use:
 
-## 7. Controlled auxiliary-loss ablation
+- a confusion matrix;
+- accuracy by automotive-part category;
+- concrete wrong predictions;
+- automated unit and integrity tests.
 
-The follow-up removes the image-category head, text-category head, and both auxiliary losses. Everything else is held fixed:
+Because six rows share each image, the original experiment also stores grouped confidence intervals and paired comparisons by image group.
 
-- Dataset V3 train and validation relations;
-- image and text representations;
-- shared image encoder, text encoder, and relation head;
-- optimizer and hyperparameters;
-- image augmentation;
-- early-stopping rule.
+## 7. Small additional experiment
 
-Three predefined seeds are run: `43`, `44`, and `45`. Seed 44 provides a direct initialization control: all 18 tensors shared by the complete and relation-only models are identical before training.
+After the main comparison, I made one extra validation-only experiment. I removed the two helper category outputs and trained the remaining relation model with seeds 43, 44, and 45.
 
-All three relation-only runs achieved 160/480 correct predictions, accuracy `0.3333333`, and macro F1 `0.1666667`. Every run collapsed to a single output class. The complete selected model achieved accuracy `0.7854167` and macro F1 `0.7872843`.
+The data, encoders, optimizer, batch size, augmentation, and early stopping stayed the same. Only the helper outputs and their losses were removed.
 
-The ablation supports H4 under this fixed setup. It changes the interpretation of H1: the successful result belongs to multimodal fusion **with auxiliary category supervision**, not fusion alone.
+All three runs reached accuracy 0.3333 and macro F1 0.1667 and predicted only one class. This suggests that the helper tasks were important for this small model. It does not prove that every multimodal model needs the same helper tasks.
 
-## 8. Locked final test
+## 8. Final test
 
-The selected checkpoint and original development notebook were frozen before test access. One explicit authorization permitted one final-test evaluation. The evaluation was completed once and the authorization was consumed.
+The final test was used once after the model was selected. The saved result is:
 
-The frozen result is 354/480 correct predictions, accuracy `0.7375`, and macro F1 `0.7382299830` across 80 independent images. It is preserved for final reporting and error analysis only. It is not used to tune the model, select ablation settings, or choose another checkpoint.
+- 354/480 correct predictions;
+- accuracy 0.7375;
+- macro F1 0.7382.
 
-The unified verifier recomputes final metrics from the saved predictions. It does not perform new model inference on final-test images.
+The current notebook reads the saved test predictions for tables, plots, and error analysis. It does not run the model again on the final-test images.
 
-## 9. Reproducibility and limitations
+## 9. Limitations
 
-The project pins PyTorch `2.10.0`, preserves the selected checkpoint hash, stores all three ablation checkpoints and predictions, and provides automated integrity tests. Original imported evidence and newly generated unified-project artifacts are distinguished in `evidence/lineage.json`.
+- The images come from one public collection.
+- Only eight automotive-part categories are included.
+- The model is compact and trained from scratch.
+- Text descriptions are created using a fixed relation-generation method.
+- The additional experiment is limited to this architecture and training setup.
+- A separately collected external dataset would be needed before practical use.
 
-The conclusions remain limited to one source collection, eight categories, a compact from-scratch model, and this relation-generation protocol. External data and a separately collected test set would be required before practical deployment.
+## 10. Sources
+
+1. G. Piosenka, [50 Types of Car Parts - Image Classification](https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes), Kaggle.
+2. T. Baltrušaitis, C. Ahuja, and L.-P. Morency, [Multimodal Machine Learning: A Survey and Taxonomy](https://arxiv.org/abs/1705.09406), IEEE TPAMI, 2019.
+3. Y. LeCun, L. Bottou, Y. Bengio, and P. Haffner, [Gradient-Based Learning Applied to Document Recognition](https://bottou.org/papers/lecun-98h), Proceedings of the IEEE, 1998.

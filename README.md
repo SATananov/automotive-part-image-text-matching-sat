@@ -1,115 +1,106 @@
-# Automotive Part Image–Text Matching SAT
+# Automotive Part Image-Text Matching
 
-A compact multimodal Deep Learning project for classifying whether an automotive-part image and a text description are a **MATCH**, **MISMATCH**, or **PARTIAL_MATCH**.
+This is my final exam project for classifying the relation between an automotive-part image and a short text description.
 
-This repository unifies the strongest verified parts of two earlier project lines into one clean, standalone implementation. Dataset V3, its split provenance, the selected checkpoint, validation evidence, and the one-time locked final-test result are preserved from the original experiment. The simplified code structure and the controlled auxiliary-loss ablation are presented as later consolidation work. The origin of old results is not hidden or rewritten.
+The model predicts one of three labels:
 
-## Research question and hypotheses
+- `MATCH` - the image and text describe the same type of part;
+- `PARTIAL_MATCH` - the parts are different but have a related function;
+- `MISMATCH` - the image and text describe unrelated parts.
 
-Can a compact image-and-text neural model classify automotive-part relations better than unimodal and simple combined baselines?
+## Research question
 
-- **H1:** the complete multimodal training design will outperform the tested image-only, text-only, and simple combined baselines.
-- **H2:** `PARTIAL_MATCH` will be the most difficult relation class.
-- **H3:** performance will vary across automotive-part categories.
-- **H4, controlled follow-up:** removing the auxiliary image-category and text-category objectives will reduce validation performance under the same training setup.
+**Does a model that uses both an image and text perform better than models that use only one of them?**
 
-H1–H3 describe the original Dataset V3 study. H4 is a retrospective, validation-only follow-up. It was not used to replace the selected model and it did not access the final test.
+This is useful for checking product catalogues, uploaded listings, and warehouse descriptions where an image can be paired with the wrong text.
 
-## Dataset V3
+## Data
 
-The project contains 640 unique automotive-part images from eight categories:
+The project uses 640 images from eight automotive-part categories:
 
 `alternator`, `brake_disc`, `brake_pad`, `coil_spring`, `headlight`, `oil_filter`, `starter`, and `taillight`.
 
-| Split | Images | Relation rows | Use |
+| Split | Images | Image-text rows | Purpose |
 |---|---:|---:|---|
-| Train | 480 | 2,880 | training |
-| Validation | 80 | 480 | comparison, selection, and ablation |
-| Locked final test | 80 | 480 | one authorized historical evaluation only |
+| Train | 480 | 2,880 | model training |
+| Validation | 80 | 480 | model comparison and selection |
+| Final test | 80 | 480 | one final evaluation after model selection |
 
-Each image has two rows for each relation label. The grouped split is disjoint by image ID, group ID, path, SHA-256 image hash, and exact description text.
+I created my own grouped split instead of using the original dataset split. I checked that the same image does not appear in more than one split by comparing image IDs, paths, groups, and SHA-256 file hashes. The final-test files are stored in a separate folder.
 
-Dataset and license details are documented in [docs/provenance.md](docs/provenance.md).
+More information about the source and licence is available in [docs/provenance.md](docs/provenance.md).
 
-## Models
+## Models I compared
 
-Seven development models were compared:
+I started with simple baselines and then added small neural networks:
 
-1. majority baseline;
-2. TF-IDF + Logistic Regression;
+1. majority-class baseline;
+2. TF-IDF + Logistic Regression for text;
 3. image pixels + Logistic Regression;
-4. image + text Logistic Regression;
-5. neural text MLP;
+4. image and text + Logistic Regression;
+5. text MLP;
 6. image CNN;
 7. multimodal CNN + text MLP.
 
-The selected model combines a CNN image encoder, a TF-IDF text MLP, and a relation head. During training it also predicts the image category and the category described by the text:
+The multimodal model combines features from the image and the text. During training, it also learns two small helper tasks: predicting the category visible in the image and the category named in the text.
 
-```text
-relation loss
-+ 0.40 × image-category loss
-+ 0.40 × text-category loss
-```
+## Validation results
 
-| Neural model | Trainable parameters |
-|---|---:|
-| Text MLP | 24,131 |
-| Image CNN | 21,459 |
-| Multimodal with auxiliary objectives | 58,579 |
-| Multimodal without auxiliary objectives | 57,923 |
+| Model | Accuracy | Macro F1 |
+|---|---:|---:|
+| Majority baseline | 0.3333 | 0.1667 |
+| TF-IDF + Logistic Regression | 0.3333 | 0.1667 |
+| Image pixels + Logistic Regression | 0.3333 | 0.1667 |
+| Image + text Logistic Regression | 0.3333 | 0.1667 |
+| Text MLP | 0.3333 | 0.2923 |
+| Image CNN | 0.3333 | 0.2666 |
+| **Multimodal CNN + text MLP** | **0.7854** | **0.7873** |
 
-## Canonical results
+The multimodal model was the clear winner on validation, so I selected it before looking at the final test result.
 
-The selected model is `torch_multimodal_dataset_v3`, initialized with seed `44`.
+## Final result
 
-| Evaluation | Correct | Accuracy | Macro F1 |
+| Evaluation | Correct predictions | Accuracy | Macro F1 |
 |---|---:|---:|---:|
-| Validation | 377/480 | 0.7854167 | 0.7872843 |
-| Locked final test | 354/480 | 0.7375000 | 0.7382300 |
+| Validation | 377 / 480 | 0.7854 | 0.7873 |
+| Final test | 354 / 480 | 0.7375 | 0.7382 |
 
-Model selection used validation only. The final-test result comes from one authorized evaluation of the already frozen checkpoint. The authorization is consumed; the saved final-test artifacts are retained for reporting and integrity verification, not for tuning or another model choice.
+The final test was used once after the model was selected. The repository keeps the saved predictions and metrics, but the normal evaluation command does not rerun the final test.
 
-## Controlled auxiliary-loss ablation
+## Where the model makes mistakes
 
-The relation-only variant keeps the same image encoder, text encoder, relation head, data splits, optimizer, learning rate, weight decay, batch size, augmentation, and early-stopping rule. Only the two category heads and their losses are removed.
+The weakest final-test categories are `headlight` with 29/60 correct predictions and `oil_filter` with 30/60. The `PARTIAL_MATCH` class is also difficult: 110/160 examples are correct, and 33 are predicted as `MISMATCH`.
 
-| Run | Seed | Auxiliary losses | Validation accuracy | Macro F1 | Predicted classes |
-|---|---:|:---:|---:|---:|---:|
-| Selected model | 44 | Yes | 0.7854 | 0.7873 | 3 |
-| Relation-only | 43 | No | 0.3333 | 0.1667 | 1 (`MATCH`) |
-| Relation-only | 44 | No | 0.3333 | 0.1667 | 1 (`MISMATCH`) |
-| Relation-only | 45 | No | 0.3333 | 0.1667 | 1 (`MISMATCH`) |
+Some mistakes are understandable. For example, a brake disc and a brake pad belong to the same braking system, while an alternator and a starter are both electrical engine-support parts. These examples make `PARTIAL_MATCH` harder than a clear exact match or a completely unrelated pair.
 
-All three relation-only runs collapsed to one predicted class. The mean accuracy gap is `0.4521` and the mean macro-F1 gap is `0.6206`. Under this fixed architecture and protocol, auxiliary category supervision is a material part of the successful model. This result does not prove that every multimodal architecture requires auxiliary supervision.
+The notebook shows the confusion matrix, category results, and several concrete wrong predictions with their images and descriptions.
 
-For seed 44, all 18 tensors shared by the with-auxiliary and no-auxiliary architectures were independently confirmed to have identical initial values.
+## Small additional experiment
 
-## Repository structure
+As an extra check, I trained the same multimodal model without the two helper category tasks. I ran it three times with seeds 43, 44, and 45, using only train and validation data.
+
+All three runs reached 160/480 correct predictions, accuracy 0.3333, and macro F1 0.1667. Each run predicted only one class. In this project, the helper tasks made the training much more successful.
+
+This experiment is additional evidence, not a requirement of the exam, and it does not change the selected model or the final-test result.
+
+## Project files
 
 ```text
 automotive-part-image-text-matching-sat/
 ├── README.md
-├── project.ipynb                 # the only official notebook
-├── docs/                         # methodology, provenance, test policy
-├── data/
-│   ├── images/dataset_v3/        # train and validation images
-│   ├── locked_test/dataset_v3/   # physically separated final test
-│   ├── manifests/
-│   └── relations/
-├── models/                       # one selected canonical checkpoint
-├── results/
-│   ├── validation/
-│   ├── ablation/
-│   ├── final_test/
-│   └── training/
-├── evidence/                     # lineage, hashes, original lock records
-├── src/                          # one active implementation
-└── tests/                        # compact integrity and reproducibility suite
+├── project.ipynb          # main report with tables, plots, and examples
+├── docs/                  # methodology, data source, and test policy
+├── data/                  # Dataset V3 and the separated final test
+├── src/                   # data loading, models, training, and evaluation
+├── models/                # selected model checkpoint
+├── results/               # saved validation, extra experiment, and test results
+├── evidence/              # hashes and source information
+└── tests/                 # automated checks
 ```
 
-Dataset V2, competing notebooks, obsolete builders, duplicated checkpoints, patch files, caches, and the old Git history are intentionally excluded.
+## How to run
 
-## Setup
+Create the environment:
 
 ```powershell
 python -m venv .venv
@@ -118,42 +109,42 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-## Verify the preserved project
+Run the checks:
 
 ```powershell
 python -m src.verify --full-hashes
 python -m pytest -q
 ```
 
-Reproduce the selected model on validation only:
+Recalculate the saved validation result:
 
 ```powershell
 python -m src.evaluate
 ```
 
-Run a fresh development comparison in a new output directory:
+Run a new development comparison in a different output folder:
 
 ```powershell
 python -m src.train --output results/retrained
 ```
 
-Run one relation-only ablation in a new directory:
+Run the additional experiment without helper tasks:
 
 ```powershell
-python -m src.train_ablation --seed 44 --output results/retrained_ablation_seed44
+python -m src.train_ablation --seed 44 --output results/retrained_no_helpers_seed44
 ```
-
-The active evaluation command intentionally has no final-test option. The final-test evaluator must not be rerun.
 
 ## Limitations
 
-- All images originate from one public source collection, although the grouped split prevents exact image leakage.
-- The model is small and trained from scratch rather than based on a large pretrained vision-language model.
-- Six relation rows share every image, so rows are not independent; grouped uncertainty methods are used.
-- `PARTIAL_MATCH` remains difficult and category performance is uneven.
-- The auxiliary-loss conclusion is limited to this architecture, dataset, and training protocol.
-- The system is an educational experiment and is not ready for automatic warehouse decisions.
+- The images come from one public dataset.
+- The dataset contains only eight selected categories.
+- The network is small and trained from scratch.
+- Several text rows use the same image, so the image groups must be considered when interpreting the results.
+- The result of the additional experiment applies only to this model and this dataset.
+- This is an educational project, not a production warehouse system.
 
-## Result lineage
+## Sources
 
-The machine-readable lineage is in [evidence/lineage.json](evidence/lineage.json). Original Dataset V3 results remain attributed to their source repository and commits. The three-seed auxiliary-loss ablation is identified separately as new unified-project work.
+1. G. Piosenka, [50 Types of Car Parts - Image Classification](https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes), Kaggle dataset used as the image source.
+2. T. Baltrušaitis, C. Ahuja, and L.-P. Morency, [Multimodal Machine Learning: A Survey and Taxonomy](https://arxiv.org/abs/1705.09406), 2017/2019.
+3. Y. LeCun, L. Bottou, Y. Bengio, and P. Haffner, [Gradient-Based Learning Applied to Document Recognition](https://bottou.org/papers/lecun-98h), 1998.

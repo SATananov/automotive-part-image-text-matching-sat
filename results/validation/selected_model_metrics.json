@@ -1,0 +1,19 @@
+{
+  "status": "PASS_CANONICAL_VALIDATION_RESULT",
+  "model_slug": "torch_multimodal_dataset_v3",
+  "seed": 44,
+  "correct_predictions": 377,
+  "total_predictions": 480,
+  "independent_images": 80,
+  "accuracy": 0.7854166666666667,
+  "macro_f1": 0.787284319325806,
+  "accuracy_ci": [
+    0.7083333333333334,
+    0.8625
+  ],
+  "macro_f1_ci": [
+    0.7029512669784515,
+    0.8604529793821275
+  ],
+  "selection_basis": "development_validation_only"
+}

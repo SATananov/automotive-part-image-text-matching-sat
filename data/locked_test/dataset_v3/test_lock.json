@@ -1,0 +1,571 @@
+{
+  "status": "LOCKED_NOT_AUTHORIZED_FOR_TRAINING_OR_SELECTION",
+  "dataset": "Dataset V3 curated 8-class image pool",
+  "split_seed": "dataset-v3-split-v1",
+  "test_image_count": 80,
+  "test_images_per_category": 10,
+  "test_lock_sha256": "162de671f97c43e3f5afe6c25f577e65228d1f759b699ff93a0d74d9726764a5",
+  "policy": "The test split must not be read by training, model selection, threshold tuning, or error analysis before explicit final-evaluation authorization.",
+  "images": [
+    {
+      "candidate_id": "kaggle_afd95f276af3bb7d",
+      "project_category": "alternator",
+      "image_group_id": "kaggle50:alternator:kaggle_afd95f276af3bb7d",
+      "candidate_path": "alternator/train/alternator_train_afd95f276af3bb7d.jpg",
+      "sha256": "afd95f276af3bb7d25a85ab18cd7bfae3288a8a505200ec42b4782f9987de303"
+    },
+    {
+      "candidate_id": "kaggle_53dafd46cb928e3a",
+      "project_category": "alternator",
+      "image_group_id": "kaggle50:alternator:kaggle_53dafd46cb928e3a",
+      "candidate_path": "alternator/train/alternator_train_53dafd46cb928e3a.jpg",
+      "sha256": "53dafd46cb928e3add69532e89f1183665dccbc8092f316dc993ccd8a9abdf66"
+    },
+    {
+      "candidate_id": "kaggle_2794aaabc40321aa",
+      "project_category": "alternator",
+      "image_group_id": "kaggle50:alternator:kaggle_2794aaabc40321aa",
+      "candidate_path": "alternator/train/alternator_train_2794aaabc40321aa.jpg",
+      "sha256": "2794aaabc40321aafecb002205b212d565a734d74405a7d663376e05943e3c82"
+    },
+    {
+      "candidate_id": "kaggle_bfb098683a94f653",
+      "project_category": "alternator",
+      "image_group_id": "kaggle50:alternator:kaggle_bfb098683a94f653",
+      "candidate_path": "alternator/train/alternator_train_bfb098683a94f653.jpg",
+      "sha256": "bfb098683a94f653d1fb462b933466490c1ec99a65cc84deb886b7ec7f211b05"
+    },
+    {
+      "candidate_id": "kaggle_a1101f0bfd35376b",
+      "project_category": "alternator",
+      "image_group_id": "kaggle50:alternator:kaggle_a1101f0bfd35376b",
+      "candidate_path": "alternator/train/alternator_train_a1101f0bfd35376b.jpg",
+      "sha256": "a1101f0bfd35376b1cb86928c1dda5c231275dff329f9f55edd790f7a1cfb5dd"
+    },
+    {
+      "candidate_id": "kaggle_e88614c7a7c36a07",
+      "project_category": "alternator",
+      "image_group_id": "kaggle50:alternator:kaggle_e88614c7a7c36a07",
+      "candidate_path": "alternator/train/alternator_train_e88614c7a7c36a07.jpg",
+      "sha256": "e88614c7a7c36a0745a1811028643b5faf534a4e02d57f82199e5f0c99e497af"
+    },
+    {
+      "candidate_id": "kaggle_87d2d0ea0064d8c1",
+      "project_category": "alternator",
+      "image_group_id": "kaggle50:alternator:kaggle_87d2d0ea0064d8c1",
+      "candidate_path": "alternator/train/alternator_train_87d2d0ea0064d8c1.jpg",
+      "sha256": "87d2d0ea0064d8c1963f7f6f6237ff6f0bee52313ca6de9725ebf27ea4ba25d0"
+    },
+    {
+      "candidate_id": "kaggle_6bde879f2a21b42a",
+      "project_category": "alternator",
+      "image_group_id": "kaggle50:alternator:kaggle_6bde879f2a21b42a",
+      "candidate_path": "alternator/train/alternator_train_6bde879f2a21b42a.jpg",
+      "sha256": "6bde879f2a21b42ac3e06d075c00b52544cc5b13758ed6b6a90d0c140f68ab1d"
+    },
+    {
+      "candidate_id": "kaggle_2ffc7f006fc48e9e",
+      "project_category": "alternator",
+      "image_group_id": "kaggle50:alternator:kaggle_2ffc7f006fc48e9e",
+      "candidate_path": "alternator/train/alternator_train_2ffc7f006fc48e9e.jpg",
+      "sha256": "2ffc7f006fc48e9e4163c4347f5a3484f2fa1b211b0716e2a7058f6d4db02fbd"
+    },
+    {
+      "candidate_id": "kaggle_8328d1847701fa3d",
+      "project_category": "alternator",
+      "image_group_id": "kaggle50:alternator:kaggle_8328d1847701fa3d",
+      "candidate_path": "alternator/train/alternator_train_8328d1847701fa3d.jpg",
+      "sha256": "8328d1847701fa3d072d1a38bb585fd3bd149179e63e6e5ca06ee9a30ad66e51"
+    },
+    {
+      "candidate_id": "kaggle_f7b48bab65190bfb",
+      "project_category": "brake_disc",
+      "image_group_id": "kaggle50:brake_disc:kaggle_f7b48bab65190bfb",
+      "candidate_path": "brake_disc/train/brake_disc_train_f7b48bab65190bfb.jpg",
+      "sha256": "f7b48bab65190bfb634915d2b8a6097b3b471ada5f8fad021233fe9b4f2f3e01"
+    },
+    {
+      "candidate_id": "kaggle_3daceab8eae4bc5f",
+      "project_category": "brake_disc",
+      "image_group_id": "kaggle50:brake_disc:kaggle_3daceab8eae4bc5f",
+      "candidate_path": "brake_disc/train/brake_disc_train_3daceab8eae4bc5f.jpg",
+      "sha256": "3daceab8eae4bc5f760df47aa3d32e10a769efb81b744827916dee1c04c50a19"
+    },
+    {
+      "candidate_id": "kaggle_386dabe6bfa63bd6",
+      "project_category": "brake_disc",
+      "image_group_id": "kaggle50:brake_disc:kaggle_386dabe6bfa63bd6",
+      "candidate_path": "brake_disc/train/brake_disc_train_386dabe6bfa63bd6.jpg",
+      "sha256": "386dabe6bfa63bd658b9f197940868adbf920cad92871d68cd83cae4efdedeb2"
+    },
+    {
+      "candidate_id": "kaggle_ca84654b256c6161",
+      "project_category": "brake_disc",
+      "image_group_id": "kaggle50:brake_disc:kaggle_ca84654b256c6161",
+      "candidate_path": "brake_disc/train/brake_disc_train_ca84654b256c6161.jpg",
+      "sha256": "ca84654b256c61613be97db1a2bd01480530567dcdd493046161ea5ea602ba65"
+    },
+    {
+      "candidate_id": "kaggle_9d745cfc2e3b4a17",
+      "project_category": "brake_disc",
+      "image_group_id": "kaggle50:brake_disc:kaggle_9d745cfc2e3b4a17",
+      "candidate_path": "brake_disc/train/brake_disc_train_9d745cfc2e3b4a17.jpg",
+      "sha256": "9d745cfc2e3b4a17330e6b136757073d91d73c8d7f1872dcae0f35f5a5d0204b"
+    },
+    {
+      "candidate_id": "kaggle_65cf2186d4a5c527",
+      "project_category": "brake_disc",
+      "image_group_id": "kaggle50:brake_disc:kaggle_65cf2186d4a5c527",
+      "candidate_path": "brake_disc/test/brake_disc_test_65cf2186d4a5c527.jpg",
+      "sha256": "65cf2186d4a5c52750d79f40f587f77b9c13757b3d29a4f55662fe3a6ad78a77"
+    },
+    {
+      "candidate_id": "kaggle_0c31e6ce13e74926",
+      "project_category": "brake_disc",
+      "image_group_id": "kaggle50:brake_disc:kaggle_0c31e6ce13e74926",
+      "candidate_path": "brake_disc/train/brake_disc_train_0c31e6ce13e74926.jpg",
+      "sha256": "0c31e6ce13e749263aa11fce3fd7c1a1a415b282602b178aa1c4ee8c3cdf1dfc"
+    },
+    {
+      "candidate_id": "kaggle_9561cc8d1347f616",
+      "project_category": "brake_disc",
+      "image_group_id": "kaggle50:brake_disc:kaggle_9561cc8d1347f616",
+      "candidate_path": "brake_disc/train/brake_disc_train_9561cc8d1347f616.jpg",
+      "sha256": "9561cc8d1347f6167e2bddd7ad1b0dbaaa12ee9ba1d44f84436dc43c045c4be1"
+    },
+    {
+      "candidate_id": "kaggle_596ea0f7a12db001",
+      "project_category": "brake_disc",
+      "image_group_id": "kaggle50:brake_disc:kaggle_596ea0f7a12db001",
+      "candidate_path": "brake_disc/train/brake_disc_train_596ea0f7a12db001.jpg",
+      "sha256": "596ea0f7a12db001081356604009ed3d09781ef9d1a92d599ec641daa98a33b3"
+    },
+    {
+      "candidate_id": "kaggle_8cf8f79b4e754446",
+      "project_category": "brake_disc",
+      "image_group_id": "kaggle50:brake_disc:kaggle_8cf8f79b4e754446",
+      "candidate_path": "brake_disc/train/brake_disc_train_8cf8f79b4e754446.jpg",
+      "sha256": "8cf8f79b4e7544464bff140130276791c060a2a14d5ab154c0b2108ac15ad8c5"
+    },
+    {
+      "candidate_id": "kaggle_3178c85470aa6963",
+      "project_category": "brake_pad",
+      "image_group_id": "kaggle50:brake_pad:kaggle_3178c85470aa6963",
+      "candidate_path": "brake_pad/train/brake_pad_train_3178c85470aa6963.jpg",
+      "sha256": "3178c85470aa6963480fdf9424c7873802300642ef8df382934127e4a573a90e"
+    },
+    {
+      "candidate_id": "kaggle_0b3ec66a89b5fbe1",
+      "project_category": "brake_pad",
+      "image_group_id": "kaggle50:brake_pad:kaggle_0b3ec66a89b5fbe1",
+      "candidate_path": "brake_pad/train/brake_pad_train_0b3ec66a89b5fbe1.jpg",
+      "sha256": "0b3ec66a89b5fbe1336af39cd65c2301798e6f2fdb335b74d46b0f40dcf079d0"
+    },
+    {
+      "candidate_id": "kaggle_1214a4f476a023ee",
+      "project_category": "brake_pad",
+      "image_group_id": "kaggle50:brake_pad:kaggle_1214a4f476a023ee",
+      "candidate_path": "brake_pad/train/brake_pad_train_1214a4f476a023ee.jpg",
+      "sha256": "1214a4f476a023eeaff0541f29edd9b4dc9a36ad64ac8996637401ff6ea94acb"
+    },
+    {
+      "candidate_id": "kaggle_bfb90f6f428a393f",
+      "project_category": "brake_pad",
+      "image_group_id": "kaggle50:brake_pad:kaggle_bfb90f6f428a393f",
+      "candidate_path": "brake_pad/test/brake_pad_test_bfb90f6f428a393f.jpg",
+      "sha256": "bfb90f6f428a393f473c6c2a4636cc30d13157569e2f23e5f2306cbe8af2a798"
+    },
+    {
+      "candidate_id": "kaggle_bba0d7682794c697",
+      "project_category": "brake_pad",
+      "image_group_id": "kaggle50:brake_pad:kaggle_bba0d7682794c697",
+      "candidate_path": "brake_pad/train/brake_pad_train_bba0d7682794c697.jpg",
+      "sha256": "bba0d7682794c69703a811e82a2150ef8090e02edd07f7e8899f078a1b0ff731"
+    },
+    {
+      "candidate_id": "kaggle_3d16f7513d038879",
+      "project_category": "brake_pad",
+      "image_group_id": "kaggle50:brake_pad:kaggle_3d16f7513d038879",
+      "candidate_path": "brake_pad/train/brake_pad_train_3d16f7513d038879.jpg",
+      "sha256": "3d16f7513d0388795cb0ae188dfed7d1f4347d7e97fa023275bb49cbd0f9a2e0"
+    },
+    {
+      "candidate_id": "kaggle_86c96d7d232c214c",
+      "project_category": "brake_pad",
+      "image_group_id": "kaggle50:brake_pad:kaggle_86c96d7d232c214c",
+      "candidate_path": "brake_pad/train/brake_pad_train_86c96d7d232c214c.jpg",
+      "sha256": "86c96d7d232c214c6f0fe5b689712b571e8efded133f2a6809b1ecc68394de35"
+    },
+    {
+      "candidate_id": "kaggle_52d36d907755b1a8",
+      "project_category": "brake_pad",
+      "image_group_id": "kaggle50:brake_pad:kaggle_52d36d907755b1a8",
+      "candidate_path": "brake_pad/train/brake_pad_train_52d36d907755b1a8.jpg",
+      "sha256": "52d36d907755b1a8f17e2600bf08ad43fe89a0f038d77aed527f14dd74cd0350"
+    },
+    {
+      "candidate_id": "kaggle_7d62eb5eb0a67663",
+      "project_category": "brake_pad",
+      "image_group_id": "kaggle50:brake_pad:kaggle_7d62eb5eb0a67663",
+      "candidate_path": "brake_pad/train/brake_pad_train_7d62eb5eb0a67663.jpg",
+      "sha256": "7d62eb5eb0a676636c060af62840aef17ee6ae8c46460886de4e5e714e9a0971"
+    },
+    {
+      "candidate_id": "kaggle_a100e03da22f0d53",
+      "project_category": "brake_pad",
+      "image_group_id": "kaggle50:brake_pad:kaggle_a100e03da22f0d53",
+      "candidate_path": "brake_pad/train/brake_pad_train_a100e03da22f0d53.jpg",
+      "sha256": "a100e03da22f0d530b9eefb1ded93ab61cc6793d7c9265c412c05d03313eed98"
+    },
+    {
+      "candidate_id": "kaggle_cf96aa825fed29e1",
+      "project_category": "coil_spring",
+      "image_group_id": "kaggle50:coil_spring:kaggle_cf96aa825fed29e1",
+      "candidate_path": "coil_spring/train/coil_spring_train_cf96aa825fed29e1.jpg",
+      "sha256": "cf96aa825fed29e19bf01564bc130d7bad900d5245d47af63528a746ce3c9e10"
+    },
+    {
+      "candidate_id": "kaggle_667e6aaca4eea223",
+      "project_category": "coil_spring",
+      "image_group_id": "kaggle50:coil_spring:kaggle_667e6aaca4eea223",
+      "candidate_path": "coil_spring/train/coil_spring_train_667e6aaca4eea223.jpg",
+      "sha256": "667e6aaca4eea223ce2cd83cc34c1337f13bc61dfee00201fc3adede1199b084"
+    },
+    {
+      "candidate_id": "kaggle_9e747aab053ee1e7",
+      "project_category": "coil_spring",
+      "image_group_id": "kaggle50:coil_spring:kaggle_9e747aab053ee1e7",
+      "candidate_path": "coil_spring/train/coil_spring_train_9e747aab053ee1e7.jpg",
+      "sha256": "9e747aab053ee1e7e883b31702e3d4324f62ad0610924cb3b92cbaf44653e02b"
+    },
+    {
+      "candidate_id": "kaggle_7939176f086bb12d",
+      "project_category": "coil_spring",
+      "image_group_id": "kaggle50:coil_spring:kaggle_7939176f086bb12d",
+      "candidate_path": "coil_spring/train/coil_spring_train_7939176f086bb12d.jpg",
+      "sha256": "7939176f086bb12d037ccce7e793e5c0e177c351c263b0869f41765e4f5e807f"
+    },
+    {
+      "candidate_id": "kaggle_3615ecf7cac4319a",
+      "project_category": "coil_spring",
+      "image_group_id": "kaggle50:coil_spring:kaggle_3615ecf7cac4319a",
+      "candidate_path": "coil_spring/train/coil_spring_train_3615ecf7cac4319a.jpg",
+      "sha256": "3615ecf7cac4319aa179f88af3c8a8c46e2441ba6e2625a104c0f13795a8008a"
+    },
+    {
+      "candidate_id": "kaggle_4e0ec451b7dee4c0",
+      "project_category": "coil_spring",
+      "image_group_id": "kaggle50:coil_spring:kaggle_4e0ec451b7dee4c0",
+      "candidate_path": "coil_spring/train/coil_spring_train_4e0ec451b7dee4c0.jpg",
+      "sha256": "4e0ec451b7dee4c0123b59886e1896dfad1f6177452f2835e529e01cae36b102"
+    },
+    {
+      "candidate_id": "kaggle_188da408b91a359e",
+      "project_category": "coil_spring",
+      "image_group_id": "kaggle50:coil_spring:kaggle_188da408b91a359e",
+      "candidate_path": "coil_spring/train/coil_spring_train_188da408b91a359e.jpg",
+      "sha256": "188da408b91a359efac67054127fc26306655f6db7102df4be72b1b5c36fd72b"
+    },
+    {
+      "candidate_id": "kaggle_b2010a4eabcf84ae",
+      "project_category": "coil_spring",
+      "image_group_id": "kaggle50:coil_spring:kaggle_b2010a4eabcf84ae",
+      "candidate_path": "coil_spring/train/coil_spring_train_b2010a4eabcf84ae.jpg",
+      "sha256": "b2010a4eabcf84aefbe55d3bf734b4216add8988cdc8990801930d74dcb4bed6"
+    },
+    {
+      "candidate_id": "kaggle_c41b93d7fd86819d",
+      "project_category": "coil_spring",
+      "image_group_id": "kaggle50:coil_spring:kaggle_c41b93d7fd86819d",
+      "candidate_path": "coil_spring/train/coil_spring_train_c41b93d7fd86819d.jpg",
+      "sha256": "c41b93d7fd86819d0829697bc06bc0dedcef3c323c6acb2e7d3e51b57e72d019"
+    },
+    {
+      "candidate_id": "kaggle_7bf7ec55c9265969",
+      "project_category": "coil_spring",
+      "image_group_id": "kaggle50:coil_spring:kaggle_7bf7ec55c9265969",
+      "candidate_path": "coil_spring/train/coil_spring_train_7bf7ec55c9265969.jpg",
+      "sha256": "7bf7ec55c926596975cecebabfc96c701f18d0ab04cc72d9c76763a5400fe506"
+    },
+    {
+      "candidate_id": "kaggle_507b90c5be8ee2c5",
+      "project_category": "headlight",
+      "image_group_id": "kaggle50:headlight:kaggle_507b90c5be8ee2c5",
+      "candidate_path": "headlight/train/headlight_train_507b90c5be8ee2c5.jpg",
+      "sha256": "507b90c5be8ee2c53a7d7c76191759896ff4d87b3c062ea13bcb3514ae72c6e6"
+    },
+    {
+      "candidate_id": "kaggle_5cac8199f3e1d86d",
+      "project_category": "headlight",
+      "image_group_id": "kaggle50:headlight:kaggle_5cac8199f3e1d86d",
+      "candidate_path": "headlight/train/headlight_train_5cac8199f3e1d86d.jpg",
+      "sha256": "5cac8199f3e1d86d5cbc9b0d59f81fe13fec45cdb773ee69130ecd404c6566cd"
+    },
+    {
+      "candidate_id": "kaggle_71cc8c19764449b2",
+      "project_category": "headlight",
+      "image_group_id": "kaggle50:headlight:kaggle_71cc8c19764449b2",
+      "candidate_path": "headlight/train/headlight_train_71cc8c19764449b2.jpg",
+      "sha256": "71cc8c19764449b2d5e4600953585b53e9f3b66661080e3c155741554aea56f6"
+    },
+    {
+      "candidate_id": "kaggle_323d816d8ca5f2a4",
+      "project_category": "headlight",
+      "image_group_id": "kaggle50:headlight:kaggle_323d816d8ca5f2a4",
+      "candidate_path": "headlight/train/headlight_train_323d816d8ca5f2a4.jpg",
+      "sha256": "323d816d8ca5f2a497913c44a17c0c9bfb11ed62272b67fe5e98b937bee708d7"
+    },
+    {
+      "candidate_id": "kaggle_92c81587cf661b14",
+      "project_category": "headlight",
+      "image_group_id": "kaggle50:headlight:kaggle_92c81587cf661b14",
+      "candidate_path": "headlight/train/headlight_train_92c81587cf661b14.jpg",
+      "sha256": "92c81587cf661b141317447a83be37ce400ba25f9f3322b065e11207b3027014"
+    },
+    {
+      "candidate_id": "kaggle_dc13a518bbf49cc3",
+      "project_category": "headlight",
+      "image_group_id": "kaggle50:headlight:kaggle_dc13a518bbf49cc3",
+      "candidate_path": "headlight/train/headlight_train_dc13a518bbf49cc3.jpg",
+      "sha256": "dc13a518bbf49cc3ac16b8820fa168f361ef022f8302f89b058133d0775881bd"
+    },
+    {
+      "candidate_id": "kaggle_9a74503819bac42d",
+      "project_category": "headlight",
+      "image_group_id": "kaggle50:headlight:kaggle_9a74503819bac42d",
+      "candidate_path": "headlight/train/headlight_train_9a74503819bac42d.jpg",
+      "sha256": "9a74503819bac42d2aea24d81ba9c7e63a5a1048d336a632170321398e67e378"
+    },
+    {
+      "candidate_id": "kaggle_7373d8c851c113b7",
+      "project_category": "headlight",
+      "image_group_id": "kaggle50:headlight:kaggle_7373d8c851c113b7",
+      "candidate_path": "headlight/train/headlight_train_7373d8c851c113b7.jpg",
+      "sha256": "7373d8c851c113b79ecc63289b15babee9acb4c8bff04bede67c61b64bc9359e"
+    },
+    {
+      "candidate_id": "kaggle_c8836bb04e351d60",
+      "project_category": "headlight",
+      "image_group_id": "kaggle50:headlight:kaggle_c8836bb04e351d60",
+      "candidate_path": "headlight/train/headlight_train_c8836bb04e351d60.jpg",
+      "sha256": "c8836bb04e351d606fea24ca1182500b020d4dadac2ed979f7de6ad42b90fe1a"
+    },
+    {
+      "candidate_id": "kaggle_eb6bd2f07f959b71",
+      "project_category": "headlight",
+      "image_group_id": "kaggle50:headlight:kaggle_eb6bd2f07f959b71",
+      "candidate_path": "headlight/train/headlight_train_eb6bd2f07f959b71.jpg",
+      "sha256": "eb6bd2f07f959b713fc4c7d57d7805194144b8900b82d6d1553d6f269fc31217"
+    },
+    {
+      "candidate_id": "kaggle_89ba135a5d1f7851",
+      "project_category": "oil_filter",
+      "image_group_id": "kaggle50:oil_filter:kaggle_89ba135a5d1f7851",
+      "candidate_path": "oil_filter/train/oil_filter_train_89ba135a5d1f7851.jpg",
+      "sha256": "89ba135a5d1f785175904cfb42a3eaa0a4124213eeba8b8f0d4b4b686011e69d"
+    },
+    {
+      "candidate_id": "kaggle_c46a75c56bef424a",
+      "project_category": "oil_filter",
+      "image_group_id": "kaggle50:oil_filter:kaggle_c46a75c56bef424a",
+      "candidate_path": "oil_filter/train/oil_filter_train_c46a75c56bef424a.jpg",
+      "sha256": "c46a75c56bef424ab9f63b7d0e06e88ea5dabd8d32c60bef42b42c697dddbc03"
+    },
+    {
+      "candidate_id": "kaggle_c3b9926ea47d4286",
+      "project_category": "oil_filter",
+      "image_group_id": "kaggle50:oil_filter:kaggle_c3b9926ea47d4286",
+      "candidate_path": "oil_filter/train/oil_filter_train_c3b9926ea47d4286.jpg",
+      "sha256": "c3b9926ea47d4286ca7c7c2a26bf86694257d1cdedc3edf4de9015e271a34223"
+    },
+    {
+      "candidate_id": "kaggle_a8d7cce7bb542c31",
+      "project_category": "oil_filter",
+      "image_group_id": "kaggle50:oil_filter:kaggle_a8d7cce7bb542c31",
+      "candidate_path": "oil_filter/train/oil_filter_train_a8d7cce7bb542c31.jpg",
+      "sha256": "a8d7cce7bb542c31248b9ea18e08ed399501f6363dce0eae6304bd465648bfbd"
+    },
+    {
+      "candidate_id": "kaggle_a04c3ee2b49093e6",
+      "project_category": "oil_filter",
+      "image_group_id": "kaggle50:oil_filter:kaggle_a04c3ee2b49093e6",
+      "candidate_path": "oil_filter/train/oil_filter_train_a04c3ee2b49093e6.jpg",
+      "sha256": "a04c3ee2b49093e63e114b91a694ff18b1e13daad2c2d661c694cf44ccfccbd1"
+    },
+    {
+      "candidate_id": "kaggle_d037f999f061f557",
+      "project_category": "oil_filter",
+      "image_group_id": "kaggle50:oil_filter:kaggle_d037f999f061f557",
+      "candidate_path": "oil_filter/train/oil_filter_train_d037f999f061f557.jpg",
+      "sha256": "d037f999f061f557beefe8f4c049dfe937fd443c4b81433d0be38720024ee41a"
+    },
+    {
+      "candidate_id": "kaggle_151182696087d49a",
+      "project_category": "oil_filter",
+      "image_group_id": "kaggle50:oil_filter:kaggle_151182696087d49a",
+      "candidate_path": "oil_filter/train/oil_filter_train_151182696087d49a.jpg",
+      "sha256": "151182696087d49a36f8717a179f99d3720b7e2235268abf55a351a093e40a57"
+    },
+    {
+      "candidate_id": "kaggle_deb8c591a93c461d",
+      "project_category": "oil_filter",
+      "image_group_id": "kaggle50:oil_filter:kaggle_deb8c591a93c461d",
+      "candidate_path": "oil_filter/train/oil_filter_train_deb8c591a93c461d.jpg",
+      "sha256": "deb8c591a93c461dd35cda4fb3d510397b81a360dc5910e8fd4b84b1a7bf6aae"
+    },
+    {
+      "candidate_id": "kaggle_c8dc12c1b0bef8e0",
+      "project_category": "oil_filter",
+      "image_group_id": "kaggle50:oil_filter:kaggle_c8dc12c1b0bef8e0",
+      "candidate_path": "oil_filter/train/oil_filter_train_c8dc12c1b0bef8e0.jpg",
+      "sha256": "c8dc12c1b0bef8e08fc67e6509263112079c3925663144e9d99be096968e65c4"
+    },
+    {
+      "candidate_id": "kaggle_ac235f663c5faa4d",
+      "project_category": "oil_filter",
+      "image_group_id": "kaggle50:oil_filter:kaggle_ac235f663c5faa4d",
+      "candidate_path": "oil_filter/train/oil_filter_train_ac235f663c5faa4d.jpg",
+      "sha256": "ac235f663c5faa4d26f92cca4bb24622118aeabc2de84321c2fcaf66fb146f6e"
+    },
+    {
+      "candidate_id": "kaggle_8cab1c9948c2d7cb",
+      "project_category": "starter",
+      "image_group_id": "kaggle50:starter:kaggle_8cab1c9948c2d7cb",
+      "candidate_path": "starter/train/starter_train_8cab1c9948c2d7cb.jpg",
+      "sha256": "8cab1c9948c2d7cbf50021c0798773567c88c6289a6056650d4542b618740b3b"
+    },
+    {
+      "candidate_id": "kaggle_0b4083ea2e527985",
+      "project_category": "starter",
+      "image_group_id": "kaggle50:starter:kaggle_0b4083ea2e527985",
+      "candidate_path": "starter/train/starter_train_0b4083ea2e527985.jpg",
+      "sha256": "0b4083ea2e527985f709cab142af44c4db1661ebd75dd87f65e1a3ad0ff5af59"
+    },
+    {
+      "candidate_id": "kaggle_30ad312eec980b7e",
+      "project_category": "starter",
+      "image_group_id": "kaggle50:starter:kaggle_30ad312eec980b7e",
+      "candidate_path": "starter/train/starter_train_30ad312eec980b7e.jpg",
+      "sha256": "30ad312eec980b7ebe91ddc60110434fec9ab2978ae813b5b12d24070909f1a7"
+    },
+    {
+      "candidate_id": "kaggle_f0d8bb82c7e2757b",
+      "project_category": "starter",
+      "image_group_id": "kaggle50:starter:kaggle_f0d8bb82c7e2757b",
+      "candidate_path": "starter/train/starter_train_f0d8bb82c7e2757b.jpg",
+      "sha256": "f0d8bb82c7e2757b881c2111d0021aeda5dc39f9054b37484757d4e76c65e136"
+    },
+    {
+      "candidate_id": "kaggle_4d9ec32d616fc528",
+      "project_category": "starter",
+      "image_group_id": "kaggle50:starter:kaggle_4d9ec32d616fc528",
+      "candidate_path": "starter/train/starter_train_4d9ec32d616fc528.jpg",
+      "sha256": "4d9ec32d616fc5283e4376677c6d6ebf65d1f4df0a25283084e52edcc5dc6d24"
+    },
+    {
+      "candidate_id": "kaggle_37d2d9fe96e9c57e",
+      "project_category": "starter",
+      "image_group_id": "kaggle50:starter:kaggle_37d2d9fe96e9c57e",
+      "candidate_path": "starter/train/starter_train_37d2d9fe96e9c57e.jpg",
+      "sha256": "37d2d9fe96e9c57ef7cd3ddb562a292569493b57683a4b20549fe5bbcc26f9b9"
+    },
+    {
+      "candidate_id": "kaggle_d05aa3ef69a6c48b",
+      "project_category": "starter",
+      "image_group_id": "kaggle50:starter:kaggle_d05aa3ef69a6c48b",
+      "candidate_path": "starter/train/starter_train_d05aa3ef69a6c48b.jpg",
+      "sha256": "d05aa3ef69a6c48b0745f84ce9bd2badef16e2172ec0e66ea1bdbe2926efbdf2"
+    },
+    {
+      "candidate_id": "kaggle_102483c6e9760fc9",
+      "project_category": "starter",
+      "image_group_id": "kaggle50:starter:kaggle_102483c6e9760fc9",
+      "candidate_path": "starter/train/starter_train_102483c6e9760fc9.jpg",
+      "sha256": "102483c6e9760fc91bf8b23bb1bbcb68f4878f41c933b27b1026406964c58394"
+    },
+    {
+      "candidate_id": "kaggle_40476c1217bcbd19",
+      "project_category": "starter",
+      "image_group_id": "kaggle50:starter:kaggle_40476c1217bcbd19",
+      "candidate_path": "starter/train/starter_train_40476c1217bcbd19.jpg",
+      "sha256": "40476c1217bcbd19dfe2e76a0ff8e41c99df192010c15089452f4da28839e795"
+    },
+    {
+      "candidate_id": "kaggle_6fd88d134770f35c",
+      "project_category": "starter",
+      "image_group_id": "kaggle50:starter:kaggle_6fd88d134770f35c",
+      "candidate_path": "starter/train/starter_train_6fd88d134770f35c.jpg",
+      "sha256": "6fd88d134770f35cf9ddd85ed355787105c851018963df86eaa7a1f34e183a1e"
+    },
+    {
+      "candidate_id": "kaggle_7c99aaf73bde3b54",
+      "project_category": "taillight",
+      "image_group_id": "kaggle50:taillight:kaggle_7c99aaf73bde3b54",
+      "candidate_path": "taillight/train/taillight_train_7c99aaf73bde3b54.jpg",
+      "sha256": "7c99aaf73bde3b54288bfaed829e37a4bdb0d2e0f8c80cf9a8ce97e0689aa142"
+    },
+    {
+      "candidate_id": "kaggle_73366fc0648843f9",
+      "project_category": "taillight",
+      "image_group_id": "kaggle50:taillight:kaggle_73366fc0648843f9",
+      "candidate_path": "taillight/train/taillight_train_73366fc0648843f9.jpg",
+      "sha256": "73366fc0648843f98f5f2e5d7bea3fe81b0adb0225ee507efd396cf17541fd97"
+    },
+    {
+      "candidate_id": "kaggle_a84efa951af95df2",
+      "project_category": "taillight",
+      "image_group_id": "kaggle50:taillight:kaggle_a84efa951af95df2",
+      "candidate_path": "taillight/train/taillight_train_a84efa951af95df2.jpg",
+      "sha256": "a84efa951af95df28e07b6885f7adb4f3674dc20129f572fb2913b21e6165d50"
+    },
+    {
+      "candidate_id": "kaggle_11b3ab1f305e317f",
+      "project_category": "taillight",
+      "image_group_id": "kaggle50:taillight:kaggle_11b3ab1f305e317f",
+      "candidate_path": "taillight/train/taillight_train_11b3ab1f305e317f.jpg",
+      "sha256": "11b3ab1f305e317f881226530e258ff0f84e0108d8b012d503002f0e86490fea"
+    },
+    {
+      "candidate_id": "kaggle_c09a97f8669afe0f",
+      "project_category": "taillight",
+      "image_group_id": "kaggle50:taillight:kaggle_c09a97f8669afe0f",
+      "candidate_path": "taillight/train/taillight_train_c09a97f8669afe0f.jpg",
+      "sha256": "c09a97f8669afe0f70e19b06b445ed1fc0b5c27bc36cdd181ea885a70dbab3c8"
+    },
+    {
+      "candidate_id": "kaggle_9e1f2c1cf04b0a86",
+      "project_category": "taillight",
+      "image_group_id": "kaggle50:taillight:kaggle_9e1f2c1cf04b0a86",
+      "candidate_path": "taillight/train/taillight_train_9e1f2c1cf04b0a86.jpg",
+      "sha256": "9e1f2c1cf04b0a864dd923d93b2267fc13538f21b2d28f78ea8427005d3f408e"
+    },
+    {
+      "candidate_id": "kaggle_470de5097db60737",
+      "project_category": "taillight",
+      "image_group_id": "kaggle50:taillight:kaggle_470de5097db60737",
+      "candidate_path": "taillight/train/taillight_train_470de5097db60737.jpg",
+      "sha256": "470de5097db60737164524bd901980c17aea8143f777f90c2c10d776490cb475"
+    },
+    {
+      "candidate_id": "kaggle_4e09a54de0bf5e01",
+      "project_category": "taillight",
+      "image_group_id": "kaggle50:taillight:kaggle_4e09a54de0bf5e01",
+      "candidate_path": "taillight/train/taillight_train_4e09a54de0bf5e01.jpg",
+      "sha256": "4e09a54de0bf5e01f4dd8a9cc8496ab21d9038c0945a51916a3cb1cb287d6fbe"
+    },
+    {
+      "candidate_id": "kaggle_bcc9d756af5f3400",
+      "project_category": "taillight",
+      "image_group_id": "kaggle50:taillight:kaggle_bcc9d756af5f3400",
+      "candidate_path": "taillight/train/taillight_train_bcc9d756af5f3400.jpg",
+      "sha256": "bcc9d756af5f3400786e6846ff61550172628c2cd6ee94561d0fe1de2f14ea80"
+    },
+    {
+      "candidate_id": "kaggle_f893767f11655371",
+      "project_category": "taillight",
+      "image_group_id": "kaggle50:taillight:kaggle_f893767f11655371",
+      "candidate_path": "taillight/train/taillight_train_f893767f11655371.jpg",
+      "sha256": "f893767f11655371969e089211f0cce7819cb0787750eb42478cf2c2bce99aa5"
+    }
+  ]
+}

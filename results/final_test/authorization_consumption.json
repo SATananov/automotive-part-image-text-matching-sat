@@ -1,0 +1,15 @@
+{
+  "status": "FINAL_TEST_AUTHORIZATION_CONSUMED",
+  "authorization_sha256": "a58005028f389c9c27ec737d079cc4a750b9c555fa4dfba350017ebdb8754a24",
+  "selected_model_slug": "torch_multimodal_dataset_v3",
+  "selected_checkpoint_sha256": "bce8a98fc96140294f3043fd845e1a7b6f491c67869a6c775877cd6ca1aa2a17",
+  "maximum_authorized_evaluations": 1,
+  "authorized_evaluations_completed": 1,
+  "authorization_consumed": true,
+  "repository_test_manifest_read": true,
+  "test_images_read": true,
+  "test_evaluation_executed": true,
+  "further_tuning_permitted": false,
+  "post_test_tuning_permitted": false,
+  "test_results_may_be_used_for_tuning": false
+}

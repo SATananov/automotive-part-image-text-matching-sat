@@ -1,0 +1,29 @@
+{
+  "status": "FINAL_TEST_EVALUATION_COMPLETE",
+  "authorization_sha256": "a58005028f389c9c27ec737d079cc4a750b9c555fa4dfba350017ebdb8754a24",
+  "authorization_consumed": true,
+  "authorized_evaluations_completed": 1,
+  "repository_test_manifest_read": true,
+  "test_images_read": true,
+  "test_evaluation_executed": true,
+  "preflight": {
+    "status": "PASS_FINAL_TEST_PREFLIGHT_NO_TEST_ACCESS",
+    "protocol_sha256": "4d0936a02578a4759754223eaf45d4cc0d201bf415c71c94e115ccd51296e000",
+    "authorization_sha256": "a58005028f389c9c27ec737d079cc4a750b9c555fa4dfba350017ebdb8754a24",
+    "checkpoint_sha256": "bce8a98fc96140294f3043fd845e1a7b6f491c67869a6c775877cd6ca1aa2a17",
+    "checkpoint_model_slug": "torch_multimodal_dataset_v3",
+    "vectorizer_fingerprint": "aad4f36d127ea8eb06cc3e407c1873bf93ee24576e136129f837eb2f32eab5ac",
+    "test_evaluation_authorized": true,
+    "maximum_authorized_evaluations": 1,
+    "authorized_evaluations_completed": 0,
+    "authorization_consumed": false,
+    "repository_test_manifest_read": false,
+    "test_images_read": false,
+    "test_evaluation_executed": false
+  },
+  "result_status": "PASS_DATASET_V3_FINAL_TEST_EVALUATION_COMPLETE",
+  "accuracy": 0.7375,
+  "macro_f1": 0.7382299830250852,
+  "correct_predictions": 354,
+  "total_predictions": 480
+}

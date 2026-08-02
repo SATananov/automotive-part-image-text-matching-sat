@@ -1,0 +1,32 @@
+{
+  "status": "PASS_AUXILIARY_LOSS_ABLATION_RUN",
+  "experiment": "relation_only_no_auxiliary",
+  "model_slug": "torch_multimodal_no_auxiliary_dataset_v3",
+  "seed": 45,
+  "auxiliary_category_losses": false,
+  "trainable_parameters": 57923,
+  "total_parameters": 57923,
+  "training_rows": 2880,
+  "validation_rows": 480,
+  "validation_images": 80,
+  "correct_predictions": 160,
+  "total_predictions": 480,
+  "validation_accuracy": 0.3333333333333333,
+  "validation_macro_f1": 0.16666666666666666,
+  "validation_loss": 1.0986560662587483,
+  "epochs_recorded": 11,
+  "predicted_class_distribution": {
+    "MATCH": 0,
+    "MISMATCH": 480,
+    "PARTIAL_MATCH": 0
+  },
+  "predicted_classes": 1,
+  "collapsed_to_one_predicted_class": true,
+  "python_version": "3.13.5",
+  "torch_version": "2.10.0+cpu",
+  "test_manifest_read": false,
+  "test_images_read": false,
+  "test_split_used": false,
+  "test_evaluation_executed": false,
+  "development_validation_status": "PASS_DEVELOPMENT_DATASET"
+}

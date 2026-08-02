@@ -1,0 +1,63 @@
+{
+  "project": "automotive-part-image-text-matching-sat",
+  "lineage_policy": "Original Dataset V3 results remain attributed to their source commits; later consolidation and ablation work are identified separately.",
+  "source_archives": [
+    {
+      "role": "desktop working base",
+      "filename": "automotive-part-image-text-matching-sat(2).zip",
+      "sha256": "8edbeb4c63a4412b2dd9f4d8ea698d4eb799bce930f8b9a110f2268bc3e9365e"
+    }
+  ],
+  "source_repositories": [
+    {
+      "repository": "https://github.com/SATananov/automotive-part-image-text-matching",
+      "branch": "dataset-v3",
+      "commit": "76f62ef91faa1e544c9074a91e80d86ed71a99fa",
+      "role": "original immutable Dataset V3 evidence, selected checkpoint, validation result, and locked final-test lineage"
+    },
+    {
+      "repository": "https://github.com/SATananov/automotive-part-image-text-matching",
+      "branch": "dataset-v3",
+      "commit": "d9ead2a8ef6637a3e86713b98433fc1ca1389158",
+      "role": "later final-report and verification state"
+    },
+    {
+      "repository": "https://github.com/SATananov/automotive-part-multimodal-classification",
+      "branch": "main",
+      "commit": "a9717986b2b73d089f29ce3a619bbe9e08494ef6",
+      "role": "clean multimodal source-layout reference; not an independent result lineage"
+    }
+  ],
+  "imported_original_results": {
+    "selected_model_slug": "torch_multimodal_dataset_v3",
+    "selected_model_seed": 44,
+    "selected_checkpoint_sha256": "bce8a98fc96140294f3043fd845e1a7b6f491c67869a6c775877cd6ca1aa2a17",
+    "validation": {
+      "correct_predictions": 377,
+      "total_predictions": 480,
+      "accuracy": 0.7854166666666667,
+      "macro_f1": 0.787284319325806
+    },
+    "final_test": {
+      "correct_predictions": 354,
+      "total_predictions": 480,
+      "accuracy": 0.7375,
+      "macro_f1": 0.7382299830250852,
+      "authorization_consumed": true,
+      "new_inference_performed_during_unification": false
+    }
+  },
+  "new_unified_project_work": {
+    "clean_active_structure": true,
+    "old_git_history_copied": false,
+    "dataset_v2_removed": true,
+    "single_official_notebook": "project.ipynb",
+    "single_training_entry_point": "src/train.py",
+    "controlled_auxiliary_loss_ablation": {
+      "seeds": [43, 44, 45],
+      "split": "validation only",
+      "test_split_used": false,
+      "artifacts": "results/ablation/"
+    }
+  }
+}

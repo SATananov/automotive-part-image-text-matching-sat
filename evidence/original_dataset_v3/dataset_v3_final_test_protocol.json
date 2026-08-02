@@ -1,0 +1,113 @@
+{
+  "status": "FINAL_TEST_EVALUATOR_PROTOCOL_READY_NOT_EXECUTED",
+  "protocol_version": "dataset-v3-final-test-v1",
+  "branch": "dataset-v3",
+  "protocol_source_commit": "591ccda6294b03608a0f3b7c3fa0952af56c849d",
+  "final_selection_lock_sha256": "54be116ab887680dcca1db08154936e3ef01b0ca8c4f73807e9324f64a9b865f",
+  "final_test_authorization_sha256": "a58005028f389c9c27ec737d079cc4a750b9c555fa4dfba350017ebdb8754a24",
+  "selected_model_slug": "torch_multimodal_dataset_v3",
+  "selected_checkpoint": "results/dataset_v3/models/torch_multimodal_dataset_v3_state.pt",
+  "selected_checkpoint_sha256": "bce8a98fc96140294f3043fd845e1a7b6f491c67869a6c775877cd6ca1aa2a17",
+  "selected_notebook": "project_v3.ipynb",
+  "selected_notebook_sha256": "4f87a9818cf91d1011b4b09794da086b6cc8fc9469e10d612a7c6ae6efb1900a",
+  "test_lock_sha256": "162de671f97c43e3f5afe6c25f577e65228d1f759b699ff93a0d74d9726764a5",
+  "selection_frozen": true,
+  "further_tuning_permitted": false,
+  "post_test_tuning_permitted": false,
+  "test_evaluation_authorized": true,
+  "maximum_authorized_evaluations": 1,
+  "authorized_evaluations_completed": 0,
+  "authorization_consumed": false,
+  "test_evaluation_executed": false,
+  "repository_test_manifest_read": false,
+  "test_images_read": false,
+  "external_preparation_snapshot_sha256": "b6a66cdcdbc63f2fc6e22680ea8aa4f793b6629529d355a6a97427ef4878d54e",
+  "external_snapshot_test_metadata_reviewed": true,
+  "external_snapshot_locked_test_images_present": false,
+  "snapshot_documentation_correction": "The preparation snapshot excluded locked-test image bytes but contained 80 test metadata rows through the full image manifest and public test-lock JSON.",
+  "test_metadata_review_did_not_consume_evaluation": true,
+  "relation_protocol_fingerprint": "db89b8c2aa5b94e9eec2913d80d17d0b5ebfbbd90a0e5e763706bd03b5fb4cc7",
+  "final_test_templates": [
+    "A {noun} from the {subsystem}; its purpose is to {function}.",
+    "This vehicle part is a {noun}, recognized by {form}."
+  ],
+  "final_test_caption_count": 16,
+  "exact_caption_overlap_with_train": 0,
+  "exact_caption_overlap_with_validation": 0,
+  "pairs_per_label_per_image": 2,
+  "expected_test_images": 80,
+  "expected_test_rows": 480,
+  "expected_rows_per_label": 160,
+  "text_dimension": 342,
+  "vectorizer_fingerprint": "aad4f36d127ea8eb06cc3e407c1873bf93ee24576e136129f837eb2f32eab5ac",
+  "protocol_dry_run": {
+    "uses_development_validation_metadata_only": true,
+    "reads_locked_test_manifest": false,
+    "reads_locked_test_images": false,
+    "relation_design": {
+      "status": "PASS_FINAL_TEST_RELATION_PROTOCOL",
+      "images": 80,
+      "rows": 480,
+      "rows_per_label": 160,
+      "pairs_per_label_per_image": 2,
+      "categories": 8,
+      "test_train_group_overlap": 0,
+      "test_validation_group_overlap": 0,
+      "description_overlap_with_train": 0,
+      "description_overlap_with_validation": 0,
+      "locked_paths_required": false,
+      "group_disjointness_required": false
+    },
+    "model_interface": {
+      "status": "PASS_FINAL_TEST_PROTOCOL_MODEL_DRY_RUN",
+      "captions": 16,
+      "zero_vector_captions": 0,
+      "text_dimension": 342,
+      "vectorizer_fingerprint": "aad4f36d127ea8eb06cc3e407c1873bf93ee24576e136129f837eb2f32eab5ac",
+      "relation_output_shape": [
+        16,
+        3
+      ],
+      "image_category_output_shape": [
+        16,
+        8
+      ],
+      "text_category_output_shape": [
+        16,
+        8
+      ],
+      "text_category_accuracy": 1.0,
+      "checkpoint_model_slug": "torch_multimodal_dataset_v3"
+    }
+  },
+  "execution_command": "python -m src.evaluate_dataset_v3_final_test --execute-authorized-final-test --confirm-authorization-sha a58005028f389c9c27ec737d079cc4a750b9c555fa4dfba350017ebdb8754a24",
+  "execution_guard": {
+    "explicit_command_required": true,
+    "final_result_directory_must_not_exist": true,
+    "temporary_execution_directory_must_not_exist": true,
+    "authorization_is_consumed_before_first_test_image_read": true,
+    "automatic_rerun_after_test_access": false
+  },
+  "expected_result_directory": "results/dataset_v3_final_test",
+  "expected_result_files": [
+    "execution_state.json",
+    "test_image_manifest.csv",
+    "test_relations.csv",
+    "test_predictions.csv",
+    "test_metrics.json",
+    "test_per_category.csv",
+    "test_confusion_matrix.csv",
+    "authorization_consumption.json",
+    "environment.json"
+  ],
+  "code_hashes": {
+    "src/final_test_protocol_v3.py": "668ed44475b0ee6e37ec728dbacbcb605da899d92433b98667e0d29b9603595a",
+    "src/evaluate_dataset_v3_final_test.py": "db61daec5c825086b9d7bf5d08ea01ceea1095383dbfd2352d53f01dcf9bc72c",
+    "src/build_dataset_v3_final_test_protocol.py": "6808f1df10e33e62b3b1fc6525dcbe2ecce92551e56e839f498bbaa2c4e4c5fc",
+    "src/verify_dataset_v3_final_test_protocol.py": "dd6c0de95a91781c83842e8b1375eb0a76112e951f4d4c229280331fc8f53b3a",
+    "tests/test_dataset_v3_final_test_protocol.py": "0eaafc1ff2d1b8fbf8a47acf3763f52ee1aed7744d380183795d222805cfbac7",
+    "docs/dataset_v3/final_test_evaluation_protocol.md": "0c169fd8951c1da32733d8becb90a7dcea9ddbbbd3b87343eed9ed2072f7b68c"
+  },
+  "selection_lock_verifier": "PASS_DATASET_V3_FINAL_SELECTION_LOCK_VERIFIED",
+  "authorization_verifier": "PASS_DATASET_V3_FINAL_TEST_AUTHORIZATION_VERIFIED"
+}

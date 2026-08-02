@@ -1,0 +1,18 @@
+* text=auto eol=lf
+*.csv text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.txt text eol=lf
+*.ipynb text eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pt binary
+
+# Preserve byte-exact imported lock and final-test evidence.
+evidence/original_dataset_v3/*.json -text
+evidence/original_dataset_v3/*.txt -text
+results/final_test/*.json -text
+results/final_test/*.csv -text
+models/selected_multimodal_model.pt binary
+results/ablation/**/checkpoint.pt binary

@@ -1,0 +1,46 @@
+{
+  "dataset": "Dataset V3 curated 8-class image pool",
+  "total_images": 640,
+  "categories": [
+    "alternator",
+    "brake_disc",
+    "brake_pad",
+    "coil_spring",
+    "headlight",
+    "oil_filter",
+    "starter",
+    "taillight"
+  ],
+  "images_per_category": 80,
+  "split_counts": {
+    "train": 480,
+    "validation": 80,
+    "test": 80
+  },
+  "per_category_split": {
+    "train": 60,
+    "validation": 10,
+    "test": 10
+  },
+  "image_group_policy": "One independent image group per final curated candidate. Exact, perceptual, cross-category, and current-project overlap audits were all zero before splitting.",
+  "split_method": "Deterministic SHA-256 ranking by category and candidate ID.",
+  "split_seed": "dataset-v3-split-v1",
+  "original_kaggle_split_policy": "Ignored. All curated images were re-split from one pool.",
+  "group_overlap": {
+    "train_validation": 0,
+    "train_test": 0,
+    "validation_test": 0
+  },
+  "test_lock_status": "LOCKED_NOT_AUTHORIZED_FOR_TRAINING_OR_SELECTION",
+  "test_lock_sha256": "162de671f97c43e3f5afe6c25f577e65228d1f759b699ff93a0d74d9726764a5",
+  "source_split_distribution": {
+    "test|test": 2,
+    "test|train": 78,
+    "train|test": 15,
+    "train|train": 454,
+    "train|validation": 11,
+    "validation|test": 2,
+    "validation|train": 72,
+    "validation|validation": 6
+  }
+}

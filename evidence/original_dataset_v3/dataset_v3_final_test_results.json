@@ -1,0 +1,178 @@
+{
+  "status": "PASS_DATASET_V3_FINAL_TEST_RESULTS_RECORDED",
+  "dataset": "dataset_v3",
+  "protocol_source_commit": "a18dc841dc3db066d391ca5aac8f0da2b6f43b0e",
+  "selected_model_slug": "torch_multimodal_dataset_v3",
+  "protocol_sha256": "4d0936a02578a4759754223eaf45d4cc0d201bf415c71c94e115ccd51296e000",
+  "authorization_sha256": "a58005028f389c9c27ec737d079cc4a750b9c555fa4dfba350017ebdb8754a24",
+  "selection_lock_sha256": "54be116ab887680dcca1db08154936e3ef01b0ca8c4f73807e9324f64a9b865f",
+  "selected_checkpoint_sha256": "bce8a98fc96140294f3043fd845e1a7b6f491c67869a6c775877cd6ca1aa2a17",
+  "test_lock_sha256": "162de671f97c43e3f5afe6c25f577e65228d1f759b699ff93a0d74d9726764a5",
+  "external_evidence_snapshot_sha256": "e2c84eae85cb2f33b6241a9e2ebc7939a3b56e686a2a7281a9355f9571d8a506",
+  "evaluator_invocations": 1,
+  "evaluator_completed": true,
+  "evaluator_rerun": false,
+  "result_artifacts_modified": false,
+  "result_artifact_count": 9,
+  "result_artifact_hashes": {
+    "authorization_consumption.json": "81622d702324b5c8f1783c53a3cea9b1265fc894904637a0947288d47b158282",
+    "environment.json": "1f42dbf82ad4eee51b1d623cf6af43596a9d31ecc651a26109287e1495e3cb92",
+    "execution_state.json": "ca30c5fdcb1473245374b4353411f3c6386157349be6fba6c48450a93c595865",
+    "test_confusion_matrix.csv": "46c82464de40474f3f65d47a82f761cf76a74561b2521c9d7c1b58016e0f157e",
+    "test_image_manifest.csv": "7be43af6e1a7e352a32a86b4812a38d20b1e3f225b073779e9de92df816301f3",
+    "test_metrics.json": "5c4c2ea793779a5ea894e5124afd5a8f48c2df8fa0d7266e22436f144f084818",
+    "test_per_category.csv": "d165659faae2b5c8fbc16c9d88b60959589124a4ba9c0aa6c4f1382b54e93e89",
+    "test_predictions.csv": "d22b38a3ca3d780f3d0e1f2cfdf3a4f901ad50d5b81a75a769c381310e931a6c",
+    "test_relations.csv": "4e228e8b7afccc8db7b62e56304e5f3fe200b4bc90468788649115de6e31e05c"
+  },
+  "frozen_input_hashes": {
+    "protocol": "4d0936a02578a4759754223eaf45d4cc0d201bf415c71c94e115ccd51296e000",
+    "authorization": "a58005028f389c9c27ec737d079cc4a750b9c555fa4dfba350017ebdb8754a24",
+    "selection_lock": "54be116ab887680dcca1db08154936e3ef01b0ca8c4f73807e9324f64a9b865f",
+    "checkpoint": "bce8a98fc96140294f3043fd845e1a7b6f491c67869a6c775877cd6ca1aa2a17"
+  },
+  "metadata_reconciliation": {
+    "status": "PASS_MISSING_RELATION_FINGERPRINT_RECONCILED_WITH_FROZEN_PROTOCOL",
+    "wrapper_error": "Metrics contain the wrong relation fingerprint.",
+    "actual_issue": "The original metrics relation summary omitted the relation_protocol_fingerprint field.",
+    "original_test_metrics_sha256": "5c4c2ea793779a5ea894e5124afd5a8f48c2df8fa0d7266e22436f144f084818",
+    "saved_fingerprint_present": false,
+    "derived_relation_protocol_fingerprint": "db89b8c2aa5b94e9eec2913d80d17d0b5ebfbbd90a0e5e763706bd03b5fb4cc7",
+    "frozen_protocol_fingerprint": "db89b8c2aa5b94e9eec2913d80d17d0b5ebfbbd90a0e5e763706bd03b5fb4cc7",
+    "saved_relations_match_frozen_builder": true,
+    "saved_relation_summary_matches_validation": true,
+    "result_file_rewritten": false,
+    "inference_rerun": false
+  },
+  "image_manifest_audit": {
+    "images": 80,
+    "categories": 8,
+    "images_per_category": 10,
+    "full_manifest_match": true,
+    "public_test_lock_match": true
+  },
+  "relation_audit": {
+    "summary": {
+      "status": "PASS_FINAL_TEST_RELATION_PROTOCOL",
+      "images": 80,
+      "rows": 480,
+      "rows_per_label": 160,
+      "pairs_per_label_per_image": 2,
+      "categories": 8,
+      "test_train_group_overlap": 0,
+      "test_validation_group_overlap": 0,
+      "description_overlap_with_train": 0,
+      "description_overlap_with_validation": 0,
+      "locked_paths_required": true,
+      "group_disjointness_required": true
+    },
+    "relation_protocol_fingerprint": "db89b8c2aa5b94e9eec2913d80d17d0b5ebfbbd90a0e5e763706bd03b5fb4cc7",
+    "saved_relations_match_frozen_builder": true,
+    "rows": 480,
+    "images": 80
+  },
+  "metric_audit": {
+    "correct_predictions": 354,
+    "accuracy": 0.7375,
+    "macro_f1": 0.7382299830250852,
+    "accuracy_ci": [
+      0.6604166666666667,
+      0.8145833333333333
+    ],
+    "macro_f1_ci": [
+      0.6536213360044313,
+      0.8101866315439569
+    ],
+    "image_category_accuracy": 0.675,
+    "text_category_accuracy": 1.0,
+    "classification_report": {
+      "MATCH": {
+        "precision": 0.7986577181208053,
+        "recall": 0.74375,
+        "f1-score": 0.7702265372168284,
+        "support": 160.0
+      },
+      "MISMATCH": {
+        "precision": 0.6648936170212766,
+        "recall": 0.78125,
+        "f1-score": 0.7183908045977011,
+        "support": 160.0
+      },
+      "PARTIAL_MATCH": {
+        "precision": 0.7692307692307693,
+        "recall": 0.6875,
+        "f1-score": 0.7260726072607261,
+        "support": 160.0
+      },
+      "accuracy": 0.7375,
+      "macro avg": {
+        "precision": 0.744260701457617,
+        "recall": 0.7374999999999999,
+        "f1-score": 0.7382299830250852,
+        "support": 480.0
+      },
+      "weighted avg": {
+        "precision": 0.7442607014576171,
+        "recall": 0.7375,
+        "f1-score": 0.7382299830250852,
+        "support": 480.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        119,
+        30,
+        11
+      ],
+      [
+        13,
+        125,
+        22
+      ],
+      [
+        17,
+        33,
+        110
+      ]
+    ],
+    "per_category_checks": 8,
+    "predictions_recomputed": true,
+    "confidence_intervals_recomputed": true,
+    "confusion_matrix_recomputed": true
+  },
+  "execution_audit": {
+    "execution_state_status": "FINAL_TEST_EVALUATION_COMPLETE",
+    "metrics_status": "PASS_DATASET_V3_FINAL_TEST_EVALUATION_COMPLETE",
+    "consumption_status": "FINAL_TEST_AUTHORIZATION_CONSUMED",
+    "authorization_consumed": true,
+    "authorized_evaluations_completed": 1,
+    "test_evaluation_executed": true,
+    "repository_test_manifest_read": true,
+    "test_images_read": true,
+    "further_tuning_permitted": false,
+    "post_test_tuning_permitted": false,
+    "test_results_may_be_used_for_tuning": false
+  },
+  "final_reporting": {
+    "test_images": 80,
+    "test_rows": 480,
+    "correct_predictions": 354,
+    "accuracy": 0.7375,
+    "macro_f1": 0.7382299830250852,
+    "accuracy_ci": [
+      0.6604166666666667,
+      0.8145833333333333
+    ],
+    "macro_f1_ci": [
+      0.6536213360044313,
+      0.8101866315439569
+    ],
+    "image_category_accuracy": 0.675,
+    "text_category_accuracy": 1.0,
+    "use": "final_reporting_and_error_analysis_only"
+  },
+  "selection_frozen": true,
+  "further_tuning_permitted": false,
+  "post_test_tuning_permitted": false,
+  "test_results_may_be_used_for_tuning": false
+}

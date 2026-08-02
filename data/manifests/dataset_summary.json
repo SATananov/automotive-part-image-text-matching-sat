@@ -1,0 +1,37 @@
+{
+  "dataset_version": "Dataset V3",
+  "status": "PASS_CANONICAL_DATASET_READY",
+  "source_dataset_slug": "gpiosenka/car-parts-40-classes",
+  "declared_source_license_at_acquisition": "Apache-2.0",
+  "categories": [
+    "alternator",
+    "brake_disc",
+    "brake_pad",
+    "coil_spring",
+    "headlight",
+    "oil_filter",
+    "starter",
+    "taillight"
+  ],
+  "total_images": 640,
+  "unique_sha256": 640,
+  "split_images": {
+    "test": 80,
+    "train": 480,
+    "validation": 80
+  },
+  "relation_rows": {
+    "train": 2880,
+    "validation": 480,
+    "test": 480
+  },
+  "images_per_category": 80,
+  "per_category_split": {
+    "train": 60,
+    "validation": 10,
+    "test": 10
+  },
+  "split_method": "Deterministic SHA-256 ranking by category and candidate ID; original source split labels ignored.",
+  "test_lock_sha256": "162de671f97c43e3f5afe6c25f577e65228d1f759b699ff93a0d74d9726764a5",
+  "test_status": "FINAL_TEST_ALREADY_EVALUATED_ONCE; NO FURTHER MODEL SELECTION OR TUNING PERMITTED"
+}

@@ -1,0 +1,79 @@
+{
+  "status": "PASS_DATASET_V3_FINAL_TEST_EVALUATION_COMPLETE",
+  "model_slug": "torch_multimodal_dataset_v3",
+  "checkpoint_sha256": "bce8a98fc96140294f3043fd845e1a7b6f491c67869a6c775877cd6ca1aa2a17",
+  "authorization_sha256": "a58005028f389c9c27ec737d079cc4a750b9c555fa4dfba350017ebdb8754a24",
+  "authorization_consumed": true,
+  "authorized_evaluations_completed": 1,
+  "test_evaluation_executed": true,
+  "repository_test_manifest_read": true,
+  "test_images_read": true,
+  "test_images": 80,
+  "test_rows": 480,
+  "correct_predictions": 354,
+  "accuracy": 0.7375,
+  "macro_f1": 0.7382299830250852,
+  "accuracy_ci": [
+    0.6604166666666667,
+    0.8145833333333333
+  ],
+  "macro_f1_ci": [
+    0.6536213360044313,
+    0.8101866315439569
+  ],
+  "image_category_accuracy": 0.675,
+  "text_category_accuracy": 1.0,
+  "classification_report": {
+    "MATCH": {
+      "precision": 0.7986577181208053,
+      "recall": 0.74375,
+      "f1-score": 0.7702265372168284,
+      "support": 160.0
+    },
+    "MISMATCH": {
+      "precision": 0.6648936170212766,
+      "recall": 0.78125,
+      "f1-score": 0.7183908045977011,
+      "support": 160.0
+    },
+    "PARTIAL_MATCH": {
+      "precision": 0.7692307692307693,
+      "recall": 0.6875,
+      "f1-score": 0.7260726072607261,
+      "support": 160.0
+    },
+    "accuracy": 0.7375,
+    "macro avg": {
+      "precision": 0.744260701457617,
+      "recall": 0.7374999999999999,
+      "f1-score": 0.7382299830250852,
+      "support": 480.0
+    },
+    "weighted avg": {
+      "precision": 0.7442607014576171,
+      "recall": 0.7375,
+      "f1-score": 0.7382299830250852,
+      "support": 480.0
+    }
+  },
+  "relation_protocol": {
+    "status": "PASS_FINAL_TEST_RELATION_PROTOCOL",
+    "images": 80,
+    "rows": 480,
+    "rows_per_label": 160,
+    "pairs_per_label_per_image": 2,
+    "categories": 8,
+    "test_train_group_overlap": 0,
+    "test_validation_group_overlap": 0,
+    "description_overlap_with_train": 0,
+    "description_overlap_with_validation": 0,
+    "locked_paths_required": true,
+    "group_disjointness_required": true
+  },
+  "vectorizer_fingerprint": "aad4f36d127ea8eb06cc3e407c1873bf93ee24576e136129f837eb2f32eab5ac",
+  "selection_frozen": true,
+  "further_tuning_permitted": false,
+  "post_test_tuning_permitted": false,
+  "test_results_may_be_used_for_tuning": false,
+  "test_results_use": "final_reporting_and_error_analysis_only"
+}

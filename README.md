@@ -30,6 +30,12 @@ I created my own grouped split instead of using the original dataset split. I ch
 
 More information about the source and licence is available in [docs/provenance.md](docs/provenance.md).
 
+### Are these data enough?
+
+The tables contain 3,840 image-text rows, but the independent visual examples are the 640 images. I do not treat all rows as separate images because six rows share each image.
+
+The data are enough for a student proof of concept and for comparing the tested models under the same split. They are not enough to claim that the system is ready for a real warehouse or online shop. A practical version would need more independently collected images, more part categories, different brands and vehicle models, difficult user photos, and a separate external test set.
+
 ## Models I compared
 
 I started with simple baselines and then added small neural networks:
@@ -136,8 +142,9 @@ python -m src.train_ablation --seed 44 --output results/retrained_no_helpers_see
 
 ## Limitations
 
+- The 3,840 rows come from 640 independent images, so rows that share an image are not fully independent.
 - The images come from one public dataset.
-- The dataset contains only eight selected categories.
+- The dataset contains only eight selected categories, with 80 images in the final test.
 - The network is small and trained from scratch.
 - Several text rows use the same image, so the image groups must be considered when interpreting the results.
 - The result of the additional experiment applies only to this model and this dataset.

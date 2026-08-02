@@ -20,6 +20,8 @@ For every image, I created six rows:
 
 This gives 2,880 training rows, 480 validation rows, and 480 final-test rows.
 
+These 3,840 rows are built from 640 independent images. Six rows share each image, so the row count must not be interpreted as 3,840 different visual examples. The dataset is large enough for a student proof of concept and a controlled comparison of the models, but it is too small and too narrow for a production system.
+
 ## 3. Train, validation, and test split
 
 The split is made by complete image groups:
@@ -107,12 +109,13 @@ The current notebook reads the saved test predictions for tables, plots, and err
 
 ## 9. Limitations
 
+- The 3,840 rows are based on only 640 independent images.
 - The images come from one public collection.
-- Only eight automotive-part categories are included.
+- Only eight automotive-part categories are included, and the final test contains 80 images.
 - The model is compact and trained from scratch.
 - Text descriptions are created using a fixed relation-generation method.
 - The additional experiment is limited to this architecture and training setup.
-- A separately collected external dataset would be needed before practical use.
+- Practical use would require more independently collected images, more categories, different brands and vehicle models, difficult user photos, and a separately collected external test set.
 
 ## 10. Sources
 

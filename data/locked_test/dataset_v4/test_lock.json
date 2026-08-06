@@ -1,0 +1,10 @@
+{
+  "created_before_training": true,
+  "dataset": "dataset_v4",
+  "locked": true,
+  "purpose": "One final evaluation after model selection; not for development or tuning.",
+  "test_images": 1388,
+  "test_relation_rows": 8328,
+  "test_relations_path": "data/locked_test/dataset_v4/test_relations.csv",
+  "test_relations_sha256": "d82fbff741849856b9f95494ed4b2e031a47ae1d12df92bf1147c8e9d3749500"
+}

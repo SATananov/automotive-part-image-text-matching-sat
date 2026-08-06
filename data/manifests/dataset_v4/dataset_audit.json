@@ -1,0 +1,480 @@
+{
+  "categories": 50,
+  "category_split_counts": {
+    "air_compressor": {
+      "test": 29,
+      "train": 137,
+      "validation": 29
+    },
+    "alternator": {
+      "test": 30,
+      "train": 140,
+      "validation": 30
+    },
+    "battery": {
+      "test": 28,
+      "train": 131,
+      "validation": 28
+    },
+    "brake_caliper": {
+      "test": 28,
+      "train": 128,
+      "validation": 28
+    },
+    "brake_pad": {
+      "test": 30,
+      "train": 138,
+      "validation": 30
+    },
+    "brake_rotor": {
+      "test": 28,
+      "train": 130,
+      "validation": 28
+    },
+    "camshaft": {
+      "test": 25,
+      "train": 116,
+      "validation": 25
+    },
+    "carburetor": {
+      "test": 30,
+      "train": 142,
+      "validation": 30
+    },
+    "clutch_plate": {
+      "test": 29,
+      "train": 133,
+      "validation": 29
+    },
+    "coil_spring": {
+      "test": 25,
+      "train": 115,
+      "validation": 25
+    },
+    "crankshaft": {
+      "test": 28,
+      "train": 134,
+      "validation": 28
+    },
+    "cylinder_head": {
+      "test": 29,
+      "train": 136,
+      "validation": 29
+    },
+    "distributor": {
+      "test": 24,
+      "train": 110,
+      "validation": 24
+    },
+    "engine_block": {
+      "test": 30,
+      "train": 138,
+      "validation": 30
+    },
+    "engine_valve": {
+      "test": 26,
+      "train": 124,
+      "validation": 26
+    },
+    "fuel_injector": {
+      "test": 30,
+      "train": 138,
+      "validation": 30
+    },
+    "fuse_box": {
+      "test": 26,
+      "train": 124,
+      "validation": 26
+    },
+    "gas_cap": {
+      "test": 29,
+      "train": 138,
+      "validation": 29
+    },
+    "headlight": {
+      "test": 25,
+      "train": 119,
+      "validation": 25
+    },
+    "idler_arm": {
+      "test": 31,
+      "train": 146,
+      "validation": 31
+    },
+    "ignition_coil": {
+      "test": 32,
+      "train": 146,
+      "validation": 32
+    },
+    "instrument_cluster": {
+      "test": 28,
+      "train": 134,
+      "validation": 28
+    },
+    "leaf_spring": {
+      "test": 18,
+      "train": 84,
+      "validation": 18
+    },
+    "lower_control_arm": {
+      "test": 27,
+      "train": 125,
+      "validation": 27
+    },
+    "muffler": {
+      "test": 24,
+      "train": 112,
+      "validation": 24
+    },
+    "oil_filter": {
+      "test": 27,
+      "train": 125,
+      "validation": 27
+    },
+    "oil_pan": {
+      "test": 30,
+      "train": 137,
+      "validation": 30
+    },
+    "oil_pressure_sensor": {
+      "test": 30,
+      "train": 137,
+      "validation": 30
+    },
+    "overflow_tank": {
+      "test": 30,
+      "train": 139,
+      "validation": 30
+    },
+    "oxygen_sensor": {
+      "test": 29,
+      "train": 134,
+      "validation": 29
+    },
+    "piston": {
+      "test": 18,
+      "train": 87,
+      "validation": 18
+    },
+    "pressure_plate": {
+      "test": 29,
+      "train": 134,
+      "validation": 29
+    },
+    "radiator": {
+      "test": 27,
+      "train": 125,
+      "validation": 27
+    },
+    "radiator_fan": {
+      "test": 26,
+      "train": 118,
+      "validation": 26
+    },
+    "radiator_hose": {
+      "test": 28,
+      "train": 129,
+      "validation": 28
+    },
+    "radio": {
+      "test": 30,
+      "train": 139,
+      "validation": 30
+    },
+    "rim": {
+      "test": 28,
+      "train": 133,
+      "validation": 28
+    },
+    "shift_knob": {
+      "test": 30,
+      "train": 139,
+      "validation": 30
+    },
+    "side_mirror": {
+      "test": 29,
+      "train": 138,
+      "validation": 29
+    },
+    "spark_plug": {
+      "test": 25,
+      "train": 115,
+      "validation": 25
+    },
+    "spoiler": {
+      "test": 29,
+      "train": 137,
+      "validation": 29
+    },
+    "starter": {
+      "test": 31,
+      "train": 143,
+      "validation": 31
+    },
+    "taillight": {
+      "test": 26,
+      "train": 119,
+      "validation": 26
+    },
+    "thermostat": {
+      "test": 29,
+      "train": 134,
+      "validation": 29
+    },
+    "torque_converter": {
+      "test": 30,
+      "train": 137,
+      "validation": 30
+    },
+    "transmission": {
+      "test": 26,
+      "train": 122,
+      "validation": 26
+    },
+    "vacuum_brake_booster": {
+      "test": 28,
+      "train": 132,
+      "validation": 28
+    },
+    "valve_lifter": {
+      "test": 28,
+      "train": 129,
+      "validation": 28
+    },
+    "water_pump": {
+      "test": 28,
+      "train": 130,
+      "validation": 28
+    },
+    "window_regulator": {
+      "test": 28,
+      "train": 133,
+      "validation": 28
+    }
+  },
+  "description_overlap": {
+    "train_test": 0,
+    "train_validation": 0,
+    "validation_test": 0
+  },
+  "extracted_image_hash_mismatches": 0,
+  "extracted_images_missing": 0,
+  "families": 12,
+  "final_test_locked_before_training": true,
+  "images": 9239,
+  "overlap": {
+    "train_test_image_group_id": 0,
+    "train_test_image_id": 0,
+    "train_test_image_path": 0,
+    "train_test_sha256": 0,
+    "train_validation_image_group_id": 0,
+    "train_validation_image_id": 0,
+    "train_validation_image_path": 0,
+    "train_validation_sha256": 0,
+    "validation_test_image_group_id": 0,
+    "validation_test_image_id": 0,
+    "validation_test_image_path": 0,
+    "validation_test_sha256": 0
+  },
+  "relation_summary": {
+    "test": {
+      "independent_images": 1388,
+      "label_counts": {
+        "MATCH": 2776,
+        "MISMATCH": 2776,
+        "PARTIAL_MATCH": 2776
+      },
+      "rows": 8328,
+      "text_category_counts": {
+        "air_compressor": 178,
+        "alternator": 170,
+        "battery": 163,
+        "brake_caliper": 175,
+        "brake_pad": 163,
+        "brake_rotor": 172,
+        "camshaft": 164,
+        "carburetor": 182,
+        "clutch_plate": 166,
+        "coil_spring": 155,
+        "crankshaft": 158,
+        "cylinder_head": 162,
+        "distributor": 170,
+        "engine_block": 166,
+        "engine_valve": 136,
+        "fuel_injector": 173,
+        "fuse_box": 162,
+        "gas_cap": 179,
+        "headlight": 167,
+        "idler_arm": 169,
+        "ignition_coil": 183,
+        "instrument_cluster": 169,
+        "leaf_spring": 153,
+        "lower_control_arm": 163,
+        "muffler": 160,
+        "oil_filter": 169,
+        "oil_pan": 174,
+        "oil_pressure_sensor": 177,
+        "overflow_tank": 169,
+        "oxygen_sensor": 171,
+        "piston": 152,
+        "pressure_plate": 166,
+        "radiator": 156,
+        "radiator_fan": 157,
+        "radiator_hose": 160,
+        "radio": 175,
+        "rim": 161,
+        "shift_knob": 172,
+        "side_mirror": 166,
+        "spark_plug": 161,
+        "spoiler": 181,
+        "starter": 183,
+        "taillight": 157,
+        "thermostat": 146,
+        "torque_converter": 185,
+        "transmission": 165,
+        "vacuum_brake_booster": 171,
+        "valve_lifter": 170,
+        "water_pump": 160,
+        "window_regulator": 166
+      },
+      "unique_descriptions": 100
+    },
+    "train": {
+      "independent_images": 6463,
+      "label_counts": {
+        "MATCH": 12926,
+        "MISMATCH": 12926,
+        "PARTIAL_MATCH": 12926
+      },
+      "rows": 38778,
+      "text_category_counts": {
+        "air_compressor": 770,
+        "alternator": 815,
+        "battery": 761,
+        "brake_caliper": 763,
+        "brake_pad": 821,
+        "brake_rotor": 773,
+        "camshaft": 708,
+        "carburetor": 794,
+        "clutch_plate": 791,
+        "coil_spring": 734,
+        "crankshaft": 756,
+        "cylinder_head": 754,
+        "distributor": 741,
+        "engine_block": 786,
+        "engine_valve": 744,
+        "fuel_injector": 772,
+        "fuse_box": 803,
+        "gas_cap": 817,
+        "headlight": 772,
+        "idler_arm": 754,
+        "ignition_coil": 796,
+        "instrument_cluster": 802,
+        "leaf_spring": 699,
+        "lower_control_arm": 736,
+        "muffler": 747,
+        "oil_filter": 818,
+        "oil_pan": 834,
+        "oil_pressure_sensor": 791,
+        "overflow_tank": 770,
+        "oxygen_sensor": 757,
+        "piston": 684,
+        "pressure_plate": 802,
+        "radiator": 749,
+        "radiator_fan": 728,
+        "radiator_hose": 756,
+        "radio": 816,
+        "rim": 781,
+        "shift_knob": 831,
+        "side_mirror": 835,
+        "spark_plug": 742,
+        "spoiler": 813,
+        "starter": 820,
+        "taillight": 754,
+        "thermostat": 794,
+        "torque_converter": 799,
+        "transmission": 772,
+        "vacuum_brake_booster": 803,
+        "valve_lifter": 749,
+        "water_pump": 759,
+        "window_regulator": 812
+      },
+      "unique_descriptions": 100
+    },
+    "validation": {
+      "independent_images": 1388,
+      "label_counts": {
+        "MATCH": 2776,
+        "MISMATCH": 2776,
+        "PARTIAL_MATCH": 2776
+      },
+      "rows": 8328,
+      "text_category_counts": {
+        "air_compressor": 167,
+        "alternator": 162,
+        "battery": 169,
+        "brake_caliper": 175,
+        "brake_pad": 171,
+        "brake_rotor": 172,
+        "camshaft": 154,
+        "carburetor": 173,
+        "clutch_plate": 184,
+        "coil_spring": 147,
+        "crankshaft": 165,
+        "cylinder_head": 175,
+        "distributor": 169,
+        "engine_block": 170,
+        "engine_valve": 164,
+        "fuel_injector": 170,
+        "fuse_box": 169,
+        "gas_cap": 167,
+        "headlight": 147,
+        "idler_arm": 165,
+        "ignition_coil": 171,
+        "instrument_cluster": 169,
+        "leaf_spring": 141,
+        "lower_control_arm": 159,
+        "muffler": 165,
+        "oil_filter": 169,
+        "oil_pan": 177,
+        "oil_pressure_sensor": 174,
+        "overflow_tank": 172,
+        "oxygen_sensor": 171,
+        "piston": 140,
+        "pressure_plate": 178,
+        "radiator": 150,
+        "radiator_fan": 170,
+        "radiator_hose": 170,
+        "radio": 171,
+        "rim": 158,
+        "shift_knob": 170,
+        "side_mirror": 176,
+        "spark_plug": 163,
+        "spoiler": 172,
+        "starter": 173,
+        "taillight": 167,
+        "thermostat": 173,
+        "torque_converter": 173,
+        "transmission": 170,
+        "vacuum_brake_booster": 163,
+        "valve_lifter": 172,
+        "water_pump": 150,
+        "window_regulator": 166
+      },
+      "unique_descriptions": 100
+    }
+  },
+  "seed": 44,
+  "split_images": {
+    "test": 1388,
+    "train": 6463,
+    "validation": 1388
+  },
+  "split_policy": {
+    "test_fraction": 0.15,
+    "train": "remainder after rounded 15% validation and rounded 15% test per category",
+    "validation_fraction": 0.15
+  },
+  "status": "PASS_DATASET_V4_BUILT",
+  "unique_sha256": 9239
+}

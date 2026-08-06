@@ -1,0 +1,51 @@
+part_category,display_name,part_family
+air_compressor,air compressor,cooling_and_climate
+alternator,alternator,electrical_starting_charging
+battery,battery,electrical_starting_charging
+brake_caliper,brake caliper,braking
+brake_pad,brake pad,braking
+brake_rotor,brake rotor,braking
+camshaft,camshaft,engine_internal
+carburetor,carburetor,ignition_and_fuel
+clutch_plate,clutch plate,drivetrain
+coil_spring,coil spring,suspension_steering_wheels
+crankshaft,crankshaft,engine_internal
+cylinder_head,cylinder head,engine_internal
+distributor,distributor,ignition_and_fuel
+engine_block,engine block,engine_internal
+engine_valve,engine valve,engine_internal
+fuel_injector,fuel injector,ignition_and_fuel
+fuse_box,fuse box,electrical_starting_charging
+gas_cap,gas cap,body_and_exterior
+headlight,headlight,lighting
+idler_arm,idler arm,suspension_steering_wheels
+ignition_coil,ignition coil,ignition_and_fuel
+instrument_cluster,instrument cluster,interior_controls
+leaf_spring,leaf spring,suspension_steering_wheels
+lower_control_arm,lower control arm,suspension_steering_wheels
+muffler,muffler,exhaust_and_emissions
+oil_filter,oil filter,engine_lubrication
+oil_pan,oil pan,engine_lubrication
+oil_pressure_sensor,oil pressure sensor,engine_lubrication
+overflow_tank,overflow tank,cooling_and_climate
+oxygen_sensor,oxygen sensor,exhaust_and_emissions
+piston,piston,engine_internal
+pressure_plate,pressure plate,drivetrain
+radiator,radiator,cooling_and_climate
+radiator_fan,radiator fan,cooling_and_climate
+radiator_hose,radiator hose,cooling_and_climate
+radio,radio,interior_controls
+rim,rim,suspension_steering_wheels
+shift_knob,shift knob,interior_controls
+side_mirror,side mirror,body_and_exterior
+spark_plug,spark plug,ignition_and_fuel
+spoiler,spoiler,body_and_exterior
+starter,starter,electrical_starting_charging
+taillight,taillight,lighting
+thermostat,thermostat,cooling_and_climate
+torque_converter,torque converter,drivetrain
+transmission,transmission,drivetrain
+vacuum_brake_booster,vacuum brake booster,braking
+valve_lifter,valve lifter,engine_internal
+water_pump,water pump,cooling_and_climate
+window_regulator,window regulator,body_and_exterior

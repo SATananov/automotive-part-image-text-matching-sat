@@ -376,60 +376,174 @@ def description(split: str, category: str, template_index: int) -> str:
     return TEMPLATES[split][template_index].format(name=DISPLAY_NAMES[category])
 
 
+def _balanced_source_units(
+    selected: pd.DataFrame,
+    category_quotas: dict[str, int],
+) -> dict[str, list[object]]:
+    """Repeat every image fairly so each category reaches its relation quota."""
+    units: dict[str, list[object]] = {}
+    for category in sorted(category_quotas):
+        images = list(
+            selected.loc[selected["part_category"].eq(category)]
+            .sort_values(["sha256", "image_id"])
+            .itertuples(index=False)
+        )
+        if not images:
+            raise ValueError(f"No images found for category {category}")
+        quota = category_quotas[category]
+        units[category] = [images[index % len(images)] for index in range(quota)]
+    return units
+
+
+def _relation_category_quotas(selected: pd.DataFrame) -> dict[str, int]:
+    """Create even, family-balanced margins for every text category and label.
+
+    Categories in the same functional family receive the same quota. This makes
+    exact PARTIAL_MATCH balancing possible even in two-category families whose
+    source image counts are different. The quota is twice the largest image
+    count in the family, preserving roughly two rows per image and label.
+    """
+    image_counts = selected["part_category"].value_counts().to_dict()
+    family_members: defaultdict[str, list[str]] = defaultdict(list)
+    for category, family in FAMILIES.items():
+        family_members[family].append(category)
+
+    quotas: dict[str, int] = {}
+    for family, categories in sorted(family_members.items()):
+        missing = sorted(category for category in categories if category not in image_counts)
+        if missing:
+            raise ValueError(f"Missing categories in family {family}: {missing}")
+        quota = 2 * max(int(image_counts[category]) for category in categories)
+        if quota % 2:
+            quota += 1
+        for category in categories:
+            quotas[category] = quota
+    return quotas
+
+
+def _mismatch_targets(category_quotas: dict[str, int]) -> list[str]:
+    """Return a category multiset permutation with no same-family assignments."""
+    family_members: defaultdict[str, list[str]] = defaultdict(list)
+    for category, family in FAMILIES.items():
+        family_members[family].append(category)
+
+    family_totals = {
+        family: sum(category_quotas[category] for category in categories)
+        for family, categories in family_members.items()
+    }
+    ordered_families = sorted(family_members, key=lambda family: (-family_totals[family], family))
+    targets: list[str] = []
+    target_families: list[str] = []
+    for family in ordered_families:
+        for category in sorted(family_members[family]):
+            targets.extend([category] * category_quotas[category])
+            target_families.extend([family] * category_quotas[category])
+
+    largest_family = family_totals[ordered_families[0]]
+    total = len(targets)
+    if largest_family > total - largest_family:
+        raise ValueError("A functional family is too large for balanced mismatch pairing")
+
+    rotated = targets[largest_family:] + targets[:largest_family]
+    rotated_families = target_families[largest_family:] + target_families[:largest_family]
+    if any(left == right for left, right in zip(target_families, rotated_families, strict=True)):
+        raise ValueError("Unable to construct balanced cross-family mismatch targets")
+    return rotated
+
+
 def relation_rows_for_split(manifest: pd.DataFrame, split: str) -> pd.DataFrame:
+    """Build balanced relation rows for one split.
+
+    The construction balances both single-input sides:
+    - every image receives the same number of rows for each relation label;
+    - every text category receives the same number of rows for each label;
+    - both exact text templates are equally represented for each category/label.
+    """
     selected = manifest.loc[manifest["split"].eq(split)].copy()
-    categories = sorted(FAMILIES)
+    quotas = _relation_category_quotas(selected)
+    source_units = _balanced_source_units(selected, quotas)
+
     family_members: defaultdict[str, list[str]] = defaultdict(list)
     for category, family in FAMILIES.items():
         family_members[family].append(category)
     for family in family_members:
         family_members[family].sort()
 
-    rows: list[dict[str, object]] = []
-    for index, image in enumerate(selected.itertuples(index=False), start=0):
-        image_category = str(image.part_category)
-        image_family = FAMILIES[image_category]
-        partial_candidates = [
-            candidate for candidate in family_members[image_family] if candidate != image_category
-        ]
-        mismatch_candidates = [
-            candidate for candidate in categories if FAMILIES[candidate] != image_family
-        ]
-        if not partial_candidates or not mismatch_candidates:
-            raise ValueError(f"Insufficient relation candidates for {image_category}")
+    family_totals = {
+        family: sum(quotas[category] for category in categories)
+        for family, categories in family_members.items()
+    }
+    ordered_family_names = sorted(
+        family_members, key=lambda family: (-family_totals[family], family)
+    )
+    ordered_categories: list[str] = []
+    ordered_images: list[object] = []
+    for family in ordered_family_names:
+        for category in family_members[family]:
+            ordered_categories.extend([category] * quotas[category])
+            ordered_images.extend(source_units[category])
 
-        digest_offset = int(str(image.sha256)[:12], 16)
-        choices = {
-            "MATCH": [image_category, image_category],
-            "PARTIAL_MATCH": [
-                partial_candidates[(index * 2 + offset) % len(partial_candidates)]
-                for offset in range(2)
-            ],
-            "MISMATCH": [
-                mismatch_candidates[(digest_offset + index + offset * 17) % len(mismatch_candidates)]
-                for offset in range(2)
-            ],
+    partial_mapping: dict[str, str] = {}
+    for family, categories in family_members.items():
+        for index, category in enumerate(categories):
+            partial_mapping[category] = categories[(index + 1) % len(categories)]
+
+    targets_by_label = {
+        "MATCH": list(ordered_categories),
+        "PARTIAL_MATCH": [partial_mapping[category] for category in ordered_categories],
+        "MISMATCH": _mismatch_targets(quotas),
+    }
+
+    rows: list[dict[str, object]] = []
+    template_counters: Counter[tuple[str, str]] = Counter()
+    image_label_counters: Counter[tuple[str, str]] = Counter()
+    for label in ("MATCH", "PARTIAL_MATCH", "MISMATCH"):
+        for source_category, image, text_category in zip(
+            ordered_categories,
+            ordered_images,
+            targets_by_label[label],
+            strict=True,
+        ):
+            image_family = FAMILIES[source_category]
+            text_family = FAMILIES[text_category]
+            template_key = (label, text_category)
+            template_index = template_counters[template_key] % 2
+            template_counters[template_key] += 1
+            image_key = (str(image.image_id), label)
+            image_label_counters[image_key] += 1
+            occurrence = image_label_counters[image_key]
+            sample_id = f"{image.image_id}_{label.lower()}_{occurrence:02d}"
+            rows.append(
+                {
+                    "sample_id": sample_id,
+                    "image_id": image.image_id,
+                    "part_group_id": image.image_group_id,
+                    "object_group_id": image.image_group_id,
+                    "image_path": image.image_path,
+                    "part_family": image_family,
+                    "part_category": source_category,
+                    "text_category": text_category,
+                    "text_family": text_family,
+                    "description": description(split, text_category, template_index),
+                    "label": label,
+                    "source": "dataset_v4_final_test" if split == "test" else "dataset_v4",
+                }
+            )
+
+    table = pd.DataFrame(rows)
+    expected_text_counts = pd.DataFrame(
+        {
+            label: pd.Series(quotas)
+            for label in ("MATCH", "PARTIAL_MATCH", "MISMATCH")
         }
-        for label in ("MATCH", "PARTIAL_MATCH", "MISMATCH"):
-            for template_index, text_category in enumerate(choices[label]):
-                sample_id = f"{image.image_id}_{label.lower()}_{template_index + 1}"
-                rows.append(
-                    {
-                        "sample_id": sample_id,
-                        "image_id": image.image_id,
-                        "part_group_id": image.image_group_id,
-                        "object_group_id": image.image_group_id,
-                        "image_path": image.image_path,
-                        "part_family": image_family,
-                        "part_category": image_category,
-                        "text_category": text_category,
-                        "text_family": FAMILIES[text_category],
-                        "description": description(split, text_category, template_index),
-                        "label": label,
-                        "source": "dataset_v4_final_test" if split == "test" else "dataset_v4",
-                    }
-                )
-    return pd.DataFrame(rows)
+    ).sort_index()
+    actual_text_counts = (
+        table.groupby(["text_category", "label"]).size().unstack(fill_value=0)
+        .reindex(index=expected_text_counts.index, columns=expected_text_counts.columns, fill_value=0)
+    )
+    if not actual_text_counts.equals(expected_text_counts):
+        raise ValueError(f"Text-category margins are not balanced in {split}")
+    return table
 
 
 def validate_generated(project_root: Path, manifest: pd.DataFrame, relations: dict[str, pd.DataFrame]) -> dict[str, object]:
@@ -463,15 +577,14 @@ def validate_generated(project_root: Path, manifest: pd.DataFrame, relations: di
     relation_summary: dict[str, object] = {}
     descriptions: dict[str, set[str]] = {}
     for split, table in relations.items():
-        expected_rows = expected_split_counts[split] * 6
-        if len(table) != expected_rows:
-            raise ValueError(f"Unexpected {split} relation count: {len(table)}")
+        if len(table) % 3:
+            raise ValueError(f"Relation rows are not divisible by three in {split}")
         if table["sample_id"].duplicated().any():
             raise ValueError(f"Duplicate sample IDs in {split}")
         if table["image_id"].nunique() != expected_split_counts[split]:
             raise ValueError(f"Unexpected independent image count in {split}")
         label_counts = table["label"].value_counts().to_dict()
-        expected_per_label = expected_split_counts[split] * 2
+        expected_per_label = len(table) // 3
         if label_counts != {
             "MATCH": expected_per_label,
             "PARTIAL_MATCH": expected_per_label,
@@ -480,8 +593,23 @@ def validate_generated(project_root: Path, manifest: pd.DataFrame, relations: di
             raise ValueError(f"Unbalanced labels in {split}: {label_counts}")
 
         per_image = table.groupby(["image_id", "label"]).size().unstack(fill_value=0)
-        if not (per_image[["MATCH", "PARTIAL_MATCH", "MISMATCH"]] == 2).all().all():
-            raise ValueError(f"Each {split} image must have two rows per label")
+        per_image = per_image.reindex(columns=["MATCH", "PARTIAL_MATCH", "MISMATCH"], fill_value=0)
+        if not per_image.nunique(axis=1).eq(1).all() or not per_image.min(axis=1).ge(1).all():
+            raise ValueError(f"Image-side relation labels are not balanced in {split}")
+
+        per_text_category = table.groupby(["text_category", "label"]).size().unstack(fill_value=0)
+        per_text_category = per_text_category.reindex(
+            columns=["MATCH", "PARTIAL_MATCH", "MISMATCH"], fill_value=0
+        )
+        if not per_text_category.nunique(axis=1).eq(1).all():
+            raise ValueError(f"Text-category relation labels are not balanced in {split}")
+
+        per_description = table.groupby(["description", "label"]).size().unstack(fill_value=0)
+        per_description = per_description.reindex(
+            columns=["MATCH", "PARTIAL_MATCH", "MISMATCH"], fill_value=0
+        )
+        if not per_description.nunique(axis=1).eq(1).all():
+            raise ValueError(f"Exact descriptions are not label-balanced in {split}")
 
         match = table[table["label"].eq("MATCH")]
         partial = table[table["label"].eq("PARTIAL_MATCH")]
@@ -502,6 +630,9 @@ def validate_generated(project_root: Path, manifest: pd.DataFrame, relations: di
             "independent_images": int(table["image_id"].nunique()),
             "label_counts": label_counts,
             "unique_descriptions": int(table["description"].nunique()),
+            "image_label_balance": True,
+            "text_category_label_balance": True,
+            "exact_description_label_balance": True,
             "text_category_counts": {
                 key: int(value)
                 for key, value in table["text_category"].value_counts().sort_index().items()
@@ -629,9 +760,41 @@ def build(archive_path: Path, project_root: Path) -> dict[str, object]:
     return {"source": source_audit, "dataset_v4": generated_audit}
 
 
+
+def rebuild_relations(project_root: Path) -> dict[str, object]:
+    """Regenerate only relation tables and lock metadata from the existing manifest."""
+    manifest_path = project_root / "data" / "manifests" / "dataset_v4" / "images.csv"
+    source_audit_path = project_root / "evidence" / "dataset_v4" / "source_archive_audit.json"
+    if not manifest_path.is_file() or not source_audit_path.is_file():
+        raise FileNotFoundError("Dataset V4 foundation is missing; run the full build first")
+    manifest = pd.read_csv(manifest_path)
+    source_audit = json.loads(source_audit_path.read_text(encoding="utf-8"))
+    relations = {
+        split: relation_rows_for_split(manifest, split)
+        for split in ("train", "validation", "test")
+    }
+    relation_dir = project_root / "data" / "relations" / "dataset_v4"
+    relation_dir.mkdir(parents=True, exist_ok=True)
+    relations["train"].to_csv(relation_dir / "train.csv", index=False, lineterminator="\n")
+    relations["validation"].to_csv(
+        relation_dir / "validation.csv", index=False, lineterminator="\n"
+    )
+    test_dir = project_root / "data" / "locked_test" / "dataset_v4"
+    test_dir.mkdir(parents=True, exist_ok=True)
+    relations["test"].to_csv(test_dir / "test_relations.csv", index=False, lineterminator="\n")
+    generated_audit = validate_generated(project_root, manifest, relations)
+    write_metadata(project_root, source_audit, generated_audit)
+    return generated_audit
+
+
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build the 50-category Dataset V4 safely.")
-    parser.add_argument("--archive", required=True, type=Path, help="Original Kaggle ZIP")
+    parser = argparse.ArgumentParser(description="Build or rebalance Dataset V4 safely.")
+    parser.add_argument("--archive", type=Path, help="Original Kaggle ZIP for a full build")
+    parser.add_argument(
+        "--relations-only",
+        action="store_true",
+        help="Rebuild balanced relation tables from the existing Dataset V4 manifest",
+    )
     parser.add_argument(
         "--project-root",
         type=Path,
@@ -643,9 +806,17 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    result = build(args.archive.resolve(), args.project_root.resolve())
-    summary = result["dataset_v4"]
-    print("PASS_DATASET_V4_BUILT")
+    project_root = args.project_root.resolve()
+    if args.relations_only:
+        summary = rebuild_relations(project_root)
+        status = "PASS_DATASET_V4_RELATIONS_REBALANCED"
+    else:
+        if args.archive is None:
+            raise SystemExit("--archive is required unless --relations-only is used")
+        result = build(args.archive.resolve(), project_root)
+        summary = result["dataset_v4"]
+        status = "PASS_DATASET_V4_BUILT"
+    print(status)
     print(f"Images:      {summary['images']}")
     print(f"Categories:  {summary['categories']}")
     print(f"Families:    {summary['families']}")
@@ -656,6 +827,9 @@ def main() -> None:
         "Relation rows:",
         {split: data["rows"] for split, data in summary["relation_summary"].items()},
     )
+    print("Image-side balance:       PASS")
+    print("Text-category balance:    PASS")
+    print("Exact-description balance: PASS")
 
 
 if __name__ == "__main__":

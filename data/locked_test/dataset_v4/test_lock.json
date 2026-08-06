@@ -4,7 +4,7 @@
   "locked": true,
   "purpose": "One final evaluation after model selection; not for development or tuning.",
   "test_images": 1388,
-  "test_relation_rows": 8328,
+  "test_relation_rows": 9030,
   "test_relations_path": "data/locked_test/dataset_v4/test_relations.csv",
-  "test_relations_sha256": "d82fbff741849856b9f95494ed4b2e031a47ae1d12df92bf1147c8e9d3749500"
+  "test_relations_sha256": "79bae874c5b365200e7562b1a3a1d8ee28e8ea3fccfab86d4034b89332260ef2"
 }

@@ -1,0 +1,40 @@
+{
+  "auxiliary_weight": 0.15,
+  "batch_size": 256,
+  "classifier_file": "dataset_v4_deployment_classifier.pt",
+  "classifier_sha256": "275aeaf0383074de818fcac5d9e2e6eda4fab4b91c20d48837cea2321785dd85",
+  "configuration_source": "Frozen Dataset V4 validation selection",
+  "development_independent_images": 7851,
+  "development_relation_rows": 50772,
+  "epochs": 7,
+  "image_features": 512,
+  "labels": [
+    "MATCH",
+    "MISMATCH",
+    "PARTIAL_MATCH"
+  ],
+  "learning_rate": 0.001,
+  "locked_final_test_relations_loaded": false,
+  "new_final_test_inference_performed": false,
+  "post_test_tuning_performed": false,
+  "pretrained_resnet18": true,
+  "purpose": "Practical application demonstration. Not new benchmark evidence.",
+  "seed": 47,
+  "selected_model": "multimodal_auxiliary",
+  "status": "PASS_DATASET_V4_DEPLOYMENT_BUNDLE_CREATED",
+  "text_features": 230,
+  "text_max_features": 512,
+  "tfidf_file": "dataset_v4_deployment_tfidf.pkl",
+  "tfidf_sha256": "81de88674461010d94a264b76f7cb66ca181da9431f0c2812fcdbd0caf309049",
+  "training_data": "Dataset V4 train + validation only",
+  "training_losses": [
+    1.597436124115964,
+    0.5710503424861268,
+    0.26231118360821787,
+    0.18330164892232267,
+    0.1402935868544865,
+    0.11394406805564952,
+    0.09360242398398655
+  ],
+  "validation_summary_sha256": "41e88e8ac40f03c38229f52bc13a893bc0cb0a414b6b2087890c655d8ca55cd4"
+}

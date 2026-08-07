@@ -1,0 +1,433 @@
+{
+  "audit_scope": "diagnostic only; no model training and no new final-test inference",
+  "category_metrics": {
+    "air_compressor": {
+      "accuracy": 0.9555555555555556,
+      "independent_images": 29,
+      "macro_f1": 0.9553641443610879,
+      "rows": 180
+    },
+    "alternator": {
+      "accuracy": 0.8924731182795699,
+      "independent_images": 30,
+      "macro_f1": 0.8904565491630169,
+      "rows": 186
+    },
+    "battery": {
+      "accuracy": 1.0,
+      "independent_images": 28,
+      "macro_f1": 1.0,
+      "rows": 186
+    },
+    "brake_caliper": {
+      "accuracy": 0.9666666666666667,
+      "independent_images": 28,
+      "macro_f1": 0.9668457287518137,
+      "rows": 180
+    },
+    "brake_pad": {
+      "accuracy": 0.9611111111111111,
+      "independent_images": 30,
+      "macro_f1": 0.9604682629755216,
+      "rows": 180
+    },
+    "brake_rotor": {
+      "accuracy": 0.9333333333333333,
+      "independent_images": 28,
+      "macro_f1": 0.9330357142857143,
+      "rows": 180
+    },
+    "camshaft": {
+      "accuracy": 0.9111111111111111,
+      "independent_images": 25,
+      "macro_f1": 0.9108337989693922,
+      "rows": 180
+    },
+    "carburetor": {
+      "accuracy": 0.984375,
+      "independent_images": 30,
+      "macro_f1": 0.9843664122137404,
+      "rows": 192
+    },
+    "clutch_plate": {
+      "accuracy": 1.0,
+      "independent_images": 29,
+      "macro_f1": 1.0,
+      "rows": 180
+    },
+    "coil_spring": {
+      "accuracy": 1.0,
+      "independent_images": 25,
+      "macro_f1": 1.0,
+      "rows": 186
+    },
+    "crankshaft": {
+      "accuracy": 0.9777777777777777,
+      "independent_images": 28,
+      "macro_f1": 0.9777746905004477,
+      "rows": 180
+    },
+    "cylinder_head": {
+      "accuracy": 0.9666666666666667,
+      "independent_images": 29,
+      "macro_f1": 0.9665831244778613,
+      "rows": 180
+    },
+    "distributor": {
+      "accuracy": 0.9270833333333334,
+      "independent_images": 24,
+      "macro_f1": 0.9264069264069263,
+      "rows": 192
+    },
+    "engine_block": {
+      "accuracy": 0.9888888888888889,
+      "independent_images": 30,
+      "macro_f1": 0.9888858016115588,
+      "rows": 180
+    },
+    "engine_valve": {
+      "accuracy": 0.9833333333333333,
+      "independent_images": 26,
+      "macro_f1": 0.9833321758455448,
+      "rows": 180
+    },
+    "fuel_injector": {
+      "accuracy": 0.8854166666666666,
+      "independent_images": 30,
+      "macro_f1": 0.8835978835978837,
+      "rows": 192
+    },
+    "fuse_box": {
+      "accuracy": 1.0,
+      "independent_images": 26,
+      "macro_f1": 1.0,
+      "rows": 186
+    },
+    "gas_cap": {
+      "accuracy": 0.7988505747126436,
+      "independent_images": 29,
+      "macro_f1": 0.789468634787495,
+      "rows": 174
+    },
+    "headlight": {
+      "accuracy": 1.0,
+      "independent_images": 25,
+      "macro_f1": 1.0,
+      "rows": 156
+    },
+    "idler_arm": {
+      "accuracy": 0.978494623655914,
+      "independent_images": 31,
+      "macro_f1": 0.9784918256626348,
+      "rows": 186
+    },
+    "ignition_coil": {
+      "accuracy": 0.9583333333333334,
+      "independent_images": 32,
+      "macro_f1": 0.958707708948789,
+      "rows": 192
+    },
+    "instrument_cluster": {
+      "accuracy": 0.9888888888888889,
+      "independent_images": 28,
+      "macro_f1": 0.9888858016115588,
+      "rows": 180
+    },
+    "leaf_spring": {
+      "accuracy": 0.8225806451612904,
+      "independent_images": 18,
+      "macro_f1": 0.8261003887328204,
+      "rows": 186
+    },
+    "lower_control_arm": {
+      "accuracy": 0.9516129032258065,
+      "independent_images": 27,
+      "macro_f1": 0.9511262072633078,
+      "rows": 186
+    },
+    "muffler": {
+      "accuracy": 0.9655172413793104,
+      "independent_images": 24,
+      "macro_f1": 0.9655057018229934,
+      "rows": 174
+    },
+    "oil_filter": {
+      "accuracy": 0.9722222222222222,
+      "independent_images": 27,
+      "macro_f1": 0.9719126842016816,
+      "rows": 180
+    },
+    "oil_pan": {
+      "accuracy": 0.9888888888888889,
+      "independent_images": 30,
+      "macro_f1": 0.9888858016115588,
+      "rows": 180
+    },
+    "oil_pressure_sensor": {
+      "accuracy": 0.9666666666666667,
+      "independent_images": 30,
+      "macro_f1": 0.966647823629169,
+      "rows": 180
+    },
+    "overflow_tank": {
+      "accuracy": 0.9555555555555556,
+      "independent_images": 30,
+      "macro_f1": 0.9548529794431433,
+      "rows": 180
+    },
+    "oxygen_sensor": {
+      "accuracy": 0.9137931034482759,
+      "independent_images": 29,
+      "macro_f1": 0.9140751658069269,
+      "rows": 174
+    },
+    "piston": {
+      "accuracy": 0.9222222222222223,
+      "independent_images": 18,
+      "macro_f1": 0.9221109221109222,
+      "rows": 180
+    },
+    "pressure_plate": {
+      "accuracy": 0.9888888888888889,
+      "independent_images": 29,
+      "macro_f1": 0.9888858016115588,
+      "rows": 180
+    },
+    "radiator": {
+      "accuracy": 1.0,
+      "independent_images": 27,
+      "macro_f1": 1.0,
+      "rows": 180
+    },
+    "radiator_fan": {
+      "accuracy": 0.9833333333333333,
+      "independent_images": 26,
+      "macro_f1": 0.9833229101521784,
+      "rows": 180
+    },
+    "radiator_hose": {
+      "accuracy": 0.9444444444444444,
+      "independent_images": 28,
+      "macro_f1": 0.9446736544751709,
+      "rows": 180
+    },
+    "radio": {
+      "accuracy": 0.9722222222222222,
+      "independent_images": 30,
+      "macro_f1": 0.9722144058954788,
+      "rows": 180
+    },
+    "rim": {
+      "accuracy": 0.9193548387096774,
+      "independent_images": 28,
+      "macro_f1": 0.9182103663826852,
+      "rows": 186
+    },
+    "shift_knob": {
+      "accuracy": 0.9666666666666667,
+      "independent_images": 30,
+      "macro_f1": 0.966475255472199,
+      "rows": 180
+    },
+    "side_mirror": {
+      "accuracy": 0.9080459770114943,
+      "independent_images": 29,
+      "macro_f1": 0.9096603096603096,
+      "rows": 174
+    },
+    "spark_plug": {
+      "accuracy": 0.9791666666666666,
+      "independent_images": 25,
+      "macro_f1": 0.9791463017269469,
+      "rows": 192
+    },
+    "spoiler": {
+      "accuracy": 0.9482758620689655,
+      "independent_images": 29,
+      "macro_f1": 0.94796261682243,
+      "rows": 174
+    },
+    "starter": {
+      "accuracy": 0.967741935483871,
+      "independent_images": 31,
+      "macro_f1": 0.9677335415040332,
+      "rows": 186
+    },
+    "taillight": {
+      "accuracy": 0.9487179487179487,
+      "independent_images": 26,
+      "macro_f1": 0.9487179487179488,
+      "rows": 156
+    },
+    "thermostat": {
+      "accuracy": 1.0,
+      "independent_images": 29,
+      "macro_f1": 1.0,
+      "rows": 180
+    },
+    "torque_converter": {
+      "accuracy": 1.0,
+      "independent_images": 30,
+      "macro_f1": 1.0,
+      "rows": 180
+    },
+    "transmission": {
+      "accuracy": 0.8611111111111112,
+      "independent_images": 26,
+      "macro_f1": 0.8579175768166594,
+      "rows": 180
+    },
+    "vacuum_brake_booster": {
+      "accuracy": 0.8944444444444445,
+      "independent_images": 28,
+      "macro_f1": 0.8957053400462808,
+      "rows": 180
+    },
+    "valve_lifter": {
+      "accuracy": 1.0,
+      "independent_images": 28,
+      "macro_f1": 1.0,
+      "rows": 180
+    },
+    "water_pump": {
+      "accuracy": 0.9388888888888889,
+      "independent_images": 28,
+      "macro_f1": 0.9391078275146073,
+      "rows": 180
+    },
+    "window_regulator": {
+      "accuracy": 0.9655172413793104,
+      "independent_images": 28,
+      "macro_f1": 0.9650573531929464,
+      "rows": 174
+    }
+  },
+  "code_leakage_checks": {
+    "expected_validation_summary_sha256": "3e7bd14a0aecee3a574fe9e51a22a01d956bf3be10a7260e872dd61598118769",
+    "final_test_image_category_targets_are_dummy_zero": true,
+    "final_test_text_category_targets_are_dummy_zero": true,
+    "model_forward_inputs": [
+      "image",
+      "text"
+    ],
+    "model_receives_only_image_and_text": true,
+    "tfidf_fit_on_development_only": true
+  },
+  "description_overlap": {
+    "train_test": 0,
+    "train_validation": 0,
+    "validation_test": 0
+  },
+  "exact_split_overlap": {
+    "train_test_image_group_id": 0,
+    "train_test_image_id": 0,
+    "train_test_image_path": 0,
+    "train_test_sha256": 0,
+    "train_validation_image_group_id": 0,
+    "train_validation_image_id": 0,
+    "train_validation_image_path": 0,
+    "train_validation_sha256": 0,
+    "validation_test_image_group_id": 0,
+    "validation_test_image_id": 0,
+    "validation_test_image_path": 0,
+    "validation_test_sha256": 0
+  },
+  "frozen_result": {
+    "metrics_recomputed": {
+      "accuracy": 0.9540420819490587,
+      "independent_images": 1388,
+      "macro_f1": 0.9540841368243022,
+      "rows": 9030
+    },
+    "post_test_tuning_allowed": false,
+    "predictions_sha256": "587a607c9364c73e0bb9aee282ba950b6e0a604db57e0e5d0c88b5a719bbacd0",
+    "stored_status": "PASS_DATASET_V4_FINAL_TEST_EVALUATED",
+    "summary_sha256": "53bfc8985321156712edae1e91a6c026ab273ed24d2d91ffe145de7a67252883"
+  },
+  "image_level_metrics": {
+    "equal_weight_mean_relation_accuracy": 0.9556115914185078,
+    "independent_images": 1388,
+    "median_relation_accuracy": 1.0,
+    "minimum_relation_accuracy": 0.0,
+    "perfect_image_fraction": 0.8695965417867435,
+    "perfect_images": 1207,
+    "relations_per_image_max": 12,
+    "relations_per_image_median": 6.0,
+    "relations_per_image_min": 6
+  },
+  "interpretation": {
+    "deployment_claim": "The result is an evaluation on this constructed benchmark, not evidence of production readiness.",
+    "high_accuracy_is_not_proof_of_leakage": true,
+    "near_duplicate_candidates_make_random_image_level_split_less_independent": true,
+    "task_is_structured": "Text explicitly names a part category; the relation target depends on category/family agreement."
+  },
+  "near_duplicate_screen": {
+    "candidate_csv": "results/dataset_v4/step04_sanity_near_duplicate_candidates.csv",
+    "candidate_pairs_total": 93,
+    "method": "64-bit pHash + 64-bit dHash within the same category; candidates require visual review",
+    "sensitivity": {
+      "screen": {
+        "flagged_test_image_fraction": 0.026657060518731988,
+        "flagged_test_images": 37,
+        "metrics_after_excluding_flagged_images": {
+          "accuracy": 0.953551912568306,
+          "independent_images": 1351,
+          "macro_f1": 0.953594492512139,
+          "rows": 8784
+        }
+      },
+      "strict": {
+        "flagged_test_image_fraction": 0.01585014409221902,
+        "flagged_test_images": 22,
+        "metrics_after_excluding_flagged_images": {
+          "accuracy": 0.9538444219295283,
+          "independent_images": 1366,
+          "macro_f1": 0.9538842315776194,
+          "rows": 8883
+        }
+      },
+      "very_strict": {
+        "flagged_test_image_fraction": 0.010086455331412104,
+        "flagged_test_images": 14,
+        "metrics_after_excluding_flagged_images": {
+          "accuracy": 0.9539149888143177,
+          "independent_images": 1374,
+          "macro_f1": 0.9539553557250202,
+          "rows": 8940
+        }
+      }
+    },
+    "severity_pair_counts": {
+      "screen": 43,
+      "strict": 21,
+      "very_strict": 29
+    },
+    "unique_final_test_images_flagged_cumulative": {
+      "screen": 37,
+      "strict": 22,
+      "very_strict": 14
+    }
+  },
+  "prediction_file_vs_locked_relations": {
+    "same_number_of_rows": true,
+    "same_sample_ids_and_ground_truth_columns": true
+  },
+  "source_original_split_vs_v4_split": {
+    "test": {
+      "test": 25,
+      "train": 179,
+      "validation": 46
+    },
+    "train": {
+      "test": 1326,
+      "train": 6113,
+      "validation": 1300
+    },
+    "valid": {
+      "test": 37,
+      "train": 171,
+      "validation": 42
+    }
+  },
+  "status": "PASS_WITH_NEAR_DUPLICATE_WARNING"
+}

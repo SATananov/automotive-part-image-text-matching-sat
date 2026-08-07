@@ -28,11 +28,23 @@ The validation result used for selection is stored in:
 results/dataset_v4/step03_validation_summary.json
 ```
 
-The frozen validation-summary SHA-256 recorded by the final-test code is:
+The original one-time final-test run recorded the validation summary with
+Windows CRLF line endings. Its historical byte SHA-256, preserved in the
+Step 04 final summary, is:
 
 ```text
 3e7bd14a0aecee3a574fe9e51a22a01d956bf3be10a7260e872dd61598118769
 ```
+
+Git normalizes tracked text to LF through `.gitattributes`. Therefore the same
+frozen JSON content in a clean clone has the repository-canonical SHA-256:
+
+```text
+41e88e8ac40f03c38229f52bc13a893bc0cb0a414b6b2087890c655d8ca55cd4
+```
+
+The safe `--check-only` verifier uses the repository-canonical LF hash. The
+historical Step 04 result is intentionally left unchanged.
 
 Selected model:
 

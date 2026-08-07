@@ -31,3 +31,12 @@ def test_final_text_vectorizer_fits_only_development_text() -> None:
     assert development_text.shape == (2, dimension)
     assert final_text.shape == (1, dimension)
     assert dimension > 0
+
+def test_clean_clone_validation_hash_and_check_only(capsys: pytest.CaptureFixture[str]) -> None:
+    actual_hash = final_runner.file_sha256(final_runner.VALIDATION_SUMMARY)
+    assert actual_hash == final_runner.EXPECTED_VALIDATION_SHA256
+    assert actual_hash == "41e88e8ac40f03c38229f52bc13a893bc0cb0a414b6b2087890c655d8ca55cd4"
+
+    final_runner.check_only()
+    output = capsys.readouterr().out
+    assert "PASS_DATASET_V4_FINAL_TEST_POLICY_CHECK" in output

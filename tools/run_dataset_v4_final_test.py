@@ -32,7 +32,9 @@ FINAL_PREDICTIONS = RESULT_DIR / "step04_final_test_predictions.csv"
 TEST_LOCK = PROJECT_ROOT / "data" / "locked_test" / "dataset_v4" / "test_lock.json"
 TEST_RELATIONS = PROJECT_ROOT / "data" / "locked_test" / "dataset_v4" / "test_relations.csv"
 CACHE_DIR = PROJECT_ROOT / ".cache" / "dataset_v4"
-EXPECTED_VALIDATION_SHA256 = "3e7bd14a0aecee3a574fe9e51a22a01d956bf3be10a7260e872dd61598118769"
+# Git stores tracked text with LF line endings. The historical one-time final-test
+# summary preserves the original Windows CRLF byte hash; clean-clone checks use LF.
+EXPECTED_VALIDATION_SHA256 = "41e88e8ac40f03c38229f52bc13a893bc0cb0a414b6b2087890c655d8ca55cd4"
 MAX_TEXT_FEATURES = 512
 
 

@@ -201,3 +201,12 @@ I keep the V3 result only as project history. Dataset V4 is the final result for
 3. T. Baltrušaitis, C. Ahuja, L.-P. Morency, **Multimodal Machine Learning: A Survey and Taxonomy**, IEEE TPAMI 2019: <https://arxiv.org/abs/1705.09406>
 4. PyTorch / Torchvision, **ResNet18 documentation**: <https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet18.html>
 5. scikit-learn, **TfidfVectorizer documentation**: <https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html>
+
+## Optional personal practical demo
+
+A separate personal visualization of a possible practical use is available in
+[`practical_demo/`](practical_demo/README.md).
+
+It is outside the official Dataset V4 benchmark and does not change the
+reported results, model selection, locked final-test evaluation, or official
+test suite.

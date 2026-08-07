@@ -1,0 +1,82 @@
+{
+  "auxiliary_weight": 0.15,
+  "batch_size": 256,
+  "confusion_matrix": [
+    [
+      2934,
+      27,
+      49
+    ],
+    [
+      100,
+      2831,
+      79
+    ],
+    [
+      121,
+      39,
+      2850
+    ]
+  ],
+  "device": "cpu",
+  "evaluation_code_git_head": "d067dbaced0541b1e222820176c97d5dfc089969",
+  "final_test_accuracy": 0.9540420819490587,
+  "final_test_independent_images": 1388,
+  "final_test_macro_f1": 0.9540841368243022,
+  "final_test_read": true,
+  "final_test_relation_rows": 9030,
+  "final_training_data": "train + validation",
+  "final_training_epochs": 7,
+  "final_training_independent_images": 7851,
+  "final_training_relation_rows": 50772,
+  "image_features": 512,
+  "labels": [
+    "MATCH",
+    "MISMATCH",
+    "PARTIAL_MATCH"
+  ],
+  "learning_rate": 0.001,
+  "new_final_test_inference_performed": true,
+  "per_label": {
+    "MATCH": {
+      "f1": 0.9518248175182482,
+      "precision": 0.9299524564183835,
+      "recall": 0.9747508305647841,
+      "support": 3010
+    },
+    "MISMATCH": {
+      "f1": 0.9585237853394278,
+      "precision": 0.9772178115291681,
+      "recall": 0.9405315614617941,
+      "support": 3010
+    },
+    "PARTIAL_MATCH": {
+      "f1": 0.9519038076152304,
+      "precision": 0.9570181329751511,
+      "recall": 0.946843853820598,
+      "support": 3010
+    }
+  },
+  "post_test_tuning_allowed": false,
+  "predictions_sha256": "587a607c9364c73e0bb9aee282ba950b6e0a604db57e0e5d0c88b5a719bbacd0",
+  "pretrained_resnet18": true,
+  "seed": 47,
+  "selected_model": "multimodal_auxiliary",
+  "selected_validation_accuracy": 0.897452934662237,
+  "selected_validation_macro_f1": 0.8957933543572768,
+  "selection_source": "frozen Step 03 validation result",
+  "status": "PASS_DATASET_V4_FINAL_TEST_EVALUATED",
+  "test_lock_sha256": "79bae874c5b365200e7562b1a3a1d8ee28e8ea3fccfab86d4034b89332260ef2",
+  "text_features": 230,
+  "text_max_features": 512,
+  "training_losses": [
+    1.597436124115964,
+    0.5710503424861268,
+    0.26231118360821787,
+    0.18330164892232267,
+    0.1402935868544865,
+    0.11394406805564952,
+    0.09360242398398655
+  ],
+  "validation_summary_sha256": "3e7bd14a0aecee3a574fe9e51a22a01d956bf3be10a7260e872dd61598118769"
+}

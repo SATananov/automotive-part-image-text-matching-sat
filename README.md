@@ -14,6 +14,26 @@ The model predicts one of three labels:
 
 I use a prepared benchmark for this experiment. This is an educational project and not a production system.
 
+## Research context and baseline rationale
+
+The official experiment uses deliberately simple components so that the main
+comparison stays controlled: text-only, image-only, multimodal fusion, and
+multimodal fusion with auxiliary category tasks.
+
+This differs from modern large vision-language systems. VisualBERT uses
+Transformer-based joint vision-language representations, while CLIP learns
+image-text alignment through large-scale contrastive pretraining. I do not use
+either as an official baseline here. The goal of this course project is to test
+whether combining the two modalities helps on a fixed prepared benchmark, not
+to claim a state-of-the-art vision-language architecture.
+
+For that reason, the 95.4% final-test result is evidence only for this Dataset
+V4 experiment. It is not a comparison against CLIP or another large pretrained
+vision-language model.
+
+A fuller literature position and the rationale for the selected baselines are
+in [docs/research_context.md](docs/research_context.md).
+
 ## Dataset V4
 
 For the final version I used all **9,239 unique images from 50 automotive-part categories** in the `car parts 50/` folder of the source archive. I grouped the 50 categories into 12 functional families so I could create `PARTIAL_MATCH` examples.
@@ -118,6 +138,7 @@ automotive-part-image-text-matching-sat/
 ├── project.ipynb                       # main Dataset V4 report
 ├── docs/
 │   ├── methodology.md
+│   ├── research_context.md
 │   ├── provenance.md
 │   ├── test_policy.md
 │   ├── dataset_v4_foundation.md
@@ -185,6 +206,7 @@ I intentionally do not include the `--confirm-final-test` command in the normal 
 - One image can create several relation rows, so 9,030 test rows do not mean 9,030 independent photographs.
 - I use ResNet18 as a fixed pretrained feature extractor and do not compare larger vision models.
 - I use TF-IDF for text instead of a modern language model.
+- I do not compare the official model with a pretrained vision-language system such as CLIP.
 - The project does not test unknown part categories, free-form customer text, very difficult customer photos, several parts in one image, or a completely separate external test set.
 - The 95.4% result is evidence for this experiment and is **not evidence that the system is production-ready**.
 
@@ -202,6 +224,8 @@ I keep the V3 result only as project history. Dataset V4 is the final result for
 4. PyTorch / Torchvision, **ResNet18 documentation**: <https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet18.html>
 5. scikit-learn, **TfidfVectorizer documentation**: <https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html>
 
+6. L. H. Li, M. Yatskar, D. Yin, C.-J. Hsieh, K.-W. Chang, **VisualBERT: A Simple and Performant Baseline for Vision and Language**, 2019: <https://arxiv.org/abs/1908.03557>
+7. A. Radford et al., **Learning Transferable Visual Models From Natural Language Supervision**, ICML 2021: <https://proceedings.mlr.press/v139/radford21a.html>
 ## Optional personal practical demo
 
 A separate personal visualization of a possible practical use is available in

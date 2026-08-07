@@ -145,6 +145,7 @@ automotive-part-image-text-matching-sat/
 │   ├── dataset_v4_training.md
 │   ├── dataset_v4_final_test.md
 │   └── dataset_v4_sanity_audit.md
+├── external_audit/                      # independent robustness protocol
 ├── data/
 │   ├── images/dataset_v4/
 │   ├── manifests/dataset_v4/
@@ -183,6 +184,13 @@ Check the saved final-test policy **without running final inference**:
 python -m tools.run_dataset_v4_final_test --check-only
 ```
 
+Validate the separate external-audit protocol **without external inference**:
+
+```powershell
+python -m external_audit.prepare --check-plan
+python -m external_audit.verify
+```
+
 Re-run the extra data/result checks from the already saved predictions:
 
 ```powershell
@@ -196,6 +204,18 @@ jupyter notebook project.ipynb
 ```
 
 I intentionally do not include the `--confirm-final-test` command in the normal workflow because the official final-test run has already been completed and frozen.
+
+## External robustness audit
+
+I also keep a **separate secondary robustness protocol** in
+[`external_audit/`](external_audit/README.md). It is designed to evaluate the
+already frozen development-only deployment bundle on 120 independent
+photographs from 12 categories and on both clean and more natural text.
+
+This audit does not alter Dataset V4, does not read the official locked
+final-test relations, and does not allow training or post-audit tuning. The
+protocol is committed before any external inference. At the current scaffold
+stage, no external score is reported yet.
 
 ## Limitations
 

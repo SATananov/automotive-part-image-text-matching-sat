@@ -1,0 +1,11 @@
+{
+  "status": "FILL_BEFORE_LOCK",
+  "source_type": "self_captured",
+  "collector": "project author",
+  "capture_date_range": "FILL_BEFORE_LOCK",
+  "capture_context": "FILL_BEFORE_LOCK",
+  "rights_or_license": "FILL_BEFORE_LOCK",
+  "redistribution_allowed": true,
+  "independent_from_dataset_v4_source": true,
+  "notes": "Use this file as external_audit/provenance.json and complete every FILL_BEFORE_LOCK field before creating the audit lock."
+}

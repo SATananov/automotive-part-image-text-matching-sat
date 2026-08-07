@@ -98,6 +98,18 @@ The experiment does **not** establish that:
 - the approach is better than CLIP or another pretrained vision-language model;
 - the benchmark represents all real automotive-part matching conditions.
 
+## Separate external robustness audit
+
+A separate `external_audit/` protocol is prepared to test the frozen
+development-only deployment bundle on independent photographs and on both clean
+and more natural text. It remains secondary evidence: it does not alter the
+official Dataset V4 result, does not use the locked final-test relations for
+development, and cannot be used for post-audit tuning.
+
+The external protocol is intentionally defined and committed before external
+inference so that its result, whether high or low, can be reported without
+changing the evaluation rules afterward.
+
 ## Stronger future comparison
 
 A natural next experiment would define a **new** benchmark or a new untouched

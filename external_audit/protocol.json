@@ -1,0 +1,28 @@
+{
+  "version": "external_audit_v1",
+  "status": "PROTOCOL_DEFINED_NOT_YET_LOCKED",
+  "purpose": "Secondary robustness evaluation on independent images and two text styles.",
+  "official_dataset_v4_unchanged": true,
+  "uses_locked_final_test": false,
+  "training_allowed": false,
+  "post_audit_tuning_allowed": false,
+  "model_source": "practical_demo frozen development-only deployment bundle",
+  "target_categories": 12,
+  "target_families": 6,
+  "images_per_category": 10,
+  "target_images": 120,
+  "text_modes": [
+    "clean",
+    "natural"
+  ],
+  "labels": [
+    "MATCH",
+    "MISMATCH",
+    "PARTIAL_MATCH"
+  ],
+  "rows_per_image": 6,
+  "target_relation_rows": 720,
+  "source_policy": "Self-captured or independently licensed images only. Do not use the Dataset V4 source collection or a known derivative.",
+  "lock_before_inference": true,
+  "result_files_must_not_exist_before_inference": true
+}

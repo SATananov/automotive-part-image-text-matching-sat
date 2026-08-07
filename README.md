@@ -1,207 +1,146 @@
 # Automotive Part Image-Text Matching
 
-This is my final exam project for classifying the relation between an automotive-part image and a short text description.
+This is my final exam project. My goal is to check whether a model can understand the relation between an automotive-part image and a short text description.
 
-My model predicts one of three labels:
+The model predicts one of three labels:
 
-* `MATCH` — the image and text describe the same type of part;
-* `PARTIAL_MATCH` — the parts are different but have a related function;
-* `MISMATCH` — the image and text describe unrelated parts.
+- `MATCH` - the image and text describe the same part category;
+- `PARTIAL_MATCH` - they describe different categories from the same functional family;
+- `MISMATCH` - they describe categories from different functional families.
 
 ## Research question
 
-**Can a compact multimodal model learn this three-way image-text relation, and what do simple single-input checks show about the need to compare both inputs?**
+**Can a model that uses both the image and the text classify this relation better than a model that uses only one of them?**
 
-I chose this problem because it can be useful for checking product catalogues, uploaded listings, and warehouse descriptions where an image may be paired with the wrong text.
+I use a prepared benchmark for this experiment. This is an educational project and not a production system.
 
-## Data
+## Dataset V4
 
-I use 640 images from eight automotive-part categories:
+For the final version I used all **9,239 unique images from 50 automotive-part categories** in the `car parts 50/` folder of the source archive. I grouped the 50 categories into 12 functional families so I could create `PARTIAL_MATCH` examples.
 
-`alternator`, `brake_disc`, `brake_pad`, `coil_spring`, `headlight`, `oil_filter`, `starter`, and `taillight`.
+| Split | Independent images | Image-text relation rows | Purpose |
+|---|---:|---:|---|
+| Train | 6,463 | 41,742 | model training |
+| Validation | 1,388 | 9,030 | model comparison and selection |
+| Locked final test | 1,388 | 9,030 | one final evaluation |
+| **Total images** | **9,239** |  |  |
 
-| Split      | Images | Image-text rows | Purpose                                    |
-| ---------- | -----: | --------------: | ------------------------------------------ |
-| Train      |    480 |           2,880 | model training                             |
-| Validation |     80 |             480 | model comparison and selection             |
-| Final test |     80 |             480 | one final evaluation after model selection |
+I created the image split before creating the image-text pairs. I also balanced the three relation labels so that a model using only the image or only the text should not have an easy shortcut.
 
-I created my own grouped split instead of using the original dataset split. I checked that the same image does not appear in more than one split by comparing image IDs, paths, groups, and SHA-256 file hashes. I keep the final-test files in a separate folder.
+The source check found 9,239 unique SHA-256 image hashes. Exact image overlap and exact description overlap between train, validation, and test are both zero.
 
-I wrote short text templates for this controlled task. There are 64 exact text variants across the three splits, and every description explicitly names a part category. For this reason, my project tests controlled relation classification rather than open-ended language understanding.
+More details are in [docs/provenance.md](docs/provenance.md) and [docs/methodology.md](docs/methodology.md).
 
-More information about the data source and licence is available in [docs/provenance.md](docs/provenance.md).
+## Model
 
-### Are these data enough?
+For the image part I used **ResNet18 with ImageNet pretrained weights** as a fixed feature extractor. I did not train ResNet18 from scratch. For the text part I used **TF-IDF unigrams and bigrams** followed by a small neural network.
 
-The tables contain 3,840 image-text rows, but the independent visual examples are the 640 images. I do not treat all rows as separate images because six rows share each image.
+I compared four simple models:
 
-I consider the data sufficient for a student proof of concept and for comparing the tested models under the same split. However, they are not sufficient to claim that the system is ready for use in a real warehouse or online shop.
+1. text-only baseline;
+2. image-only baseline;
+3. multimodal model without auxiliary category tasks;
+4. multimodal model with auxiliary image-category and text-category tasks.
 
-A practical version would need more independently collected images, more part categories, different brands and vehicle models, difficult user photos, freer text, and a separate external test set.
-
-## Models I compared
-
-I started with simple checks and then gradually added small neural networks:
-
-1. majority-class baseline;
-2. TF-IDF + Logistic Regression for text;
-3. image pixels + Logistic Regression;
-4. image and text + Logistic Regression;
-5. text MLP;
-6. image CNN;
-7. multimodal CNN + text MLP.
-
-My multimodal model combines features extracted from the image and the text.
-
-During training, I also use two small helper tasks:
-
-* predicting the category visible in the image;
-* predicting the category named in the text.
-
-These helper tasks are used only during training to support the main relation-classification task.
-
-### How I interpret the single-input results
-
-Every image is paired with exactly two rows from each relation class. The text side is balanced in the same way.
-
-Therefore, an image-only or text-only model does not receive enough information to determine the relation label. The label depends on comparing both inputs.
-
-For this reason, results near one third are expected from the single-input models. I use these results as sanity checks rather than as proof that a particular unimodal architecture is weak.
+The auxiliary tasks are used only during training. During final prediction, the relation model receives only the image representation and the text representation.
 
 ## Validation results
 
-| Model                              |   Accuracy |   Macro F1 |
-| ---------------------------------- | ---------: | ---------: |
-| Majority baseline                  |     0.3333 |     0.1667 |
-| TF-IDF + Logistic Regression       |     0.3333 |     0.1667 |
-| Image pixels + Logistic Regression |     0.3333 |     0.1667 |
-| Image + text Logistic Regression   |     0.3333 |     0.1667 |
-| Text MLP                           |     0.3333 |     0.2923 |
-| Image CNN                          |     0.3333 |     0.2666 |
-| **Multimodal CNN + text MLP**      | **0.7854** | **0.7873** |
+I used validation macro F1 to compare the models. Validation accuracy was used only as a tie-breaker.
 
-The multimodal model was the clear winner on validation. I therefore selected it before looking at the final-test result.
+| Model | Best epoch | Validation accuracy | Validation macro F1 |
+|---|---:|---:|---:|
+| Text only | 5 | 0.3333 | 0.3042 |
+| Image only | 2 | 0.3333 | 0.3003 |
+| Multimodal, no auxiliary tasks | 8 | 0.8622 | 0.8592 |
+| **Multimodal + auxiliary tasks** | **7** | **0.8975** | **0.8958** |
 
-## Validation-only category-rule diagnostic
+The text-only and image-only results are close to the three-class chance level. This makes sense because the answer depends on the relation between the two inputs.
 
-I define the relation labels from the two part categories:
+I selected `multimodal_auxiliary` at epoch 7 before opening the locked final test.
 
-* equal categories mean `MATCH`;
-* different categories from the same functional family mean `PARTIAL_MATCH`;
-* categories from different families mean `MISMATCH`.
+## Locked final-test result
 
-I used the two helper category outputs of my selected model to check how much of the validation result can be reproduced by applying this rule to the predicted categories.
+Before running the final test, I fixed the selected model, epoch, and evaluation code. I then trained the selected model on train + validation for the already chosen 7 epochs and evaluated the locked final test once.
 
-| Validation diagnostic                           | Accuracy | Macro F1 |
-| ----------------------------------------------- | -------: | -------: |
-| Learned relation head                           |   0.7854 |   0.7873 |
-| Rule applied to predicted image/text categories |   0.7292 |   0.7324 |
-| Rule applied to true categories                 |   1.0000 |   1.0000 |
+| Metric | Result |
+|---|---:|
+| Correct relation predictions | **8,615 / 9,030** |
+| Accuracy | **0.9540** |
+| Macro F1 | **0.9541** |
+| Independent final-test images | **1,388** |
+| Post-test tuning | **Not allowed** |
 
-The image-category helper reaches an accuracy of 0.6625, while the text-category helper reaches 1.0000.
+The final-test score is higher than the validation score. Because 95.4% looked unusually high to me, I did extra checks instead of accepting the number without checking it.
 
-I treat the predicted-category rule as a decomposition of my selected model, not as an independent baseline.
+## Extra checks for the high final score
 
-The true-category result is only a check of the dataset construction. It is not a usable model because the true image category is unavailable for a new input image.
+These checks do **not** train a new model and do **not** run the final-test model again. I used the already saved predictions.
 
-The learned relation head is approximately 0.0563 accuracy and 0.0549 macro F1 better than applying the rule to the model's predicted categories.
+I checked the following:
 
-This suggests that the combined representation adds useful information beyond a hard category decision, although the task remains strongly structured by the predefined category families.
+- exact image/hash overlap between the splits is **0**;
+- exact description overlap is **0**;
+- TF-IDF is fitted only on development data and the final-test text is only transformed;
+- the final relation model receives only `image` and `text` inputs;
+- the saved predictions match the locked test sample IDs and labels;
+- 93 pairs of visually similar cross-split images were flagged for review;
+- the widest check flags 37 of the 1,388 final-test images;
+- after removing those 37 images from the **saved predictions**, accuracy is still **0.9536** and macro F1 is **0.9536**;
+- when every test image has equal weight, accuracy is **0.9556**.
 
-## Final result
+These visually similar images do not explain the 95.4% result, but they are still a limitation of using one public image collection and a random image-level split.
 
-| Evaluation | Correct predictions | Accuracy | Macro F1 |
-| ---------- | ------------------: | -------: | -------: |
-| Validation |           377 / 480 |   0.7854 |   0.7873 |
-| Final test |           354 / 480 |   0.7375 |   0.7382 |
+## Error analysis
 
-I used the final test once, after selecting the model from the validation results.
+The final test has **415 wrong relation predictions**. These errors come from **181 of the 1,388 independent images**. The other **1,207 images (86.96%)** have all their related pairs classified correctly.
 
-I keep the saved final-test predictions and metrics in the repository, but the normal evaluation command does not rerun final-test inference.
+The most common errors are:
 
-## Where my model makes mistakes
+| True label | Predicted label | Errors |
+|---|---|---:|
+| `PARTIAL_MATCH` | `MATCH` | 121 |
+| `MISMATCH` | `MATCH` | 100 |
+| `MISMATCH` | `PARTIAL_MATCH` | 79 |
+| `MATCH` | `PARTIAL_MATCH` | 49 |
+| `PARTIAL_MATCH` | `MISMATCH` | 39 |
+| `MATCH` | `MISMATCH` | 27 |
 
-The weakest final-test categories are `headlight`, with 29 out of 60 correct predictions, and `oil_filter`, with 30 out of 60 correct predictions.
+This shows that the model sometimes thinks two parts are more similar than the benchmark label says they are. Some of the harder categories are `gas_cap`, `leaf_spring`, `transmission`, `fuel_injector`, and `alternator`.
 
-The `PARTIAL_MATCH` class is also difficult. My model correctly classifies 110 out of 160 examples, while 33 examples are incorrectly predicted as `MISMATCH`.
+The notebook shows the confusion matrix, class results, difficult categories, error directions, and the check for visually similar images.
 
-Some mistakes are understandable because related automotive parts may have similar functions.
-
-For example:
-
-* a brake disc and a brake pad belong to the same braking system;
-* an alternator and a starter are both electrical engine-support parts.
-
-These examples make `PARTIAL_MATCH` more difficult than a clear exact match or a completely unrelated image-text pair.
-
-In the notebook, I show:
-
-* training curves;
-* model comparisons;
-* the validation diagnostic;
-* the confusion matrix;
-* category-level results;
-* several concrete wrong predictions with their images and descriptions.
-
-## Small additional experiment
-
-As an additional check, I trained the same multimodal model without the two helper category tasks.
-
-I ran this experiment three times with seeds 43, 44, and 45, using only the train and validation data.
-
-All three runs reached:
-
-* 160 out of 480 correct predictions;
-* accuracy of 0.3333;
-* macro F1 of 0.1667.
-
-Each run predicted only one relation class.
-
-In my project, the helper tasks made the model optimization much more successful.
-
-I treat this as additional evidence rather than as a requirement of the exam. The experiment does not prove that helper losses are always necessary, and it does not change my selected model or the saved final-test result.
-
-## Development and learning process
-
-I started experimenting with this project near the beginning of the deep learning course and developed it gradually as I learned new concepts.
-
-I first tested simple baseline models. I then added text, image, and multimodal neural networks. During the course, I also improved the data split, validation analysis, error analysis, experiment tracking, and reproducibility checks.
-
-I consulted publicly available documentation, educational tutorials, research papers, and examples of similar image-text and multimodal classification problems.
-
-These materials helped me understand the individual components used in my project, including:
-
-* convolutional neural networks;
-* text feature extraction with TF-IDF;
-* Logistic Regression baselines;
-* multimodal feature combination;
-* neural-network training loops;
-* classification metrics;
-* random seeds and reproducible experiments.
-
-I prepared the dataset split, relation-label construction, model implementation, experiments, saved results, and analysis specifically for this project.
-
-The additional automated checks were added gradually to help me keep the data, model checkpoint, notebook, predictions, and reported results consistent.
-
-## Project files
+## Project structure
 
 ```text
 automotive-part-image-text-matching-sat/
 ├── README.md
-├── project.ipynb          # main report with tables, plots, and examples
-├── docs/                  # methodology, data source, and test policy
-├── data/                  # Dataset V3 and the separated final test
-├── src/                   # data loading, models, training, and evaluation
-├── models/                # selected model checkpoint
-├── results/               # saved validation, diagnostic, experiment, and test results
-├── evidence/              # hashes and source information
-└── tests/                 # automated checks
+├── project.ipynb                       # main Dataset V4 report
+├── docs/
+│   ├── methodology.md
+│   ├── provenance.md
+│   ├── test_policy.md
+│   ├── dataset_v4_foundation.md
+│   ├── dataset_v4_training.md
+│   ├── dataset_v4_final_test.md
+│   └── dataset_v4_sanity_audit.md
+├── data/
+│   ├── images/dataset_v4/
+│   ├── manifests/dataset_v4/
+│   ├── relations/dataset_v4/
+│   └── locked_test/dataset_v4/
+├── src/                                # data, model and training helpers
+├── tools/                              # dataset, training, final-test and audit scripts
+├── results/dataset_v4/                 # saved V4 results
+├── evidence/dataset_v4/                # source archive check
+└── tests/                              # automated checks
 ```
 
-## How to run
+The repository also keeps the older Dataset V3 files so the earlier version of the project is not lost. Dataset V4 is the final version used in `project.ipynb` and in the main results above.
 
-Create the environment:
+## How to run the checks
+
+Create and activate the environment:
 
 ```powershell
 python -m venv .venv
@@ -210,66 +149,55 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-Run the project checks:
+Run the main checks:
 
 ```powershell
-python -m src.verify --full-hashes
+python -m src.check_dataset_v4
 python -m pytest -q
 ```
 
-Recalculate the saved validation result and validation diagnostic:
+Check the saved final-test policy **without running final inference**:
 
 ```powershell
-python -m src.evaluate
+python -m tools.run_dataset_v4_final_test --check-only
 ```
 
-Regenerate only the saved validation diagnostic when intentionally updating it:
+Re-run the extra data/result checks from the already saved predictions:
 
 ```powershell
-python -m src.evaluate --write-diagnostic
+python -m tools.audit_dataset_v4_final_result
 ```
 
-Run a new development comparison in a different output folder:
+Open the report:
 
 ```powershell
-python -m src.train --output results/retrained
+jupyter notebook project.ipynb
 ```
 
-Run the additional experiment without the helper tasks:
-
-```powershell
-python -m src.train_ablation --seed 44 --output results/retrained_no_helpers_seed44
-```
+I intentionally do not include the `--confirm-final-test` command in the normal workflow because the official final-test run has already been completed and frozen.
 
 ## Limitations
 
-* The 3,840 rows come from 640 independent images, so rows sharing the same image are not fully independent.
-* The images come from one public dataset.
-* I selected only eight automotive-part categories.
-* The final test contains 80 independent images.
-* The text is template-generated and explicitly names the category.
-* My project does not test free-form language understanding.
-* The relation label is determined by category equality and three manually defined functional families.
-* I expect the single-input checks to remain near chance because the relation label requires both inputs.
-* My neural network is small and uses 48 × 48 images.
-* I train the vision component from scratch rather than using a pretrained vision backbone.
-* The result of the additional experiment applies only to this model and this dataset.
-* This is an educational student project, not a production warehouse system.
+- The text descriptions clearly name a part category, so this is a structured experiment.
+- I create the relation labels from category equality and 12 manually defined functional families.
+- All images come from one public source collection.
+- The extra image check found a small number of visually similar cross-split candidates even though exact hash overlap is zero.
+- One image can create several relation rows, so 9,030 test rows do not mean 9,030 independent photographs.
+- I use ResNet18 as a fixed pretrained feature extractor and do not compare larger vision models.
+- I use TF-IDF for text instead of a modern language model.
+- The project does not test unknown part categories, free-form customer text, very difficult customer photos, several parts in one image, or a completely separate external test set.
+- The 95.4% result is evidence for this experiment and is **not evidence that the system is production-ready**.
+
+## Earlier V3 version
+
+My first version used 640 images from 8 categories and reached 0.7375 accuracy / 0.7382 macro F1 on its final test. In Dataset V4 I increased the data to all 50 source categories, used transfer learning, balanced the relation data, used a larger locked test, and added extra checks for leakage and visually similar images.
+
+I keep the V3 result only as project history. Dataset V4 is the final result for the submission.
 
 ## Sources
 
-1. G. Piosenka, [50 Types of Car Parts - Image Classification](https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes), Kaggle dataset used as the image source.
-
-2. T. Baltrušaitis, C. Ahuja, and L.-P. Morency, [Multimodal Machine Learning: A Survey and Taxonomy](https://arxiv.org/abs/1705.09406), IEEE Transactions on Pattern Analysis and Machine Intelligence, 2019.
-
-3. Y. LeCun, L. Bottou, Y. Bengio, and P. Haffner, [Gradient-Based Learning Applied to Document Recognition](https://bottou.org/papers/lecun-98h), Proceedings of the IEEE, 1998.
-
-4. PyTorch, [Deep Learning with PyTorch: A 60 Minute Blitz](https://docs.pytorch.org/tutorials/beginner/blitz/index.html), official beginner tutorials covering tensors, neural networks, training loops, and image classification.
-
-5. PyTorch, [Reproducibility](https://docs.pytorch.org/docs/stable/notes/randomness.html), official guidance on random seeds and reproducible experiments.
-
-6. Scikit-learn, [Feature Extraction](https://scikit-learn.org/stable/modules/feature_extraction.html), official documentation used to understand TF-IDF text features.
-
-7. Scikit-learn, [Linear Models](https://scikit-learn.org/stable/modules/linear_model.html), official documentation for the Logistic Regression baseline models.
-
-8. Scikit-learn, [Metrics and Scoring](https://scikit-learn.org/stable/modules/model_evaluation.html), official documentation for classification accuracy, F1 score, and confusion-matrix-based evaluation.
+1. G. Piosenka, **50 Types of Car Parts - Image Classification**, Kaggle: <https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes>
+2. K. He, X. Zhang, S. Ren, J. Sun, **Deep Residual Learning for Image Recognition**, CVPR 2016: <https://arxiv.org/abs/1512.03385>
+3. T. Baltrušaitis, C. Ahuja, L.-P. Morency, **Multimodal Machine Learning: A Survey and Taxonomy**, IEEE TPAMI 2019: <https://arxiv.org/abs/1705.09406>
+4. PyTorch / Torchvision, **ResNet18 documentation**: <https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.resnet18.html>
+5. scikit-learn, **TfidfVectorizer documentation**: <https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html>

@@ -1,22 +1,104 @@
-# Final-test rule
+# Dataset V4 final-test policy
 
-The final-test files are stored separately in `data/locked_test/dataset_v3/`.
+The official locked final test is stored under:
+
+```text
+data/locked_test/dataset_v4/
+```
+
+## Order of work
 
 I followed this order:
 
-1. train the models on the training split;
-2. compare them on validation;
-3. select and save the best model;
-4. use the final test once to report the final result.
+1. build and audit the Dataset V4 image split;
+2. balance the relation construction before training;
+3. train and compare four models using train and validation only;
+4. select `multimodal_auxiliary` from validation macro F1;
+5. freeze its best epoch at 7;
+6. commit the final-test evaluation code;
+7. run the locked final test once;
+8. save predictions and metrics;
+9. allow no post-test tuning.
 
-The final test is not used for training, early stopping, model selection, or the additional experiment without helper tasks.
+## Frozen development choice
 
-The saved final-test predictions are kept so the notebook can show the final metrics, confusion matrix, category results, and mistakes. The notebook and verifier do not run the model again on the final-test images.
+The validation result used for selection is stored in:
 
-Useful commands:
+```text
+results/dataset_v4/step03_validation_summary.json
+```
+
+The frozen validation-summary SHA-256 recorded by the final-test code is:
+
+```text
+3e7bd14a0aecee3a574fe9e51a22a01d956bf3be10a7260e872dd61598118769
+```
+
+Selected model:
+
+```text
+multimodal_auxiliary
+```
+
+Frozen best epoch:
+
+```text
+7
+```
+
+## Locked-test identity
+
+The frozen relation-table SHA-256 is:
+
+```text
+79bae874c5b365200e7562b1a3a1d8ee28e8ea3fccfab86d4034b89332260ef2
+```
+
+## Official final result
+
+The one-time evaluation produced:
+
+- 9,030 relation predictions;
+- 1,388 independent images;
+- 8,615 correct relation predictions;
+- accuracy 0.9540420819490587;
+- macro F1 0.9540841368243022.
+
+The saved files are:
+
+```text
+results/dataset_v4/step04_final_test_predictions.csv
+results/dataset_v4/step04_final_test_summary.json
+```
+
+The prediction CSV SHA-256 recorded in the summary is:
+
+```text
+587a607c9364c73e0bb9aee282ba950b6e0a604db57e0e5d0c88b5a719bbacd0
+```
+
+The final summary file was independently hashed as:
+
+```text
+53bfc8985321156712edae1e91a6c026ab273ed24d2d91ffe145de7a67252883
+```
+
+## Commands after the final result
+
+The safe policy check is:
 
 ```powershell
-python -m src.evaluate          # validation only
-python -m src.verify --full-hashes
-python -m pytest -q
+python -m tools.run_dataset_v4_final_test --check-only
 ```
+
+The diagnostic audit can be regenerated from saved predictions with:
+
+```powershell
+python -m tools.audit_dataset_v4_final_result
+```
+
+The official final-test inference has already been performed. The project should **not** run `--confirm-final-test` again and should not use the result for additional tuning or model selection.
+
+## Reporting
+
+The notebook reads the frozen result files for tables and plots. Reading already saved predictions for analysis is not a new model inference.

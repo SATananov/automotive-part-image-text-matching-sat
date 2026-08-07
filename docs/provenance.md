@@ -1,39 +1,101 @@
-# Data source and project history
+# Dataset V4 provenance
 
-## Image source
+## Source
 
-The images come from the public Kaggle dataset [50 Types of Car Parts - Image Classification](https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes), created by G. Piosenka. The dataset page records the licence as Apache-2.0.
+Dataset V4 uses images from the public Kaggle dataset **50 Types of Car Parts - Image Classification** by G. Piosenka:
 
-For this project, I selected 640 images from eight categories. I did not use the original train/test split. I created a new grouped split for this image-text task.
+<https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes>
 
-The source name, category, path, and SHA-256 hash of every selected image are stored in `data/manifests/images.csv`. Because all Dataset V3 images come from this one source, `data/licenses.csv` contains one dataset-level licence record covering the 640 selected images.
+The source page records the dataset licence as Apache-2.0.
 
-## Earlier project work used here
+## Source archive audit
 
-The Dataset V3 images, relation tables, selected model, validation results, and saved final-test results were first produced in:
+The original downloaded archive is recorded by:
 
-- repository: `SATananov/automotive-part-image-text-matching`;
-- branch: `dataset-v3`;
-- result checkpoint: `76f62ef91faa1e544c9074a91e80d86ed71a99fa`;
-- later report/check state: `d9ead2a8ef6637a3e86713b98433fc1ca1389158`.
+```text
+evidence/dataset_v4/source_archive_audit.json
+```
 
-The simpler code layout was also informed by:
+The source archive SHA-256 recorded during Dataset V4 construction is:
 
-- repository: `SATananov/automotive-part-multimodal-classification`;
-- commit: `a9717986b2b73d089f29ce3a619bbe9e08494ef6`.
+```text
+ee269fb85db3c53630b68aa0e302197daceb81fa6c1f9e63140722dc0e9ebd6e
+```
 
-Both earlier repositories use the same Dataset V3 experiment. I do not present them as two independent experiments.
+The archive contains a `car parts 50/` dataset and an older `car parts/` version. Dataset V4 uses only `car parts 50/`.
 
-## Work completed in this repository
+The initial source audit found:
 
-In this repository I:
+- 9,239 images in the 50-category dataset;
+- 50 categories;
+- 224 × 224 image size;
+- no unreadable images;
+- 9,239 unique SHA-256 image hashes.
 
-- kept one README, one methodology, and one official notebook;
-- kept only the Dataset V3 files needed for the final project;
-- removed Dataset V2 and duplicate entry points;
-- aligned the active licence table with the Dataset V3 source actually used;
-- added portable verification and automated tests;
-- added a validation-only category-rule diagnostic without reading the final test;
-- ran the additional validation-only experiment without the two helper category tasks, using seeds 43, 44, and 45.
+## Project manifest
 
-The validation diagnostic performs no training and uses only the frozen selected checkpoint and the validation split. The additional experiment was completed after the original model comparison. Neither item changes the selected model or the saved final-test result.
+Every Dataset V4 image is recorded in:
+
+```text
+data/manifests/dataset_v4/images.csv
+```
+
+The manifest includes:
+
+- project image ID;
+- image-group ID;
+- part category and functional family;
+- project split;
+- project image path;
+- SHA-256 hash;
+- width, height and colour mode;
+- source dataset/category;
+- source archive path and original source split.
+
+This allows every project image to be traced back to the downloaded source archive.
+
+## Project split
+
+I did not use the source train/validation/test folders as the final project split. Dataset V4 uses its own image-level split:
+
+| Split | Images |
+|---|---:|
+| Train | 6,463 |
+| Validation | 1,388 |
+| Locked final test | 1,388 |
+
+The same exact image hash does not occur in more than one project split.
+
+## Relation data
+
+Relation tables are stored in:
+
+```text
+data/relations/dataset_v4/train.csv
+data/relations/dataset_v4/validation.csv
+data/locked_test/dataset_v4/test_relations.csv
+```
+
+The relation-generation audit is stored in:
+
+```text
+data/manifests/dataset_v4/dataset_audit.json
+```
+
+The final balanced relation counts are 41,742 train rows, 9,030 validation rows, and 9,030 locked final-test rows.
+
+## Near-duplicate diagnostic
+
+SHA-256 equality detects byte-identical files, but visually almost identical images can have different hashes. After the final result was frozen, I therefore ran a diagnostic pHash/dHash screen across project splits.
+
+It found 93 candidate cross-split pairs. These candidates are recorded in:
+
+```text
+results/dataset_v4/step04_sanity_near_duplicate_candidates.csv
+```
+
+This is documented as a limitation. The saved-result sensitivity analysis shows that excluding all 37 final-test images flagged by the widest screen changes accuracy only from 0.9540 to 0.9536.
+
+## Dataset V3 history
+
+The repository also contains the earlier Dataset V3 proof of concept with 640 images and 8 categories. Dataset V3 is kept for project history, but Dataset V4 is the official final experiment and report.

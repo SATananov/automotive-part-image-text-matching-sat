@@ -1,161 +1,170 @@
-# Methodology
+# Methodology - Dataset V4
 
 ## 1. Goal
 
 The project asks one main question:
 
-**Can a compact multimodal model learn a three-way relation between an automotive-part image and a short text description?**
+**Can a multimodal model classify the relation between an automotive-part image and a short text description better than models that see only one of the two inputs?**
 
-The output has three classes: `MATCH`, `PARTIAL_MATCH`, and `MISMATCH`.
+The target labels are `MATCH`, `PARTIAL_MATCH`, and `MISMATCH`.
 
-The image-only and text-only models are included as sanity checks. Because the relation label is defined by comparing the two inputs, neither single input contains enough information to solve the task by itself.
+## 2. Image data
 
-## 2. Data source and preparation
+Dataset V4 uses 9,239 unique 224 × 224 RGB images from all 50 categories in the `car parts 50/` part of the public Kaggle source archive.
 
-The images come from the public Kaggle dataset **50 Types of Car Parts - Image Classification**. I selected 640 images from eight categories and created new text descriptions for the image-text relation task.
+The image split is:
 
-For every image, I created six rows:
+- 6,463 train images;
+- 1,388 validation images;
+- 1,388 locked final-test images.
 
-- two descriptions from the same category (`MATCH`);
-- two descriptions from a related category (`PARTIAL_MATCH`);
-- two descriptions from an unrelated category (`MISMATCH`).
+The split is made at image level. SHA-256 checks show no exact image duplication across the three splits.
 
-This gives 2,880 training rows, 480 validation rows, and 480 final-test rows.
+## 3. Relation construction
 
-These 3,840 rows are built from 640 independent images. Six rows share each image, so the row count must not be interpreted as 3,840 different visual examples. The dataset is large enough for a student proof of concept and a controlled comparison of the models, but it is too small and too narrow for a production system.
+The 50 categories are grouped into 12 functional families. A relation is defined from the image category and the category named by the text:
 
-The text side is deliberately controlled. It contains 64 exact template variants across the splits, and each description explicitly names one of the eight categories. The experiment therefore studies controlled image-text relation classification rather than open-ended language understanding.
+- same category -> `MATCH`;
+- different category in the same family -> `PARTIAL_MATCH`;
+- category from a different family -> `MISMATCH`.
 
-## 3. Train, validation, and test split
+Before training, I regenerated the relation tables to remove simple one-sided shortcuts. The construction balances:
 
-The split is made by complete image groups:
+- each image across the three relation labels;
+- each text category across the three labels;
+- each exact text template across the three labels.
 
-- 480 train images;
-- 80 validation images;
-- 80 final-test images.
+This produces:
 
-I checked for overlap using image IDs, group IDs, file paths, SHA-256 hashes, and exact description text. The same image cannot appear in two splits. This is important because otherwise the model could remember an image instead of learning the relation task.
+- 41,742 train relation rows;
+- 9,030 validation relation rows;
+- 9,030 locked final-test relation rows.
 
-The final-test data is stored separately under `data/locked_test/`.
+The row counts are larger than the image counts because one image is paired with several text descriptions.
 
-## 4. Relation construction and single-input balance
+## 4. Text representation
 
-The relation is deterministic once the image category and text category are known:
+Text is represented with TF-IDF unigram and bigram features. For the validation experiments, the vectorizer is fitted on training descriptions only and then applied to validation descriptions.
 
-- equal categories -> `MATCH`;
-- different categories in the same functional family -> `PARTIAL_MATCH`;
-- categories in different families -> `MISMATCH`.
+For the frozen final model, train and validation are combined as development data. A new vectorizer is fitted on development descriptions and only `transform()` is applied to final-test descriptions.
 
-Each image appears exactly twice with every relation label. Exact text templates are also balanced across the three labels within each development split. This prevents a model from predicting the relation from one side alone. For this reason, image-only and text-only results near one third are expected and should be interpreted as sanity checks, not as a fair test of general image or text classification ability.
+This prevents the final-test text from influencing the learned TF-IDF vocabulary or weights.
 
-## 5. Models
+## 5. Image representation
 
-I compare seven approaches, starting with simple baselines:
+I use ResNet18 with ImageNet pretrained weights. Its final classification layer is removed and the network is used as a fixed feature extractor.
 
-- majority baseline;
-- TF-IDF + Logistic Regression;
-- image pixels + Logistic Regression;
-- image and text + Logistic Regression;
-- text MLP;
-- image CNN;
-- multimodal CNN + text MLP.
+Using a pretrained feature extractor is practical for a student project because the 9,239 images are enough for the relation experiment but still small compared with the datasets normally used to train a modern convolutional network from scratch.
 
-Images are resized to 48 × 48 RGB. Text is converted to TF-IDF unigram and bigram features fitted only on the training descriptions.
+## 6. Models compared on validation
 
-The selected multimodal model has:
+I compare four small classifiers:
 
-- a small CNN for the image;
-- a small MLP for the text;
-- a final layer that combines both representations and predicts the relation;
-- two helper outputs that predict the image category and text category during training.
+1. text-only;
+2. image-only;
+3. multimodal without auxiliary tasks;
+4. multimodal with auxiliary image-category and text-category tasks.
 
-Its training loss is:
+The multimodal model combines the ResNet18 image feature vector and the TF-IDF text representation in a small neural network.
 
-```text
-relation loss
-+ 0.40 × image-category loss
-+ 0.40 × text-category loss
-```
+For the auxiliary version, two extra training heads predict the image and text categories. Their losses are added with weight 0.15. The final relation prediction still comes from the multimodal relation head.
 
-## 6. Training
+## 7. Training and model selection
 
-The neural models use:
+The validation run uses:
 
 - Adam optimizer;
-- learning rate `0.001`;
-- weight decay `0.0001`;
-- batch size `32`;
-- maximum `80` epochs;
-- early stopping with patience `10`.
+- learning rate 0.001;
+- batch size 256;
+- maximum 8 epochs;
+- auxiliary-loss weight 0.15;
+- fixed random seed recorded in the saved result;
+- pretrained ResNet18 features cached locally for efficiency.
 
-The image training data uses a horizontal flip and a small brightness change. Model selection and early stopping use validation only. The saved history files contain training and validation loss and accuracy for the neural models, and the notebook displays the learning curves.
+The selected model is the one with the highest validation macro F1. Validation accuracy is used only as a tie-breaker.
 
-## 7. Evaluation
+The results are:
 
-I report accuracy and macro F1. Macro F1 is useful because it gives equal importance to all three relation classes.
+| Model | Best epoch | Accuracy | Macro F1 |
+|---|---:|---:|---:|
+| text-only | 5 | 0.3333 | 0.3042 |
+| image-only | 2 | 0.3333 | 0.3003 |
+| multimodal without auxiliary tasks | 8 | 0.8622 | 0.8592 |
+| multimodal with auxiliary tasks | 7 | 0.8975 | 0.8958 |
 
-The main comparison is made on validation. The best model is selected from these validation results. I also use:
+The selected model is `multimodal_auxiliary`, frozen at epoch 7.
 
-- a confusion matrix;
-- accuracy by automotive-part category;
-- concrete wrong predictions;
-- training and validation learning curves;
-- automated unit and integrity tests.
+## 8. Why the one-input baselines are near chance
 
-Because six rows share each image, the original experiment also stores grouped confidence intervals and paired comparisons by image group.
+The target is a relation between two inputs. The relation construction is balanced so that the image alone or the text alone does not determine whether the pair is a match.
 
-## 8. Validation-only category-rule diagnostic
+With three balanced labels, chance accuracy is approximately one third. The text-only and image-only results near 0.333 therefore act as useful sanity checks.
 
-The selected model has helper outputs for image category and text category. I use those validation predictions in a diagnostic decomposition:
+## 9. Final-test protocol
 
-1. predict the image category and text category;
-2. apply the deterministic Dataset V3 relation rule;
-3. compare that result with the learned relation head.
+The final-test evaluation code was committed before the locked test was opened.
 
-The validation results are:
+After model selection:
 
-- learned relation head: accuracy 0.7854, macro F1 0.7873;
-- rule applied to predicted categories: accuracy 0.7292, macro F1 0.7324;
-- image-category helper accuracy: 0.6625;
-- text-category helper accuracy: 1.0000;
-- rule applied to true categories: accuracy and macro F1 1.0000.
+1. train and validation were combined as development data;
+2. the selected architecture was trained for the already frozen 7 epochs;
+3. the locked final test was evaluated once;
+4. predictions and a JSON summary were saved;
+5. no model selection or tuning was allowed after this point.
 
-The predicted-category rule is not an independent model because it uses helper outputs from the selected model. It is a diagnostic of how the selected model works. The true-category result is only a construction check and cannot be used for a new image where the true category is unknown.
+The frozen result is:
 
-The learned relation head is about 0.0563 accuracy and 0.0549 macro F1 better than the predicted-category rule. This suggests that the joint representation adds useful information beyond making two hard category decisions.
+- 8,615 / 9,030 correct relation predictions;
+- accuracy 0.9540420819490587;
+- macro F1 0.9540841368243022;
+- 1,388 independent final-test images.
 
-## 9. Small additional experiment
+## 10. Additional sanity audit
 
-After the main comparison, I made one extra validation-only experiment. I removed the two helper category outputs and trained the remaining relation model with seeds 43, 44, and 45.
+Because final-test performance is higher than validation performance, I performed a diagnostic audit without new model inference.
 
-The data, encoders, optimizer, batch size, augmentation, and early stopping stayed the same. Only the helper outputs and their losses were removed.
+The audit checks:
 
-All three runs reached accuracy 0.3333 and macro F1 0.1667 and predicted only one class. This suggests that the helper tasks stabilized optimization for this small architecture and dataset. It does not prove that every multimodal model needs the same helper tasks.
+- exact image/hash/path/group overlap;
+- exact description overlap;
+- saved predictions against the locked relation table;
+- model input signature;
+- dummy auxiliary category targets at final-test inference;
+- TF-IDF fitting scope;
+- equal-weight image-level accuracy;
+- perceptual near-duplicate candidates using 64-bit pHash and dHash;
+- sensitivity of saved metrics after removing flagged test images.
 
-## 10. Final test
+Exact overlap is zero. Perceptual screening flags 93 cross-split candidate pairs. At the widest threshold, 37 final-test images are flagged. Removing all rows from those 37 images from the already saved predictions gives accuracy 0.953551912568306 and macro F1 0.953594492512139.
 
-The final test was used once after the model was selected. The saved result is:
+This is very close to the frozen 0.9540 / 0.9541 result, so the flagged near-duplicate candidates do not explain the high score. They are still documented as a limitation.
 
-- 354/480 correct predictions;
-- accuracy 0.7375;
-- macro F1 0.7382.
+## 11. Error analysis
 
-The current notebook reads the saved test predictions for tables, plots, and error analysis. It does not run the model again on the final-test images.
+There are 415 wrong relation predictions. They are concentrated in 181 independent images, while 1,207 of 1,388 test images have all their relation rows correct.
 
-## 11. Limitations
+The most common confusion is `PARTIAL_MATCH -> MATCH` (121 errors), followed by `MISMATCH -> MATCH` (100 errors). This suggests that the model sometimes treats different parts as more similar than the benchmark rule does.
 
-- The 3,840 rows are based on only 640 independent images.
-- The images come from one public collection.
-- Only eight automotive-part categories are included, and the final test contains 80 images.
-- The text descriptions are fixed templates and explicitly state the category.
-- The relation labels are generated from manually defined category families.
-- The model is compact, uses 48 × 48 images, and is trained from scratch.
-- No pretrained vision backbone, resolution comparison, or visual attribution method is included.
-- The additional experiment is limited to this architecture and training setup.
-- Practical use would require more independently collected images, more categories, different brands and vehicle models, difficult user photos, freer language, and a separately collected external test set.
+The notebook reports the full confusion matrix, category-level results, error directions, and the most difficult categories.
 
-## 12. Sources
+## 12. Metrics
 
-1. G. Piosenka, [50 Types of Car Parts - Image Classification](https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes), Kaggle.
-2. T. Baltrušaitis, C. Ahuja, and L.-P. Morency, [Multimodal Machine Learning: A Survey and Taxonomy](https://arxiv.org/abs/1705.09406), IEEE TPAMI, 2019.
-3. Y. LeCun, L. Bottou, Y. Bengio, and P. Haffner, [Gradient-Based Learning Applied to Document Recognition](https://bottou.org/papers/lecun-98h), Proceedings of the IEEE, 1998.
+The two headline metrics are accuracy and macro F1.
+
+Accuracy is:
+
+```text
+number of correct predictions / total number of predictions
+```
+
+Macro F1 is the arithmetic mean of the F1 score of the three classes. It gives each class equal importance.
+
+## 13. Limitations
+
+- Text explicitly names one of the 50 known part categories.
+- The relation labels are generated from manually defined functional families.
+- The images come from one public dataset.
+- A random image-level split can still contain visually near-identical examples even when SHA-256 hashes differ.
+- Several relation rows share the same image.
+- The experiment does not test unknown categories or free-form customer language.
+- The result is a benchmark result, not a production-readiness claim.

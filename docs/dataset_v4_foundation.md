@@ -24,4 +24,4 @@ The new multimodal model uses:
 - a relation head for the three target labels;
 - helper heads for the 50 image and text categories.
 
-The backbone is frozen during the first training stage. A later training step may unfreeze the last ResNet block for controlled fine-tuning.
+For the reported Dataset V4 experiments, ResNet18 remains frozen and is used as a fixed pretrained feature extractor. No ResNet fine-tuning is used for the reported validation or final-test results.

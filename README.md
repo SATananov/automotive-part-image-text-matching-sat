@@ -14,6 +14,14 @@ The model predicts one of three labels:
 
 I use a prepared benchmark for this experiment. This is an educational project and not a production system.
 
+## Project defense
+
+For a concise first-person explanation of what I built, why I made the main
+design decisions, how the Deep Learning pipeline works, how I validated the
+results, and what I learned from the external and practical experiments, see:
+
+[**Project Defense - full explanation**](docs/exam_defense.md)
+
 ## Research context and baseline rationale
 
 The official experiment uses deliberately simple components so that the main

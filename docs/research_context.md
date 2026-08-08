@@ -100,19 +100,27 @@ The experiment does **not** establish that:
 
 ## Separate external robustness audit
 
-A separate `external_audit/` protocol is prepared to test the frozen
-development-only deployment bundle on independent photographs and on both clean
-and more natural text. Before any external inference, a source-feasibility review
-narrowed the audit from 12 proposed image categories to six categories in three
+A separate `external_audit/` protocol evaluates the frozen development-only
+deployment bundle on independent Wikimedia Commons photographs and on both clean
+and more conversational text. Before any external inference, a source-feasibility
+review narrowed the audit from 12 proposed categories to six categories in three
 paired functional families so that semantic label quality would not be sacrificed
-for sample count. It remains secondary evidence: it does not alter the
-official Dataset V4 result, does not use the locked final-test relations for
-development, and cannot be used for post-audit tuning.
+for sample count.
 
-The external protocol is intentionally defined and committed before external
-inference so that its result, whether high or low, can be reported without
-changing the evaluation rules afterward.
+The V1.1 protocol and the 60-image / 360-relation external dataset were locked
+and committed before the one-time inference. The observed result is
+**0.6722 accuracy / 0.6725 macro F1**. Clean text reaches
+**0.7444 accuracy**, while the more natural text mode
+reaches **0.6000**. The audit also records
+**60 rows with zero recognized
+TF-IDF features**.
 
+This supports a narrower conclusion than the Dataset V4 score: the frozen
+multimodal model transfers imperfectly under independent-image and wording
+shift, and the simple TF-IDF representation is a meaningful robustness
+limitation. The external audit remains secondary evidence; it does not alter
+the official Dataset V4 result, did not use the official locked final-test
+relations for development, and cannot be used for post-audit tuning.
 ## Stronger future comparison
 
 A natural next experiment would define a **new** benchmark or a new untouched

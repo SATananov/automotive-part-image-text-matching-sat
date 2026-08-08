@@ -184,7 +184,7 @@ Check the saved final-test policy **without running final inference**:
 python -m tools.run_dataset_v4_final_test --check-only
 ```
 
-Validate the separate external-audit protocol **without external inference**:
+Verify the already frozen external-audit result **without rerunning inference**:
 
 ```powershell
 python -m external_audit.prepare --check-plan
@@ -207,26 +207,40 @@ I intentionally do not include the `--confirm-final-test` command in the normal 
 
 ## External robustness audit
 
-I also keep a **separate secondary robustness protocol** in
-[`external_audit/`](external_audit/README.md). It is designed to evaluate the
-already frozen development-only deployment bundle on 60 independent
-photographs from 6 categories and on both clean and more natural text.
+I also ran a **separate secondary robustness audit** using 60 independently
+sourced Wikimedia Commons images from 6 known automotive-part categories and
+360 pre-locked image-text relations. The V1.1 protocol and external image set
+were committed before the one-time inference.
 
-This audit does not alter Dataset V4, does not read the official locked
-final-test relations, and does not allow training or post-audit tuning. The
-protocol is committed before any external inference. The original 12-category proposal was narrowed before any external inference after a source-feasibility review; the amended V1.1 protocol uses six categories in three paired families. No external score is reported yet.
+| External condition | Accuracy | Macro F1 |
+| --- | ---: | ---: |
+| Overall | **0.6722** | **0.6725** |
+| Clean text | **0.7444** | **0.7458** |
+| Natural text | **0.6000** | **0.6001** |
 
+The external result is lower than the official Dataset V4 locked-test result
+and is reported exactly as observed. It shows a clear robustness gap under
+independent-image and wording shift, especially for the more natural text mode.
+The audit records **60 rows with
+zero recognized TF-IDF features**.
+
+This secondary audit does not alter the official Dataset V4 result, did not
+load the official locked final-test relations, and allowed no training or
+post-audit tuning.
+
+See [`external_audit/`](external_audit/README.md) for the protocol, provenance,
+pre-inference lock, predictions, and detailed result breakdown.
 ## Limitations
 
 - The text descriptions clearly name a part category, so this is a structured experiment.
 - I create the relation labels from category equality and 12 manually defined functional families.
-- All images come from one public source collection.
+- The official Dataset V4 images come from one public source collection; the external audit adds Wikimedia Commons images for only six known categories.
 - The extra image check found a small number of visually similar cross-split candidates even though exact hash overlap is zero.
 - One image can create several relation rows, so 9,030 test rows do not mean 9,030 independent photographs.
 - I use ResNet18 as a fixed pretrained feature extractor and do not compare larger vision models.
 - I use TF-IDF for text instead of a modern language model.
 - I do not compare the official model with a pretrained vision-language system such as CLIP.
-- The project does not test unknown part categories, free-form customer text, very difficult customer photos, several parts in one image, or a completely separate external test set.
+- The external audit still uses only six known categories and short controlled/conversational phrases; the project does not test unseen part categories, genuine free-form customer requests, difficult customer photos, or several parts in one image.
 - The 95.4% result is evidence for this experiment and is **not evidence that the system is production-ready**.
 
 ## Earlier V3 version

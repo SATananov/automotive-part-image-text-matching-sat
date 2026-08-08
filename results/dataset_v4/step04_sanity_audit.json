@@ -303,7 +303,7 @@
     }
   },
   "code_leakage_checks": {
-    "expected_validation_summary_sha256": "3e7bd14a0aecee3a574fe9e51a22a01d956bf3be10a7260e872dd61598118769",
+    "expected_validation_summary_sha256": "41e88e8ac40f03c38229f52bc13a893bc0cb0a414b6b2087890c655d8ca55cd4",
     "final_test_image_category_targets_are_dummy_zero": true,
     "final_test_text_category_targets_are_dummy_zero": true,
     "model_forward_inputs": [
@@ -342,7 +342,7 @@
     "post_test_tuning_allowed": false,
     "predictions_sha256": "587a607c9364c73e0bb9aee282ba950b6e0a604db57e0e5d0c88b5a719bbacd0",
     "stored_status": "PASS_DATASET_V4_FINAL_TEST_EVALUATED",
-    "summary_sha256": "53bfc8985321156712edae1e91a6c026ab273ed24d2d91ffe145de7a67252883"
+    "summary_sha256": "9b649f10996cbc2202727cf0df03600a69544894a36d8bdddc45c5df74c429ba"
   },
   "image_level_metrics": {
     "equal_weight_mean_relation_accuracy": 0.9556115914185078,

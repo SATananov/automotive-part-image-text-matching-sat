@@ -307,6 +307,38 @@ The central result of the project is therefore not simply a high accuracy value.
 
 ---
 
+## Additional technical interpretation
+
+The validation macro F1 of `0.8958` and the higher locked final-test macro F1 of `0.9541` should not be interpreted as a contradiction by itself. Validation was used for model selection, while the frozen final configuration was trained on the combined train + validation development data before evaluation on the untouched final test. The two evaluation sets can also differ in difficulty. The important methodological point is that the final-test result was not used to choose or tune the model.
+
+The auxiliary objectives are used during training to encourage the image branch to preserve information about the image category and the text branch to preserve information about the text category. They support the learned modality representations, while the main task remains the three-class image-text relation prediction. At inference time, the project is evaluated by the relation output rather than by treating the auxiliary category objectives as separate final tasks.
+
+The final classifier outputs three logits, one for each relation class. These are raw, unnormalized scores. `CrossEntropyLoss` is appropriate because every image-text pair has exactly one correct class among three mutually exclusive classes, and PyTorch applies the required log-softmax behavior internally. A softmax transformation is useful later when class scores need to be displayed as normalized probabilities, for example in the practical visualization.
+
+Because the relation task has three balanced classes, random guessing would be expected to achieve roughly one third, or about `33.3%`, accuracy. The text-only and image-only validation macro F1 values near `0.30` are therefore close to chance. This is consistent with the benchmark design: knowing only the image category or only the text category is not enough to determine the relation between the two.
+
+The `9,030` relation rows in validation and final testing should not be treated as `9,030` statistically independent photographs. Several relation rows can share the same independent image. This is why the project reports both relation-row counts and the underlying count of `1,388` independent images, and why the split is performed before relation generation.
+
+For TF-IDF, fitting and transformation have different roles. Fitting determines the vocabulary and term statistics from the permitted development text. Validation and final-test text are then transformed using that already fitted representation. They do not update the vocabulary or the learned TF-IDF statistics. The presence of ordinary shared automotive vocabulary across splits is not, by itself, equivalent to test leakage; the important restriction is that final-test information must not participate in fitting or model selection.
+
+A random seed improves reproducibility by controlling the intended random processes in the experiment, but it should not be interpreted as a universal guarantee of bit-for-bit identical results on every possible machine and software environment. Hardware, library versions and nondeterministic numerical operations can also affect exact reproducibility. This is why the repository additionally records configurations, manifests, hashes and frozen result artifacts.
+
+The maximum of 8 epochs is part of the predefined development configuration rather than an assumption that more epochs must always be better. Additional training can increase computation and can also increase the risk of overfitting. Model selection therefore depends on validation performance rather than simply training for as many epochs as possible.
+
+The project uses a train / validation / locked-test protocol rather than k-fold cross-validation. This provides a clear separation between model development and one untouched final evaluation. K-fold cross-validation would be a valid alternative experimental design, but it would require repeated model training and substantially more computation; it was not necessary for the controlled comparison performed here.
+
+The `47 passed` automated tests demonstrate software, data-pipeline and experimental-policy consistency; they do **not** mean that the machine-learning model is 100% correct. Model quality is evaluated separately through validation metrics, the locked final test, error analysis and the external robustness audit.
+
+Similarly, SHA-256 hashes demonstrate artifact identity and integrity, not semantic dataset quality. A matching hash confirms that a file is exactly the frozen or documented file expected by the protocol. Dataset quality must instead be supported by provenance, split design, cleaning, statistical checks and evaluation.
+
+Exact duplicates and near-duplicates are also different concerns. Exact duplicates can be detected through identical file hashes. Near-duplicates can represent the same or very similar visual content after resizing, cropping, compression or other small transformations and may therefore have different cryptographic hashes. This is why the project includes an additional visual-similarity check after the locked result rather than relying only on exact hashes.
+
+The external robustness audit remains an evaluation instrument rather than a new development set. After its result has been observed, changing the model specifically to improve that same audit would weaken its independence. Any future architecture changes motivated by the audit should therefore be developed under a new protocol and evaluated on another untouched test set.
+
+These distinctions are important because different forms of evidence answer different questions: automated tests check implementation and policy, hashes check integrity, validation supports model selection, the locked final test estimates benchmark performance, and the external audit probes robustness under distribution shift.
+
+---
+
 ## Main limitations
 
 The most important limitations are:

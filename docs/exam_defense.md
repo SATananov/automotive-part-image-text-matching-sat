@@ -107,6 +107,24 @@ The source, provenance, licensing and dataset manifests are documented separatel
 
 ---
 
+## Why the benchmark is constructed this way
+
+The target is not the image category or the text category separately. The target is the **relation between the two inputs**.
+
+Before training, the relation tables were regenerated to remove simple one-sided shortcuts. The construction balances:
+
+- each image across the three relation labels;
+- each text category across the three relation labels;
+- each exact text template across the three relation labels.
+
+Without this balancing, a text-only model could exploit a wording pattern, or an image-only model could exploit a category imbalance, without actually solving the image-text relation problem. The balancing does not give the multimodal model the answer; it makes the benchmark require information from both modalities.
+
+With three balanced relation classes, chance performance is approximately one third. The near-chance text-only and image-only baselines are therefore a useful sanity check that obvious one-sided shortcuts have not dominated the task.
+
+The 12 functional families are a **documented operational definition for Dataset V4**. They make the `PARTIAL_MATCH` rule reproducible, but I do not claim that this grouping is the only possible or universally correct automotive taxonomy. The reported results should therefore be interpreted relative to this predefined benchmark rule.
+
+---
+
 ## Data leakage prevention
 
 A major part of the project was making sure the reported result could be trusted.
@@ -152,6 +170,16 @@ before opening the locked final test.
 
 ---
 
+## Frozen final model and use of validation data
+
+Validation is used first for **model selection**. The architecture, training settings and best epoch are selected only from validation results.
+
+After that decision is frozen, train and validation are combined into one development set and the already selected architecture is trained for the predetermined **7 epochs**. The frozen final train+validation run uses the predetermined derived seed `47`. A new TF-IDF vectorizer is fitted only on this combined development text, and final-test descriptions are processed only with `transform()`.
+
+This use of validation data in the final training run is not final-test leakage. Validation has already completed its role in model selection, while the locked final test remains untouched. The final-test evaluation code was committed before the locked test was opened, and no architecture or hyperparameter selection was performed after the frozen final-test result.
+
+---
+
 ## Official locked final test
 
 The final locked test contains:
@@ -173,22 +201,28 @@ It means that the frozen model achieved this result on the prepared Dataset V4 b
 
 ---
 
-## Additional checks
+## Why I investigated the high final-test score
 
-Because the final-test result was very high, I performed additional checks instead of simply accepting the number.
+The locked final-test macro F1 of `0.9541` is noticeably higher than the validation macro F1 of `0.8958`. This is not automatically a contradiction: validation was used for model selection, while the frozen final model was retrained on the larger combined train + validation development set, and different evaluation splits can also differ in difficulty. Still, the gap was large enough that I treated it as something that required additional checking rather than simply accepting the number.
 
-I checked:
+The post-result diagnostic audit used the **already saved predictions** and checked:
 
-- exact split overlap;
+- exact image, hash, path and group overlap;
+- exact description overlap;
 - TF-IDF fitting scope;
-- saved prediction consistency;
-- near-duplicate / visually similar images;
-- image-level error concentration.
+- saved prediction consistency against the locked relation table;
+- model input signature and final-inference behavior;
+- equal-weight image-level accuracy;
+- perceptual near-duplicate candidates using 64-bit pHash and dHash;
+- sensitivity of the saved metrics after removing flagged final-test images.
 
-These checks did not identify an obvious leakage explanation for the locked-test result.
+Exact cross-split overlap was zero. The perceptual screening flagged **93 cross-split candidate pairs**. At the widest screening threshold, **37 final-test images** were flagged. When all relation rows belonging to those 37 images were removed from the already saved predictions, accuracy was `0.95355` and macro F1 was `0.95359`.
+
+These values remain very close to the frozen `0.9540` accuracy and `0.9541` macro F1. Therefore, the visually similar candidates are a documented limitation, but they do not explain the high locked-test score.
+
+This audit did not perform new model selection or new final-test inference, so it was diagnostic rather than a second opportunity to tune the model.
 
 ---
-
 ## External robustness audit
 
 I also wanted to see how the model behaves outside the prepared benchmark.
@@ -292,6 +326,7 @@ I report both accuracy and macro F1 because they describe different aspects of p
 The text branch deliberately uses TF-IDF instead of a large Transformer language model. The benchmark descriptions are short and structured, so TF-IDF provides a simple, transparent and computationally efficient representation for testing the main multimodal hypothesis. Its limitations become visible when the wording becomes less structured, as shown by the lower performance on the natural-text part of the external robustness audit.
 
 For the visual branch, the ImageNet-pretrained ResNet18 is used as a frozen feature extractor. This reduces the number of trainable parameters and keeps the experiment focused on multimodal fusion and relation classification rather than introducing the additional complexity of fine-tuning a complete visual backbone. Fine-tuning would be a reasonable future experiment, but it should be evaluated under a separately defined protocol.
+Because the visual backbone uses public ImageNet-pretrained weights, the scope of my leakage claim is also important. I can verify that Dataset V4 has no exact image duplication across my train, validation and locked final-test splits, and I can audit visually similar cross-split examples. I cannot prove that no source image or visually related historical image ever appeared in the much larger data used to pretrain a public backbone, so I do not make that claim. The controlled leakage guarantees in this project apply to **my Dataset V4 splits and my own model-development and evaluation procedure**.
 
 Modern pretrained vision-language models such as CLIP are relevant related work and an important possible extension. I did not add a new CLIP-based model after observing the locked final-test result because that would change the experimental scope after the final evaluation had already been seen. A fair comparison with a substantially different architecture should use a new predefined validation procedure and a new untouched final test.
 
@@ -345,10 +380,12 @@ The most important limitations are:
 
 - the official text is more structured than real customer language;
 - all official Dataset V4 images come from one source collection;
+- the 12 functional families are a documented benchmark taxonomy rather than a claim of one universal automotive ontology;
 - TF-IDF is limited when wording or vocabulary changes;
-- ResNet18 is used as a frozen feature extractor;
+- ResNet18 is used as a frozen ImageNet-pretrained feature extractor, so the project cannot establish historical independence from every image that may have contributed to public pretraining data;
 - the project covers 50 known categories, not a complete automotive catalog;
-- the external audit is useful but small;
+- several relation rows share the same independent image, so relation-row counts are not counts of independent photographs;
+- the external audit is useful but small: 60 images across 6 known categories;
 - the project does not solve unknown-category or open-set recognition;
 - a strong benchmark result does not guarantee real-world performance.
 

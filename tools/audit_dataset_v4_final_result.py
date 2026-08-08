@@ -378,7 +378,9 @@ def main() -> None:
         },
     }
 
-    AUDIT_PATH.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    rendered_audit = (json.dumps(result, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    if not AUDIT_PATH.exists() or AUDIT_PATH.read_bytes() != rendered_audit:
+        AUDIT_PATH.write_bytes(rendered_audit)
 
     print("")
     print(result["status"])

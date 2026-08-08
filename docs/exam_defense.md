@@ -62,7 +62,7 @@ The final neural classifier produces three logits:
 [B, 3]
 ```
 
-corresponding to `MATCH`, `PARTIAL_MATCH` and `MISMATCH`.
+These three logits correspond to the three relation classes.
 
 The selected model also uses auxiliary image-category and text-category losses during training.
 
@@ -77,7 +77,7 @@ The downstream neural classifier is trained with:
 - learning rate `0.001`;
 - batch size `256`;
 - maximum 8 epochs;
-- fixed random seed `44`.
+- validation random seed `44`; the frozen final train+validation run uses the predetermined derived seed `47`.
 
 During training, PyTorch performs the forward pass, calculates the loss, computes gradients with backpropagation through `loss.backward()`, and updates the trainable parameters with `optimizer.step()`.
 

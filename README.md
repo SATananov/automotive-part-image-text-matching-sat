@@ -209,13 +209,12 @@ I intentionally do not include the `--confirm-final-test` command in the normal 
 
 I also keep a **separate secondary robustness protocol** in
 [`external_audit/`](external_audit/README.md). It is designed to evaluate the
-already frozen development-only deployment bundle on 120 independent
-photographs from 12 categories and on both clean and more natural text.
+already frozen development-only deployment bundle on 60 independent
+photographs from 6 categories and on both clean and more natural text.
 
 This audit does not alter Dataset V4, does not read the official locked
 final-test relations, and does not allow training or post-audit tuning. The
-protocol is committed before any external inference. At the current scaffold
-stage, no external score is reported yet.
+protocol is committed before any external inference. The original 12-category proposal was narrowed before any external inference after a source-feasibility review; the amended V1.1 protocol uses six categories in three paired families. No external score is reported yet.
 
 ## Limitations
 

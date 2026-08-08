@@ -15,20 +15,31 @@ question:
 The audit must not be used for model selection, training, threshold tuning or
 rewriting the official Dataset V4 result.
 
-## Frozen V1 design
+## Protocol amendment V1.1
+
+Before any external inference, a source-feasibility review found that generic
+Wikimedia Commons search results were too semantically noisy for several of
+the original 12 image categories. The protocol was therefore narrowed to six
+categories in three paired functional families, using dedicated Commons
+categories and preserving balanced text-category use across relation labels.
+
+The amendment chronology and rationale are recorded in
+`protocol_amendment_v1_1.md`.
+
+## Frozen V1.1 design
 
 The protocol is defined before any external inference:
 
-- 12 categories;
-- 6 functional families;
+- 6 categories;
+- 3 functional families;
 - 2 categories per family;
 - 10 independent images per category;
-- 120 external images total;
+- 60 external images total;
 - two text modes: `clean` and `natural`;
 - `MATCH`, `PARTIAL_MATCH`, and `MISMATCH`;
 - two rows per relation label for every image;
 - 6 relation rows per image;
-- 720 relation rows total.
+- 360 relation rows total.
 
 The category plan is in `category_plan.csv`.
 
@@ -61,7 +72,7 @@ At this phase there are no external scores.
 
 ## Phase B - independent images and lock
 
-Place exactly 10 images in each category folder under `images/`.
+Place exactly 10 images in each of the six V1.1 category folders under `images/`.
 
 Use `provenance_template.json` to create `provenance.json` and document where
 the external images came from and why they can be redistributed.

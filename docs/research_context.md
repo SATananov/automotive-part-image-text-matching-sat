@@ -102,7 +102,10 @@ The experiment does **not** establish that:
 
 A separate `external_audit/` protocol is prepared to test the frozen
 development-only deployment bundle on independent photographs and on both clean
-and more natural text. It remains secondary evidence: it does not alter the
+and more natural text. Before any external inference, a source-feasibility review
+narrowed the audit from 12 proposed image categories to six categories in three
+paired functional families so that semantic label quality would not be sacrificed
+for sample count. It remains secondary evidence: it does not alter the
 official Dataset V4 result, does not use the locked final-test relations for
 development, and cannot be used for post-audit tuning.
 

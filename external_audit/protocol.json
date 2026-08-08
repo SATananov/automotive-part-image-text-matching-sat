@@ -1,28 +1,32 @@
 {
-  "version": "external_audit_v1",
-  "status": "PROTOCOL_DEFINED_NOT_YET_LOCKED",
-  "purpose": "Secondary robustness evaluation on independent images and two text styles.",
-  "official_dataset_v4_unchanged": true,
-  "uses_locked_final_test": false,
-  "training_allowed": false,
-  "post_audit_tuning_allowed": false,
-  "model_source": "practical_demo frozen development-only deployment bundle",
-  "target_categories": 12,
-  "target_families": 6,
+  "amendment_before_external_inference": true,
+  "amendment_of": "external_audit_v1",
+  "amendment_reason": "A pre-inference source-feasibility review found that generic Wikimedia Commons search results were too semantically noisy for several of the original 12 categories. The protocol is narrowed before any external inference to three paired functional families with dedicated Commons categories and balanced text-category use.",
   "images_per_category": 10,
-  "target_images": 120,
-  "text_modes": [
-    "clean",
-    "natural"
-  ],
   "labels": [
     "MATCH",
     "MISMATCH",
     "PARTIAL_MATCH"
   ],
-  "rows_per_image": 6,
-  "target_relation_rows": 720,
-  "source_policy": "Self-captured or independently licensed images only. Do not use the Dataset V4 source collection or a known derivative.",
   "lock_before_inference": true,
-  "result_files_must_not_exist_before_inference": true
+  "model_output_used_for_amendment": false,
+  "model_source": "practical_demo frozen development-only deployment bundle",
+  "official_dataset_v4_unchanged": true,
+  "post_audit_tuning_allowed": false,
+  "purpose": "Secondary robustness evaluation on independent images and two text styles.",
+  "result_files_must_not_exist_before_inference": true,
+  "rows_per_image": 6,
+  "source_policy": "Wikimedia Commons files from dedicated automotive-part categories with per-image author, source-page, license, license URL and SHA-256 provenance. Selection is by visual category correctness and diversity only, never by model prediction.",
+  "status": "AMENDED_PRE_EVALUATION_PROTOCOL_DEFINED_NOT_YET_LOCKED",
+  "target_categories": 6,
+  "target_families": 3,
+  "target_images": 60,
+  "target_relation_rows": 360,
+  "text_modes": [
+    "clean",
+    "natural"
+  ],
+  "training_allowed": false,
+  "uses_locked_final_test": false,
+  "version": "external_audit_v1_1"
 }

@@ -1,11 +1,13 @@
 {
-  "status": "FILL_BEFORE_LOCK",
-  "source_type": "self_captured",
-  "collector": "project author",
-  "capture_date_range": "FILL_BEFORE_LOCK",
-  "capture_context": "FILL_BEFORE_LOCK",
-  "rights_or_license": "FILL_BEFORE_LOCK",
-  "redistribution_allowed": true,
+  "external_inference_performed_before_selection": false,
+  "images": [],
   "independent_from_dataset_v4_source": true,
-  "notes": "Use this file as external_audit/provenance.json and complete every FILL_BEFORE_LOCK field before creating the audit lock."
+  "model_output_used_for_selection": false,
+  "redistribution_allowed": true,
+  "rights_or_license": "FILL_BEFORE_LOCK: per-image authorship, source page, license, license URL and SHA-256 must be recorded before locking.",
+  "selection_date": "FILL_BEFORE_LOCK",
+  "selection_policy": "Exactly 10 images per frozen V1.1 category. Select by visual category correctness and reasonable diversity only. Model predictions must not be used for acceptance or rejection.",
+  "source_collection": "Wikimedia Commons",
+  "source_type": "wikimedia_commons",
+  "status": "FILL_BEFORE_LOCK"
 }

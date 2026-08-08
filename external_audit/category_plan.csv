@@ -1,13 +1,7 @@
-part_category,display_name,part_family,partial_partner,mismatch_partner,clean_text,natural_text
-alternator,alternator,electrical_starting_charging,starter,brake_pad,This automotive part is an alternator.,I need an alternator for the charging system.
-starter,starter,electrical_starting_charging,alternator,brake_rotor,This automotive part is a starter.,I need a starter motor for the car.
-brake_pad,brake pad,braking,brake_rotor,headlight,This automotive part is a brake pad.,I need a set of brake pads.
-brake_rotor,brake rotor,braking,brake_pad,taillight,This automotive part is a brake rotor.,I need a brake disc or rotor.
-headlight,headlight,lighting,taillight,oil_filter,This automotive part is a headlight.,I need a front headlamp.
-taillight,taillight,lighting,headlight,oil_pan,This automotive part is a taillight.,I need a rear tail lamp.
-oil_filter,oil filter,engine_lubrication,oil_pan,spark_plug,This automotive part is an oil filter.,I need an engine oil filter.
-oil_pan,oil pan,engine_lubrication,oil_filter,ignition_coil,This automotive part is an oil pan.,I need the engine oil sump pan.
-spark_plug,spark plug,ignition_and_fuel,ignition_coil,radiator,This automotive part is a spark plug.,I need spark plugs for the engine.
-ignition_coil,ignition coil,ignition_and_fuel,spark_plug,water_pump,This automotive part is an ignition coil.,I need an ignition coil pack.
-radiator,radiator,cooling_and_climate,water_pump,alternator,This automotive part is a radiator.,I need a radiator for the cooling system.
-water_pump,water pump,cooling_and_climate,radiator,starter,This automotive part is a water pump.,I need an engine water pump.
+part_category,display_name,part_family,partial_partner,mismatch_partner,clean_text,natural_text,commons_category
+alternator,alternator,electrical_starting_charging,starter,headlight,This automotive part is an alternator.,I need an alternator for the charging system.,Category:Automobile alternators
+starter,starter,electrical_starting_charging,alternator,taillight,This automotive part is a starter.,I need a starter motor for the car.,Category:Electric starter motors
+headlight,headlight,lighting,taillight,spark_plug,This automotive part is a headlight.,I need a front headlamp.,Category:Automobile headlamps
+taillight,taillight,lighting,headlight,ignition_coil,This automotive part is a taillight.,I need a rear tail lamp.,Category:Automobile rear lights
+spark_plug,spark plug,ignition_and_fuel,ignition_coil,alternator,This automotive part is a spark plug.,I need spark plugs for the engine.,Category:Spark plugs
+ignition_coil,ignition coil,ignition_and_fuel,spark_plug,starter,This automotive part is an ignition coil.,I need an ignition coil pack.,Category:Ignition coils

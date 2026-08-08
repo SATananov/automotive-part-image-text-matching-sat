@@ -1,48 +1,45 @@
-# External Audit V1 images
+# External Audit V1.1 images
 
-Do not place Dataset V4 images here.
+The original 12-category V1 plan was narrowed **before any external inference**
+after a source-feasibility review found that generic Wikimedia search results
+were too noisy for several categories.
 
-The preferred source is newly self-captured photography because it gives the
-clearest independence and redistribution story for a public exam repository.
-Independently licensed images are also acceptable if their provenance and
-redistribution rights are documented.
-
-Create exactly 10 images in each category folder:
+V1.1 uses exactly six categories:
 
 ```text
 external_audit/images/
 - alternator/
 - starter/
-- brake_pad/
-- brake_rotor/
 - headlight/
 - taillight/
-- oil_filter/
-- oil_pan/
 - spark_plug/
 - ignition_coil/
-- radiator/
-- water_pump/
 ```
 
-Supported file types are JPG/JPEG, PNG and WebP.
+Place exactly 10 visually correct, independent images in each folder.
 
-Capture guidance:
+Approved source categories:
 
-- use real photographs rather than screenshots from Dataset V4;
-- prefer different physical parts, not ten crops of one photograph;
-- vary background, lighting, angle and distance naturally;
-- keep one dominant automotive part in the image;
-- do not select or discard photographs based on model predictions;
-- do not run the model while collecting the images;
-- preserve the original files until the audit has been locked.
+- alternator -> Wikimedia Commons `Category:Automobile alternators`
+- starter -> Wikimedia Commons `Category:Electric starter motors`
+- headlight -> Wikimedia Commons `Category:Automobile headlamps`
+- taillight -> Wikimedia Commons `Category:Automobile rear lights`
+- spark_plug -> Wikimedia Commons `Category:Spark plugs`
+- ignition_coil -> Wikimedia Commons `Category:Ignition coils`
 
-After all 120 images are present, copy `provenance_template.json` to
-`provenance.json`, complete its fields, and run:
+Selection rules:
+
+- select by visual category correctness and reasonable diversity only;
+- do not use model predictions to accept or reject an image;
+- prefer images where the target part is clear and visually dominant;
+- reject diagrams, unrelated objects, people-only images and ambiguous scenes;
+- do not create multiple crops of one source image;
+- preserve per-image Commons author, source page, license and SHA-256.
+
+Only after 60 images and complete provenance exist:
 
 ```powershell
 python -m external_audit.prepare --lock
 ```
 
-Commit the locked manifest, relation table, provenance and lock **before**
-running external inference.
+Commit and push the lock before any external inference.

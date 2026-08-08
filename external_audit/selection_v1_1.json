@@ -1,0 +1,90 @@
+{
+  "candidate_csv_path_outside_repository": "C:\\Users\\stana\\Desktop\\external_audit_v1_1_commons\\candidates.csv",
+  "candidate_csv_sha256": "f9cea900af9802b79d2a1b3ac89f719291c4392915b3610d6a5b3264afab8b5c",
+  "candidate_pool_source": "Wikimedia Commons exact category members",
+  "external_inference_performed_before_selection": false,
+  "model_predictions_used_for_selection": false,
+  "selected_candidate_numbers": {
+    "alternator": [
+      1,
+      2,
+      7,
+      9,
+      10,
+      12,
+      15,
+      17,
+      18,
+      21
+    ],
+    "headlight": [
+      1,
+      3,
+      5,
+      6,
+      7,
+      9,
+      11,
+      15,
+      19,
+      23
+    ],
+    "ignition_coil": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      9,
+      16,
+      18,
+      24
+    ],
+    "spark_plug": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      7,
+      13,
+      17,
+      18,
+      20
+    ],
+    "starter": [
+      1,
+      2,
+      4,
+      6,
+      7,
+      8,
+      9,
+      11,
+      12,
+      13
+    ],
+    "taillight": [
+      1,
+      2,
+      3,
+      6,
+      7,
+      10,
+      15,
+      18,
+      21,
+      24
+    ]
+  },
+  "selected_images": 60,
+  "selection_criteria": [
+    "visual category correctness",
+    "reasonable visual diversity",
+    "target part is sufficiently clear for the frozen category label"
+  ],
+  "selection_date": "2026-08-08",
+  "status": "VISUALLY_SELECTED_BEFORE_EXTERNAL_INFERENCE",
+  "version": "external_audit_v1_1"
+}

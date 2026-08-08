@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from pathlib import Path
+
+import pandas as pd
 import pytest
 import torch
 
@@ -12,6 +15,8 @@ from src.v4_data import (
     validate_dataset_v4,
 )
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
 
 def test_dataset_v4_counts_and_uniqueness() -> None:
     manifest = load_image_manifest_v4()
@@ -23,6 +28,18 @@ def test_dataset_v4_counts_and_uniqueness() -> None:
         "validation": 1388,
     }
     assert len(category_names_v4()) == 50
+
+
+def test_dataset_v4_explicit_license_record_matches_manifest() -> None:
+    licenses = pd.read_csv(PROJECT_ROOT / "data/licenses_dataset_v4.csv")
+    manifest = load_image_manifest_v4()
+    assert len(licenses) == 1
+    assert licenses.loc[0, "source_url"] == "https://www.kaggle.com/datasets/gpiosenka/car-parts-40-classes"
+    assert licenses.loc[0, "recorded_license"] == "Apache-2.0"
+    assert int(licenses.loc[0, "selected_images"]) == len(manifest) == 9239
+    recorded_categories = set(str(licenses.loc[0, "selected_categories"]).split(";"))
+    assert recorded_categories == set(manifest["part_category"].unique())
+    assert licenses.loc[0, "manifest_path"] == "data/manifests/dataset_v4/images.csv"
 
 
 def test_dataset_v4_development_boundaries_and_balancing() -> None:

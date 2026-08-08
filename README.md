@@ -51,6 +51,21 @@ The source check found 9,239 unique SHA-256 image hashes. Exact image overlap an
 
 More details are in [docs/provenance.md](docs/provenance.md) and [docs/methodology.md](docs/methodology.md).
 
+### Dataset V4 licence record
+
+The official Dataset V4 dataset-level licence record is
+[`data/licenses_dataset_v4.csv`](data/licenses_dataset_v4.csv). The older
+`data/licenses.csv` file is retained only for the preserved Dataset V3
+project-history verifier. Per-image Dataset V4 provenance and SHA-256 values
+remain in `data/manifests/dataset_v4/images.csv`.
+
+### Submission hash evidence
+
+`evidence/hashes_dataset_v4_submission.sha256` is the explicit hash inventory
+for the final Dataset V4 submission artifacts. The older
+`evidence/hashes.sha256` remains the compatibility manifest used by the
+preserved Dataset V3 verifier.
+
 ## Model
 
 For the image part I used **ResNet18 with ImageNet pretrained weights** as a fixed feature extractor. I did not train ResNet18 from scratch. For the text part I used **TF-IDF unigrams and bigrams** followed by a small neural network.

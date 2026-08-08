@@ -8,6 +8,18 @@ Dataset V4 uses images from the public Kaggle dataset **50 Types of Car Parts - 
 
 The source page records the dataset licence as Apache-2.0.
 
+## Dataset-level licence record
+
+The official Dataset V4 dataset-level licence record is stored in:
+
+```text
+data/licenses_dataset_v4.csv
+```
+
+The older `data/licenses.csv` record is retained only for Dataset V3 project
+history and its preserved verifier. Per-image Dataset V4 provenance remains in
+`data/manifests/dataset_v4/images.csv`.
+
 ## Source archive audit
 
 The original downloaded archive is recorded by:

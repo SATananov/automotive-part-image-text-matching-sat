@@ -57,6 +57,10 @@ def test_official_notebook_is_executed_v4_report() -> None:
     source = "\n".join(cell.source for cell in code_cells)
     assert "Dataset V4" in markdown
     assert "95.4%" in markdown
+    assert "External robustness audit" in markdown
+    assert "0.6722" in markdown
+    assert "0.6001" in markdown
+    assert "completely separate external dataset" not in markdown
     assert "--confirm-final-test" not in source
     assert "run_dataset_v4_final_test" not in source
 
@@ -71,3 +75,13 @@ def test_notebook_reads_frozen_results_instead_of_training() -> None:
     assert "step04_sanity_audit.json" in source
     assert "train_classifier_v4" not in source
     assert "fit(" not in source
+
+
+def test_dataset_v4_submission_hash_manifest_is_explicit() -> None:
+    text = (PROJECT_ROOT / "evidence" / "hashes_dataset_v4_submission.sha256").read_text(
+        encoding="utf-8"
+    )
+    assert "project.ipynb" in text
+    assert "data/manifests/dataset_v4/images.csv" in text
+    assert "results/dataset_v4/step04_final_test_summary.json" in text
+    assert "external_audit/results/external_summary.json" in text

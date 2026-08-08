@@ -25,3 +25,11 @@ The source audit is stored in `evidence/dataset_v4/source_archive_audit.json`.
 Dataset V4 uses 9,239 unique source images from 50 categories. Exact image-hash overlap and exact description overlap across train, validation, and test are zero.
 
 The repository also retains Dataset V3 files from the earlier 8-category proof of concept. They are historical material; the official final report uses Dataset V4.
+
+## Licence records
+
+- `licenses_dataset_v4.csv` is the dataset-level licence record for the official
+  Dataset V4 submission.
+- `licenses.csv` is retained for the earlier Dataset V3 project-history verifier.
+- Per-image Dataset V4 source paths and SHA-256 values are recorded in
+  `manifests/dataset_v4/images.csv`.

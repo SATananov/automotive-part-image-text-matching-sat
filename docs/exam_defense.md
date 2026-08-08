@@ -279,6 +279,34 @@ I do not claim that my model is state of the art, and I do not directly compare 
 
 ---
 
+## Interpretation and design choices
+
+The reported `95.4%` accuracy refers specifically to the three-class **image-text relation classification task** defined by Dataset V4. It is not a claim that the system recognizes arbitrary automotive parts from images with 95.4% accuracy. The model predicts the relationship between the visual information and the text: whether they represent the same category, different categories from the same functional family, or categories from different functional families.
+
+The `PARTIAL_MATCH` class is important because a simple binary `MATCH` / `MISMATCH` formulation would lose useful information. Two automotive parts can belong to different categories while still having a meaningful functional relationship. The three-class formulation therefore represents the automotive-parts problem more precisely than a simple equality check.
+
+The benchmark was intentionally constructed so that neither modality alone determines the relation label. The image provides information about the visible part, while the text provides information about the described part. The final relation can only be determined reliably by comparing both. This is also supported by the validation results: the text-only and image-only models remain close to chance, while the multimodal models perform substantially better.
+
+I report both accuracy and macro F1 because they describe different aspects of performance. Accuracy measures the overall proportion of correct predictions, while macro F1 evaluates each relation class separately and gives the classes equal importance. For that reason, macro F1 is the primary metric used for model selection.
+
+The text branch deliberately uses TF-IDF instead of a large Transformer language model. The benchmark descriptions are short and structured, so TF-IDF provides a simple, transparent and computationally efficient representation for testing the main multimodal hypothesis. Its limitations become visible when the wording becomes less structured, as shown by the lower performance on the natural-text part of the external robustness audit.
+
+For the visual branch, the ImageNet-pretrained ResNet18 is used as a frozen feature extractor. This reduces the number of trainable parameters and keeps the experiment focused on multimodal fusion and relation classification rather than introducing the additional complexity of fine-tuning a complete visual backbone. Fine-tuning would be a reasonable future experiment, but it should be evaluated under a separately defined protocol.
+
+Modern pretrained vision-language models such as CLIP are relevant related work and an important possible extension. I did not add a new CLIP-based model after observing the locked final-test result because that would change the experimental scope after the final evaluation had already been seen. A fair comparison with a substantially different architecture should use a new predefined validation procedure and a new untouched final test.
+
+The current project is a **closed-set experiment**. It covers the 50 categories defined in Dataset V4 and does not contain an `UNKNOWN` class or explicit out-of-distribution detection. If an unsupported automotive-part category were supplied, the current system would still be forced to produce one of the known relation labels. A production-oriented system would therefore need a mechanism for detecting and rejecting unsupported inputs.
+
+The language scope is also limited by the current text representation. The TF-IDF vocabulary was developed from the English descriptions used in the experiment. Bulgarian descriptions, unseen terminology, spelling mistakes, abbreviations, synonyms and unrestricted customer language would represent a distribution shift. A future version could use multilingual or pretrained language representations and should be evaluated on independently collected realistic customer descriptions.
+
+The locked final test is not used for further architecture or hyperparameter selection. Once the model configuration was selected using validation results, the final test was reserved for final evaluation. Continuing to modify the model after observing its result would gradually turn the final test into development data and would weaken the validity of the reported performance.
+
+If I extended the project, my first priority would therefore not simply be to increase the `95.4%` Dataset V4 score. I would focus on robustness: more independent image sources, more realistic customer language, broader category coverage, explicit handling of unknown inputs, and comparison with stronger pretrained vision-language representations under a new untouched evaluation protocol.
+
+The central result of the project is therefore not simply a high accuracy value. The experiment shows that, for the defined Dataset V4 benchmark, **the relationship between an automotive-part image and a text description is learned substantially better when both modalities are used together**, while the additional robustness analysis also shows clearly where that conclusion should not be generalized.
+
+---
+
 ## Main limitations
 
 The most important limitations are:
